@@ -106,9 +106,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-1 text-[11px] text-slate-400 truncate max-w-[130px]" title={project.mentor.name}>
+          <div className="flex items-center gap-1 text-[11px] text-slate-400 truncate max-w-[130px]" title={project.facultyMentor.name}>
             <GraduationCap className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-            <span className="truncate">{project.mentor.name}</span>
+            <span className="truncate">{project.facultyMentor.name}</span>
           </div>
         </div>
 

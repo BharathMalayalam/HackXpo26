@@ -74,7 +74,7 @@ export const MentorsPage: React.FC = () => {
           {filteredMentors.map((mentor) => (
             <div
               key={mentor.id}
-              className="group rounded-none bg-gradient-to-b from-[#0C111E] to-[#070A12] border border-slate-800/90 hover:border-cyan-500/40 p-6 flex flex-col justify-between transition-all duration-300 shadow-xl"
+              className="group rounded-none bg-gradient-to-b from-[#0C0C0C] to-[#050505] border border-slate-800/90 hover:border-cyan-500/40 p-6 flex flex-col justify-between transition-all duration-300 shadow-xl"
             >
               <div>
                 {/* Photo & Type Tag */}

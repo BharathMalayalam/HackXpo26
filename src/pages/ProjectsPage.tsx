@@ -93,7 +93,7 @@ export const ProjectsPage: React.FC = () => {
         const matchesTagline = p.tagline.toLowerCase().includes(q);
         const matchesTech = p.techStack.some(t => t.toLowerCase().includes(q));
         const matchesMembers = p.members.some(m => m.name.toLowerCase().includes(q));
-        const matchesMentor = p.mentor.name.toLowerCase().includes(q);
+        const matchesMentor = p.facultyMentor.name.toLowerCase().includes(q) || p.studentMentor.name.toLowerCase().includes(q);
 
         if (!matchesTitle && !matchesTeam && !matchesDesc && !matchesTagline && !matchesTech && !matchesMembers && !matchesMentor) {
           return false;
@@ -134,7 +134,7 @@ export const ProjectsPage: React.FC = () => {
         </div>
 
         {/* Search & Filter Control Station */}
-        <div className="p-6 rounded-none bg-[#0A0E17]/90 border border-slate-800 backdrop-blur-md space-y-6 shadow-xl" style={{ borderRadius: '0px' }}>
+        <div className="p-6 rounded-none bg-[#0A0A0A]/90 border border-slate-800 backdrop-blur-md space-y-6 shadow-xl" style={{ borderRadius: '0px' }}>
           
           {/* Top Row: Search Input + Academic Year Tabs */}
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
@@ -198,46 +198,6 @@ export const ProjectsPage: React.FC = () => {
           </div>
 
           {/* Secondary Filter Row: Tech Stacks & Categories */}
-          <div className="space-y-3 pt-2 border-t border-slate-800/80">
-            {/* Tech Stack Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-              <span className="text-xs font-mono text-slate-400 shrink-0 flex items-center gap-1">
-                <Code2 className="w-3.5 h-3.5 text-cyan-400" /> Tech:
-              </span>
-              {popularTechStacks.map((tech) => (
-                <button
-                  key={tech}
-                  onClick={() => setSelectedTech(tech)}
-                  className={`px-2.5 py-1 rounded-none text-xs font-mono shrink-0 transition-colors ${
-                    selectedTech === tech
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50'
-                      : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
-                  }`}
-                >
-                  {tech}
-                </button>
-              ))}
-            </div>
-
-            {/* Category Select Dropdown / Pills */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <Filter className="w-3.5 h-3.5 text-purple-400" />
-                <span>Showing <strong className="text-white font-mono">{filteredProjects.length}</strong> matching projects</span>
-              </div>
-
-              {isFiltering && (
-                <button
-                  onClick={resetFilters}
-                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
-                >
-                  <X className="w-3.5 h-3.5" />
-                  Reset all filters
-                </button>
-              )}
-            </div>
-          </div>
-
         </div>
 
         {/* RESULTS SECTION */}

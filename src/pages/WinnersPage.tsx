@@ -69,7 +69,7 @@ export const WinnersPage: React.FC = () => {
           
           {/* 2nd Place Podium Card */}
           {podium2 && (
-            <div className="order-2 md:order-1 rounded-none p-6 bg-gradient-to-b from-[#0E1528] to-[#070A12] border border-cyan-500/40 shadow-xl flex flex-col justify-between relative">
+            <div className="order-2 md:order-1 rounded-none p-6 bg-gradient-to-b from-[#0E0E0E] to-[#050505] border border-cyan-500/40 shadow-xl flex flex-col justify-between relative">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-none bg-slate-800 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/50 shadow-md flex items-center gap-1.5">
                 <Medal className="w-4 h-4 text-cyan-400" />
                 <span>2nd Place</span>
@@ -116,7 +116,7 @@ export const WinnersPage: React.FC = () => {
 
           {/* 1st Place Champion Podium Card (Highlighted & Taller) */}
           {podium1 && (
-            <div className="order-1 md:order-2 rounded-none p-8 bg-gradient-to-b from-[#1C170A] via-[#101322] to-[#070A12] border-2 border-amber-500/60 shadow-2xl shadow-amber-500/15 flex flex-col justify-between relative transform md:-translate-y-4">
+            <div className="order-1 md:order-2 rounded-none p-8 bg-gradient-to-b from-[#1C170A] via-[#101010] to-[#050505] border-2 border-amber-500/60 shadow-2xl shadow-amber-500/15 flex flex-col justify-between relative transform md:-translate-y-4">
               <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-none bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-xs font-mono font-black border border-amber-300 shadow-xl flex items-center gap-2">
                 <Crown className="w-4 h-4 fill-black" />
                 <span>GRAND CHAMPIONS — 1ST</span>
@@ -163,7 +163,7 @@ export const WinnersPage: React.FC = () => {
 
           {/* 3rd Place Podium Card */}
           {podium3 && (
-            <div className="order-3 md:order-3 rounded-none p-6 bg-gradient-to-b from-[#180F26] to-[#070A12] border border-purple-500/40 shadow-xl flex flex-col justify-between relative">
+            <div className="order-3 md:order-3 rounded-none p-6 bg-gradient-to-b from-[#181818] to-[#050505] border border-purple-500/40 shadow-xl flex flex-col justify-between relative">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-none bg-slate-800 text-purple-300 text-xs font-mono font-bold border border-purple-500/50 shadow-md flex items-center gap-1.5">
                 <Medal className="w-4 h-4 text-purple-400" />
                 <span>3rd Place</span>

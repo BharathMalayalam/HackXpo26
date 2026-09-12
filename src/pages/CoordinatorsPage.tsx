@@ -84,7 +84,7 @@ export const CoordinatorsPage: React.FC = () => {
               {facultyList.map((coordinator) => (
                 <div
                   key={coordinator.id}
-                  className="rounded-none bg-gradient-to-b from-[#0F1424] to-[#070A12] border border-slate-800 p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all shadow-lg"
+                  className="rounded-none bg-gradient-to-b from-[#0F0F0F] to-[#050505] border border-slate-800 p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all shadow-lg"
                 >
                   <div className="text-center space-y-3">
                     <img
@@ -145,7 +145,7 @@ export const CoordinatorsPage: React.FC = () => {
               {studentList.map((coordinator) => (
                 <div
                   key={coordinator.id}
-                  className="rounded-none bg-gradient-to-b from-[#0C1220] to-[#070A12] border border-slate-800 p-6 flex flex-col justify-between hover:border-cyan-500/40 transition-all shadow-lg"
+                  className="rounded-none bg-gradient-to-b from-[#0C0C0C] to-[#050505] border border-slate-800 p-6 flex flex-col justify-between hover:border-cyan-500/40 transition-all shadow-lg"
                 >
                   <div className="flex items-start gap-4">
                     <img

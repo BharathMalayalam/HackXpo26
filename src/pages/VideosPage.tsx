@@ -79,7 +79,7 @@ export const VideosPage: React.FC = () => {
             <div
               key={video.id}
               onClick={() => setActiveVideo(video)}
-              className="group rounded-none bg-[#090D18] border border-slate-800/90 hover:border-cyan-500/40 overflow-hidden cursor-pointer shadow-xl transition-all duration-300 flex flex-col justify-between"
+              className="group rounded-none bg-[#090909] border border-slate-800/90 hover:border-cyan-500/40 overflow-hidden cursor-pointer shadow-xl transition-all duration-300 flex flex-col justify-between"
             >
               {/* Thumbnail with Play Icon */}
               <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-black">

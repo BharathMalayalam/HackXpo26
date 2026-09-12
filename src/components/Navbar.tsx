@@ -162,7 +162,7 @@ export const Navbar: React.FC = () => {
                   className="absolute left-0 top-full pt-2 w-52 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                 >
                   <div 
-                    className="rounded-none bg-[#090D17] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl"
+                    className="rounded-none bg-[#090909] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl"
                     style={{ borderRadius: '0px' }}
                   >
                     <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800 mb-1 flex items-center justify-between">
@@ -298,7 +298,7 @@ export const Navbar: React.FC = () => {
                   className="absolute right-0 top-full pt-2 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                 >
                   <div 
-                    className="rounded-none bg-[#090D17] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl"
+                    className="rounded-none bg-[#090909] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl"
                     style={{ borderRadius: '0px' }}
                   >
                     <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800 mb-1 flex items-center justify-between">
@@ -365,7 +365,7 @@ export const Navbar: React.FC = () => {
       {isOpen && (
         <div 
           style={{ borderRadius: '0px' }}
-          className="lg:hidden bg-[#07090F]/98 border-t border-slate-700 backdrop-blur-2xl px-5 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200 rounded-none"
+          className="lg:hidden bg-[#070707]/98 border-t border-slate-700 backdrop-blur-2xl px-5 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200 rounded-none"
         >
           <div className="grid grid-cols-2 gap-2">
             

@@ -55,26 +55,6 @@ export const GalleryPage: React.FC = () => {
             Glimpses into the opening keynote, 36 hours of round-the-clock coding sprints, faculty architecture clinics, and the victorious prize podium.
           </p>
         </div>
-
-        {/* Category Tabs */}
-        <div className="flex items-center justify-center">
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-none bg-slate-900/80 border border-slate-800">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
-                  selectedCategory === cat
-                    ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/20'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Gallery Image Grid with Masonry-like Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredGallery.map((photo) => (

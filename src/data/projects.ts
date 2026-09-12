@@ -32,10 +32,15 @@ export const projectsData: Project[] = [
       { name: 'Vigneshwaran P', role: 'Edge Computing & IoT Engineer', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Swetha R', role: 'Data Engineer & Model Optimization', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Dr. P. Ravichandran',
       designation: 'Associate Professor, Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Karthik Raja S',
+      designation: '3rd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/agrovision-ai',
     liveDemoUrl: 'https://agrovision-demo.example.org',
@@ -69,10 +74,15 @@ export const projectsData: Project[] = [
       { name: 'Sneha Priyadharshini B', role: 'RL Agent & Simulation', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Naveen Prasath K', role: 'Industrial Dashboard Engineer', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Dr. M. Senthil Murugan',
       designation: 'Professor & Head, Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Arun Kumar T',
+      designation: '3rd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/neurogrid-iot',
     liveDemoUrl: 'https://neurogrid-iot.example.org',
@@ -106,10 +116,15 @@ export const projectsData: Project[] = [
       { name: 'Janani K', role: 'Security & Protocol Testing', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Abishek S', role: 'Frontend Architecture & Web3 UI', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Dr. G. Kavitha',
       designation: 'Assistant Professor (Sr. Gr), Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Pradeep Chandran V',
+      designation: '3rd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/medsync-ehr',
     liveDemoUrl: 'https://medsync-ehr.example.org',
@@ -143,10 +158,15 @@ export const projectsData: Project[] = [
       { name: 'Bhavani R', role: 'IoT & Firmware Integration', avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Hariharan N', role: 'Frontend & Map Visualization', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Dr. S. Karthikeyan',
       designation: 'Assistant Professor, Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Sanjay Kumar S',
+      designation: '3rd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/adaptive-flow',
     liveDemoUrl: 'https://adaptive-flow.example.org',
@@ -182,10 +202,15 @@ export const projectsData: Project[] = [
       { name: 'Preethi G', role: 'Backend API & Schema Architect', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Dhanush R', role: 'Database & Auth Integration', avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Prof. N. Sivakumar',
       designation: 'Assistant Professor, Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Manoj Kumar V',
+      designation: '2nd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/campus-nexus',
     liveDemoUrl: 'https://campus-nexus.example.org',
@@ -219,10 +244,15 @@ export const projectsData: Project[] = [
       { name: 'Pavithra S', role: 'ML Model & Data Wrangling', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Kishore B', role: 'UI/UX & Mobile Interface', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Prof. R. Malathi',
       designation: 'Assistant Professor, Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Aakash R',
+      designation: '2nd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/ecobite-tracker',
     liveDemoUrl: 'https://ecobite.example.org',
@@ -256,10 +286,15 @@ export const projectsData: Project[] = [
       { name: 'Nandhini P', role: 'Frontend & Report Visuals', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Vijay Anand K', role: 'Network Protocols & Backend', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Dr. P. Ravichandran',
       designation: 'Associate Professor, Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Siddharth M',
+      designation: '2nd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/cybersentinel',
     liveDemoUrl: 'https://cybersentinel.example.org',
@@ -293,10 +328,15 @@ export const projectsData: Project[] = [
       { name: 'Rohit Balaji S', role: 'Speech Synthesis & UI Design', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
       { name: 'Deepika M', role: 'Dataset Curation & User Testing', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
-    mentor: {
+    facultyMentor: {
       name: 'Dr. G. Kavitha',
       designation: 'Assistant Professor (Sr. Gr), Dept. of IT, GCE Erode',
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop'
+    },
+    studentMentor: {
+      name: 'Kavya Shree T',
+      designation: '2nd Year, Dept. of IT, GCE Erode',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop'
     },
     githubUrl: 'https://github.com/hackxpo26-gce/voicebridge',
     liveDemoUrl: 'https://voicebridge.example.org',

@@ -24,7 +24,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
       onClick={onClose}
     >
       <div 
-        className="relative max-w-4xl w-full bg-[#0A0E17] rounded-none border border-slate-800 overflow-hidden shadow-2xl"
+        className="relative max-w-4xl w-full bg-[#0A0A0A] rounded-none border border-slate-800 overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}

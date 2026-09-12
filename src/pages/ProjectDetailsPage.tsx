@@ -95,7 +95,7 @@ export const ProjectDetailsPage: React.FC = () => {
         </div>
 
         {/* HERO BANNER BLOCK */}
-        <div className="relative rounded-none overflow-hidden border border-slate-800 bg-[#090D18] shadow-2xl" style={{ borderRadius: '0px' }}>
+        <div className="relative rounded-none overflow-hidden border border-slate-800 bg-[#090909] shadow-2xl" style={{ borderRadius: '0px' }}>
           <div className="relative h-72 sm:h-96 w-full overflow-hidden">
             <img 
               src={project.bannerImage} 
@@ -103,7 +103,7 @@ export const ProjectDetailsPage: React.FC = () => {
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover object-center opacity-40"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#090D18] via-[#090D18]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-transparent" />
             
             {/* Header Content on Banner */}
             <div className="absolute inset-0 p-6 sm:p-10 flex flex-col justify-end">
@@ -216,38 +216,6 @@ export const ProjectDetailsPage: React.FC = () => {
                 </ul>
               </div>
             </div>
-
-            {/* Screenshots & System Interface Gallery */}
-            <div className="p-6 sm:p-8 rounded-none bg-slate-900/60 border border-slate-800 space-y-4" style={{ borderRadius: '0px' }}>
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-heading font-bold text-white flex items-center gap-2">
-                  <Layers className="w-5 h-5 text-cyan-400" />
-                  <span>Screenshots & System Interfaces</span>
-                </h2>
-                <span className="text-xs font-mono text-slate-400">Click to expand</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {galleryItems.map((item, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setSelectedGalleryImage(item)}
-                    className="group relative rounded-none overflow-hidden aspect-video border border-slate-800 cursor-pointer bg-black"
-                  >
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <Maximize2 className="w-6 h-6 text-cyan-400" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
 
           {/* RIGHT 4 COLS: Team, Mentor & Meta sidebar */}
@@ -333,41 +301,37 @@ export const ProjectDetailsPage: React.FC = () => {
               </span>
               <div className="flex items-center gap-3 pt-1">
                 <img
-                  src={project.mentor.avatar}
-                  alt={project.mentor.name}
+                  src={project.facultyMentor.avatar}
+                  alt={project.facultyMentor.name}
                   referrerPolicy="no-referrer"
                   className="w-12 h-12 rounded-none object-cover border border-purple-500/40"
                 />
                 <div>
-                  <h4 className="text-sm font-bold text-white">{project.mentor.name}</h4>
-                  <p className="text-xs text-slate-400">{project.mentor.designation}</p>
+                  <h4 className="text-sm font-bold text-white">{project.facultyMentor.name}</h4>
+                  <p className="text-xs text-slate-400">{project.facultyMentor.designation}</p>
                 </div>
               </div>
             </div>
 
-            {/* Sibling Projects Shortcut */}
-            {siblingProjects.length > 0 && (
-              <div className="p-6 rounded-none bg-slate-900/60 border border-slate-800 space-y-3" style={{ borderRadius: '0px' }}>
-                <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-                  More {project.year} Projects
-                </h3>
-                <div className="space-y-2">
-                  {siblingProjects.map((sib) => (
-                    <Link
-                      key={sib.id}
-                      to={`/projects/${sib.id}`}
-                      className="block p-3 rounded-none bg-slate-900 hover:bg-slate-850 hover:border-cyan-500/30 border border-slate-800 transition-all group"
-                    >
-                      <h5 className="text-xs font-bold text-white group-hover:text-cyan-300 truncate">
-                        {sib.title}
-                      </h5>
-                      <span className="text-[11px] text-slate-400 font-mono">{sib.teamName}</span>
-                    </Link>
-                  ))}
+            {/* Student Mentor Spotlight Card */}
+            <div className="p-6 rounded-none bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 border border-cyan-500/30 space-y-3" style={{ borderRadius: '0px' }}>
+              <span className="text-xs font-mono uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                <User className="w-4 h-4" />
+                Student Mentor
+              </span>
+              <div className="flex items-center gap-3 pt-1">
+                <img
+                  src={project.studentMentor.avatar}
+                  alt={project.studentMentor.name}
+                  referrerPolicy="no-referrer"
+                  className="w-12 h-12 rounded-none object-cover border border-cyan-500/40"
+                />
+                <div>
+                  <h4 className="text-sm font-bold text-white">{project.studentMentor.name}</h4>
+                  <p className="text-xs text-slate-400">{project.studentMentor.designation}</p>
                 </div>
               </div>
-            )}
-
+            </div>
           </div>
 
         </div>

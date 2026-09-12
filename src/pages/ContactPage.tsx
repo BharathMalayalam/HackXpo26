@@ -122,7 +122,7 @@ export const ContactPage: React.FC = () => {
 
           {/* Right 7 Cols: Interactive Contact & Inquiry Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-10 rounded-none bg-[#090D18] border border-slate-800 shadow-xl space-y-6">
+            <div className="p-6 sm:p-10 rounded-none bg-[#090909] border border-slate-800 shadow-xl space-y-6">
               
               <div>
                 <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Quick Inquiry</span>

@@ -24,7 +24,12 @@ export interface Project {
   bannerImage: string;
   galleryImages: string[];
   members: ProjectMember[];
-  mentor: {
+  facultyMentor: {
+    name: string;
+    designation: string;
+    avatar: string;
+  };
+  studentMentor: {
     name: string;
     designation: string;
     avatar: string;

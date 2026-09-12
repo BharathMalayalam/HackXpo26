@@ -103,7 +103,7 @@ export const TeamsPage: React.FC = () => {
             return (
               <div
                 key={team.id}
-                className="rounded-none bg-[#090D18] border border-slate-800/90 overflow-hidden shadow-xl hover:border-slate-700 transition-all flex flex-col justify-between"
+                className="rounded-none bg-[#090909] border border-slate-800/90 overflow-hidden shadow-xl hover:border-slate-700 transition-all flex flex-col justify-between"
               >
                 {/* Team Top Header with Photo */}
                 <div className="relative h-44 sm:h-48 overflow-hidden bg-slate-950">
@@ -113,7 +113,7 @@ export const TeamsPage: React.FC = () => {
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover opacity-60 hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#090D18] via-[#090D18]/70 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/70 to-transparent" />
 
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
                     <span className={`px-3 py-1 rounded-none text-xs font-mono font-bold uppercase tracking-wider border backdrop-blur-md ${

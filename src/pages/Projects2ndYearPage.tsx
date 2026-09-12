@@ -89,7 +89,7 @@ export const Projects2ndYearPage: React.FC = () => {
         </div>
 
         {/* Search & Filter */}
-        <div className="p-6 rounded-none bg-[#0A0E17]/90 border border-slate-800 backdrop-blur-md space-y-6 shadow-xl" style={{ borderRadius: '0px' }}>
+        <div className="p-6 rounded-none bg-[#0A0A0A]/90 border border-slate-800 backdrop-blur-md space-y-6 shadow-xl" style={{ borderRadius: '0px' }}>
 
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
             <div className="relative flex-1">
@@ -126,27 +126,6 @@ export const Projects2ndYearPage: React.FC = () => {
                 </button>
               )}
             </div>
-          </div>
-
-          {/* Tech Stack Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-            <span className="text-xs font-mono text-slate-400 shrink-0 flex items-center gap-1">
-              <Code2 className="w-3.5 h-3.5 text-purple-400" /> Tech:
-            </span>
-            {popularTechStacks.map((tech) => (
-              <button
-                key={tech}
-                onClick={() => setSelectedTech(tech)}
-                style={{ borderRadius: '0px' }}
-                className={`px-2.5 py-1 rounded-none text-xs font-mono shrink-0 transition-colors ${
-                  selectedTech === tech
-                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/50'
-                    : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
-                }`}
-              >
-                {tech}
-              </button>
-            ))}
           </div>
         </div>
 

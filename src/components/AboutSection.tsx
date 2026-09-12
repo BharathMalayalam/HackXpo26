@@ -128,14 +128,14 @@ export const AboutSection: React.FC = () => {
               {/* Event Poster Card / Canvas */}
               <div 
                 onClick={() => setShowPosterModal(true)}
-                className="group relative rounded-none overflow-hidden cursor-pointer border border-cyan-500/30 bg-gradient-to-b from-[#0F172A] via-[#0A0E1A] to-[#04060A] shadow-2xl shadow-cyan-950/40 hover:border-cyan-400/60 hover:shadow-cyan-500/20 transition-all duration-300"
+                className="group relative rounded-none overflow-hidden cursor-pointer border border-cyan-500/30 bg-gradient-to-b from-[#0F0F0F] via-[#0A0A0A] to-[#030303] shadow-2xl shadow-cyan-950/40 hover:border-cyan-400/60 hover:shadow-cyan-500/20 transition-all duration-300"
               >
                 {/* Poster Subtle Glow Accents */}
                 <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/15 rounded-none blur-3xl pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-600/15 rounded-none blur-3xl pointer-events-none" />
 
                 {/* Inner Border Frame (Poster Style) */}
-                <div className="p-6 sm:p-7 space-y-6 relative z-10 border border-slate-700/50 m-2 rounded-none bg-[#090D18]/90">
+                <div className="p-6 sm:p-7 space-y-6 relative z-10 border border-slate-700/50 m-2 rounded-none bg-[#090909]/90">
                   
                   {/* Institutional Poster Header */}
                   <div className="text-center space-y-1.5 border-b border-slate-800 pb-4">
@@ -267,7 +267,7 @@ export const AboutSection: React.FC = () => {
           onClick={() => setShowPosterModal(false)}
         >
           <div 
-            className="relative w-full max-w-xl bg-[#090D18] border border-cyan-500/50 rounded-none p-6 sm:p-8 shadow-2xl space-y-6"
+            className="relative w-full max-w-xl bg-[#090909] border border-cyan-500/50 rounded-none p-6 sm:p-8 shadow-2xl space-y-6"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
