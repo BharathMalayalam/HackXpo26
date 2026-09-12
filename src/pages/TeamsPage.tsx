@@ -1,26 +1,47 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { teamsData } from '../data/teams';
+import { projectsData } from '../data/projects';
+import { mentorsData, studentMentorsData } from '../data/mentors';
 import { AcademicYear } from '../types';
 import { 
   Users, 
+  User,
   Search, 
-  Sparkles, 
   Github, 
   Linkedin, 
-  Mail, 
   ArrowRight, 
-  GraduationCap, 
-  CheckCircle, 
-  Layers 
+  GraduationCap
 } from 'lucide-react';
 
 export const TeamsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState<'All' | AcademicYear>('All');
 
+  const teams = useMemo(() => {
+    return projectsData.map((p) => {
+      const facultyMentor = mentorsData.find((m) => m.id === p.facultyMentorId);
+      const studentMentor = studentMentorsData.find((m) => m.id === p.studentMentorId);
+      return {
+        id: p.id,
+        teamName: p.teamName,
+        year: p.year,
+        projectTitle: p.title,
+        projectId: p.id,
+        teamPhoto: p.teamPhoto,
+        leadName: p.members[0]?.name ?? '',
+        facultyMentorName: facultyMentor?.name ?? '',
+        studentMentorName: studentMentor?.name ?? '',
+        category: p.category,
+        members: p.members.map((m) => ({
+          ...m,
+          year: p.year,
+        })),
+      };
+    });
+  }, []);
+
   const filteredTeams = useMemo(() => {
-    return teamsData.filter((team) => {
+    return teams.filter((team) => {
       if (selectedYear !== 'All' && team.year !== selectedYear) return false;
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -32,7 +53,10 @@ export const TeamsPage: React.FC = () => {
       }
       return true;
     });
-  }, [selectedYear, searchQuery]);
+  }, [teams, selectedYear, searchQuery]);
+
+  const thirdYearCount = teams.filter(t => t.year === '3rd Year').length;
+  const secondYearCount = teams.filter(t => t.year === '2nd Year').length;
 
   return (
     <div className="min-h-screen bg-black text-slate-100 py-12 tech-grid-bg">
@@ -74,7 +98,7 @@ export const TeamsPage: React.FC = () => {
                 selectedYear === 'All' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'
               }`}
             >
-              All Teams ({teamsData.length})
+              All Teams ({teams.length})
             </button>
             <button
               onClick={() => setSelectedYear('3rd Year')}
@@ -82,7 +106,7 @@ export const TeamsPage: React.FC = () => {
                 selectedYear === '3rd Year' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'text-slate-400 hover:text-cyan-300'
               }`}
             >
-              3rd Year ({teamsData.filter(t => t.year === '3rd Year').length})
+              3rd Year ({thirdYearCount})
             </button>
             <button
               onClick={() => setSelectedYear('2nd Year')}
@@ -90,7 +114,7 @@ export const TeamsPage: React.FC = () => {
                 selectedYear === '2nd Year' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'text-slate-400 hover:text-purple-300'
               }`}
             >
-              2nd Year ({teamsData.filter(t => t.year === '2nd Year').length})
+              2nd Year ({secondYearCount})
             </button>
           </div>
         </div>
@@ -140,10 +164,13 @@ export const TeamsPage: React.FC = () => {
 
                 {/* Team Meta & Mentorship info */}
                 <div className="px-6 py-3 bg-slate-900/50 border-y border-slate-800 flex items-center justify-between text-xs text-slate-400">
-                  <span>Lead: <strong className="text-white">{team.leadName}</strong></span>
+                  <div className="flex items-center gap-1.5 text-cyan-300">
+                    <User className="w-3.5 h-3.5" />
+                    <span className="truncate max-w-[160px]">{team.studentMentorName}</span>
+                  </div>
                   <div className="flex items-center gap-1.5 text-purple-300">
                     <GraduationCap className="w-3.5 h-3.5" />
-                    <span className="truncate max-w-[160px]">{team.mentorName}</span>
+                    <span className="truncate max-w-[160px]">{team.facultyMentorName}</span>
                   </div>
                 </div>
 
@@ -200,19 +227,6 @@ export const TeamsPage: React.FC = () => {
                     ))}
                   </div>
                 </div>
-
-                {/* Bottom Card Action */}
-                <div className="p-4 sm:px-6 bg-slate-950/60 border-t border-slate-800/80 flex items-center justify-between">
-                  <span className="text-xs text-slate-500 font-mono">Department of IT</span>
-                  <Link
-                    to={`/projects/${team.projectId}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
-                  >
-                    <span>View Full Project Blueprint</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-
               </div>
             );
           })}

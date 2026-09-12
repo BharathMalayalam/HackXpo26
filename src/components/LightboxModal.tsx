@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { GalleryItem } from '../types';
-import { X, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface LightboxModalProps {
   item: GalleryItem | null;
@@ -49,16 +49,10 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
       onClick={onClose}
     >
       {/* Top action header */}
-      <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20 text-white">
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-mono px-2.5 py-1 rounded-none bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-            {item.category}
-          </span>
-          <span className="text-xs font-mono text-slate-400">
-            {currentIndex + 1} / {total}
-          </span>
-        </div>
-
+      <div className="absolute top-4 left-4 right-4 flex items-center justify-end z-20 text-white">
+        <span className="text-xs font-mono text-slate-400 mr-4">
+          {currentIndex + 1} / {total}
+        </span>
         <button
           onClick={onClose}
           className="p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors"
@@ -93,20 +87,10 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
         <div className="relative rounded-none overflow-hidden border border-slate-800 shadow-2xl bg-black">
           <img
             src={item.imageUrl}
-            alt={item.title}
+            alt="Gallery photo"
             referrerPolicy="no-referrer"
             className="max-h-[70vh] w-auto max-w-full object-contain mx-auto"
           />
-        </div>
-
-        {/* Caption & Info bar */}
-        <div className="w-full mt-4 text-center max-w-2xl px-4">
-          <h3 className="text-lg font-heading font-semibold text-white">
-            {item.title}
-          </h3>
-          <p className="text-sm text-slate-400 mt-1 leading-relaxed">
-            {item.caption}
-          </p>
         </div>
       </div>
     </div>

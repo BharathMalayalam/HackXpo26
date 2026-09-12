@@ -1,29 +1,24 @@
-import React, { useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { projectsData } from '../data/projects';
+import { mentorsData } from '../data/mentors';
+import { studentMentorsData } from '../data/mentors';
 import { 
   ArrowLeft, 
   Github, 
   ExternalLink, 
   Sparkles, 
   GraduationCap, 
-  Layers, 
   Cpu, 
   CheckCircle2, 
   Code2, 
   User, 
   Linkedin, 
-  Mail,
-  ChevronRight,
-  Maximize2
+  ChevronRight
 } from 'lucide-react';
-import { LightboxModal } from '../components/LightboxModal';
-import { GalleryItem } from '../types';
 
 export const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [selectedGalleryImage, setSelectedGalleryImage] = useState<GalleryItem | null>(null);
 
   const project = projectsData.find((p) => p.id === id);
 
@@ -34,7 +29,7 @@ export const ProjectDetailsPage: React.FC = () => {
           <span className="text-4xl font-mono text-cyan-400">404</span>
           <h1 className="text-2xl font-heading font-bold text-white">Project Not Found</h1>
           <p className="text-sm text-slate-400">
-            The requested project identifier could not be located in the HackXpo ’26 registry.
+            The requested project identifier could not be located in the HackXpo '26 registry.
           </p>
           <Link
             to="/projects"
@@ -49,15 +44,8 @@ export const ProjectDetailsPage: React.FC = () => {
   }
 
   const is3rdYear = project.year === '3rd Year';
-
-  // Convert project gallery images to GalleryItem format for lightbox
-  const galleryItems: GalleryItem[] = project.galleryImages.map((url, idx) => ({
-    id: `proj-img-${idx}`,
-    title: `${project.title} — Screenshot ${idx + 1}`,
-    category: 'Project Demos',
-    imageUrl: url,
-    caption: `System architecture & live interface screenshot for ${project.title}`
-  }));
+  const facultyMentor = mentorsData.find((m) => m.id === project.facultyMentorId);
+  const studentMentor = studentMentorsData.find((m) => m.id === project.studentMentorId);
 
   // Other projects in same year
   const siblingProjects = projectsData.filter((p) => p.year === project.year && p.id !== project.id).slice(0, 2);
@@ -65,14 +53,6 @@ export const ProjectDetailsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-black text-slate-100 py-8 sm:py-12 tech-grid-bg">
       
-      {/* Lightbox for screenshots */}
-      <LightboxModal
-        item={selectedGalleryImage}
-        items={galleryItems}
-        onClose={() => setSelectedGalleryImage(null)}
-        onSelect={(item) => setSelectedGalleryImage(item)}
-      />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
 
         {/* Top Breadcrumb & Navigation */}
@@ -86,7 +66,7 @@ export const ProjectDetailsPage: React.FC = () => {
           </Link>
 
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-            <span>HackXpo ’26</span>
+            <span>HackXpo '26</span>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-cyan-400">{project.year}</span>
             <ChevronRight className="w-3.5 h-3.5" />
@@ -98,7 +78,7 @@ export const ProjectDetailsPage: React.FC = () => {
         <div className="relative rounded-none overflow-hidden border border-slate-800 bg-[#090909] shadow-2xl" style={{ borderRadius: '0px' }}>
           <div className="relative h-72 sm:h-96 w-full overflow-hidden">
             <img 
-              src={project.bannerImage} 
+              src={project.projectPhoto} 
               alt={project.title}
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover object-center opacity-40"
@@ -134,17 +114,19 @@ export const ProjectDetailsPage: React.FC = () => {
                   {project.tagline}
                 </p>
 
-                {/* Direct Action Links (GitHub + Live Demo) */}
+                {/* Direct Action Links */}
                 <div className="pt-2 flex flex-wrap items-center gap-3">
-                  <a
-                    href={project.liveDemoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-black bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-lg shadow-cyan-500/20"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    <span>Launch Live Prototype</span>
-                  </a>
+                  {project.liveDemoUrl && (
+                    <a
+                      href={project.liveDemoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-black bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-lg shadow-cyan-500/20"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>Launch Live Prototype</span>
+                    </a>
+                  )}
 
                   <a
                     href={project.githubUrl}
@@ -293,44 +275,51 @@ export const ProjectDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Faculty Mentor Spotlight Card */}
-            <div className="p-6 rounded-none bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900 border border-purple-500/30 space-y-3" style={{ borderRadius: '0px' }}>
-              <span className="text-xs font-mono uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
-                <GraduationCap className="w-4 h-4" />
-                Faculty Mentor
-              </span>
-              <div className="flex items-center gap-3 pt-1">
-                <img
-                  src={project.facultyMentor.avatar}
-                  alt={project.facultyMentor.name}
-                  referrerPolicy="no-referrer"
-                  className="w-12 h-12 rounded-none object-cover border border-purple-500/40"
-                />
-                <div>
-                  <h4 className="text-sm font-bold text-white">{project.facultyMentor.name}</h4>
-                  <p className="text-xs text-slate-400">{project.facultyMentor.designation}</p>
+            {/* Mentors Row */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Student Mentor */}
+              {studentMentor && (
+                <div className="p-5 rounded-none bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 border border-cyan-500/30 space-y-3" style={{ borderRadius: '0px' }}>
+                  <span className="text-xs font-mono uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
+                    <User className="w-4 h-4" />
+                    Student Mentor
+                  </span>
+                  <div className="flex items-center gap-3 pt-1">
+                    <img
+                      src={studentMentor.avatar}
+                      alt={studentMentor.name}
+                      referrerPolicy="no-referrer"
+                      className="w-10 h-10 rounded-none object-cover border border-cyan-500/40"
+                    />
+                    <div>
+                      <h4 className="text-sm font-bold text-white">{studentMentor.name}</h4>
+                      <p className="text-[11px] text-slate-400">{studentMentor.designation}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
 
-            {/* Student Mentor Spotlight Card */}
-            <div className="p-6 rounded-none bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 border border-cyan-500/30 space-y-3" style={{ borderRadius: '0px' }}>
-              <span className="text-xs font-mono uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                <User className="w-4 h-4" />
-                Student Mentor
-              </span>
-              <div className="flex items-center gap-3 pt-1">
-                <img
-                  src={project.studentMentor.avatar}
-                  alt={project.studentMentor.name}
-                  referrerPolicy="no-referrer"
-                  className="w-12 h-12 rounded-none object-cover border border-cyan-500/40"
-                />
-                <div>
-                  <h4 className="text-sm font-bold text-white">{project.studentMentor.name}</h4>
-                  <p className="text-xs text-slate-400">{project.studentMentor.designation}</p>
+              {/* Faculty Mentor */}
+              {facultyMentor && (
+                <div className="p-5 rounded-none bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900 border border-purple-500/30 space-y-3" style={{ borderRadius: '0px' }}>
+                  <span className="text-xs font-mono uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                    <GraduationCap className="w-4 h-4" />
+                    Faculty Mentor
+                  </span>
+                  <div className="flex items-center gap-3 pt-1">
+                    <img
+                      src={facultyMentor.photo}
+                      alt={facultyMentor.name}
+                      referrerPolicy="no-referrer"
+                      className="w-10 h-10 rounded-none object-cover border border-purple-500/40"
+                    />
+                    <div>
+                      <h4 className="text-sm font-bold text-white">{facultyMentor.name}</h4>
+                      <p className="text-[11px] text-slate-400">{facultyMentor.designation}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 

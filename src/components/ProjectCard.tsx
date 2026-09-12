@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Project } from '../types';
-import { Github, ArrowRight, Sparkles, User, GraduationCap, ExternalLink } from 'lucide-react';
+import { mentorsData } from '../data/mentors';
+import { Github, ArrowRight, Sparkles, GraduationCap } from 'lucide-react';
 
 interface ProjectCardProps {
   project: Project;
@@ -9,13 +10,14 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const is3rdYear = project.year === '3rd Year';
+  const facultyMentor = mentorsData.find((m) => m.id === project.facultyMentorId);
 
   return (
     <div className="group relative flex flex-col rounded-none overflow-hidden glass-panel glass-panel-hover transition-all duration-300 border border-slate-800/80 hover:border-cyan-500/30" style={{ borderRadius: '0px' }}>
-      {/* Thumbnail with overlay gradient */}
+      {/* Banner Image */}
       <div className="relative h-52 w-full overflow-hidden bg-slate-950">
         <img 
-          src={project.thumbnail} 
+          src={project.projectPhoto} 
           alt={project.title}
           referrerPolicy="no-referrer"
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
@@ -106,10 +108,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </span>
           </div>
 
-          <div className="flex items-center gap-1 text-[11px] text-slate-400 truncate max-w-[130px]" title={project.facultyMentor.name}>
-            <GraduationCap className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-            <span className="truncate">{project.facultyMentor.name}</span>
-          </div>
+          {facultyMentor && (
+            <div className="flex items-center gap-1 text-[11px] text-slate-400 truncate max-w-[130px]" title={facultyMentor.name}>
+              <GraduationCap className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+              <span className="truncate">{facultyMentor.name}</span>
+            </div>
+          )}
         </div>
 
         {/* Action Bottom Bar */}

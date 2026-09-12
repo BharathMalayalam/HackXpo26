@@ -1,4 +1,4 @@
-import { Mentor } from '../types';
+import { Mentor, StudentMentor } from '../types';
 
 export const mentorsData: Mentor[] = [
   {
@@ -88,5 +88,80 @@ export const mentorsData: Mentor[] = [
     photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
     linkedin: 'https://linkedin.com',
     type: 'Industry'
+  }
+];
+
+export const studentMentorsData: StudentMentor[] = [
+  {
+    id: 'sm-1',
+    name: 'Karthik Raja S',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team Phytocure',
+    projectName: 'AgroVision AI: Smart Crop Disease & Yield Predictor',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-2',
+    name: 'Arun Kumar T',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team WattVolt',
+    projectName: 'NeuroGrid: Autonomous Industrial Microgrid Balancing',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-3',
+    name: 'Pradeep Chandran V',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team CipherHealth',
+    projectName: 'MedSync 360: Zero-Knowledge Decentralized Health Vault',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-4',
+    name: 'Sanjay Kumar S',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team UrbanPulse',
+    projectName: 'AdaptiveFlow: Dynamic AI Signal & Emergency Corridor System',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-5',
+    name: 'Manoj Kumar V',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team CodeCraft',
+    projectName: 'CampusNexus: Smart Resource Booking & Peer Tutoring Hub',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-6',
+    name: 'Aakash R',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team GreenFork',
+    projectName: 'EcoBite: AI Hostel Food Waste Management & Redistribution',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-7',
+    name: 'Siddharth M',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team ByteShield',
+    projectName: 'CyberSentinel: Zero-Config Local Network Vulnerability Audit',
+    linkedin: 'https://linkedin.com'
+  },
+  {
+    id: 'sm-8',
+    name: 'Kavya Shree T',
+    designation: '4th Year, Dept. of IT, GCE Erode',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop',
+    teamName: 'Team InclusiTech',
+    projectName: 'VoiceBridge: Sign Language & Vernacular Gestural Transcriber',
+    linkedin: 'https://linkedin.com'
   }
 ];

@@ -20,46 +20,14 @@ export interface Project {
   solutionArchitecture: string;
   keyFeatures: string[];
   techStack: string[];
-  thumbnail: string;
-  bannerImage: string;
-  galleryImages: string[];
-  members: ProjectMember[];
-  facultyMentor: {
-    name: string;
-    designation: string;
-    avatar: string;
-  };
-  studentMentor: {
-    name: string;
-    designation: string;
-    avatar: string;
-  };
-  githubUrl: string;
-  liveDemoUrl: string;
-  featured?: boolean;
-}
-
-export interface StudentProfile {
-  name: string;
-  role: string;
-  year: AcademicYear;
-  avatar: string;
-  github: string;
-  linkedin: string;
-  email?: string;
-}
-
-export interface Team {
-  id: string;
-  teamName: string;
-  year: AcademicYear;
-  projectTitle: string;
-  projectId: string;
+  projectPhoto: string;
   teamPhoto: string;
-  leadName: string;
-  members: StudentProfile[];
-  mentorName: string;
-  category: string;
+  members: ProjectMember[];
+  facultyMentorId: string;
+  studentMentorId: string;
+  githubUrl: string;
+  liveDemoUrl?: string;
+  featured?: boolean;
 }
 
 export interface Mentor {
@@ -74,13 +42,19 @@ export interface Mentor {
   type: 'Faculty' | 'Industry';
 }
 
+export interface StudentMentor {
+  id: string;
+  name: string;
+  designation: string;
+  avatar: string;
+  teamName: string;
+  projectName: string;
+  linkedin: string;
+}
+
 export interface GalleryItem {
   id: string;
-  title: string;
-  category: 'Opening Ceremony' | 'Team Action' | 'Mentoring' | 'Project Demos' | 'Behind-the-Scenes' | 'Prize Ceremony';
   imageUrl: string;
-  caption: string;
-  aspectRatio?: 'wide' | 'tall' | 'square';
 }
 
 export interface VideoItem {

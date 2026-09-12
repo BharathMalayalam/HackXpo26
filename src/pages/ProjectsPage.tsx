@@ -93,9 +93,8 @@ export const ProjectsPage: React.FC = () => {
         const matchesTagline = p.tagline.toLowerCase().includes(q);
         const matchesTech = p.techStack.some(t => t.toLowerCase().includes(q));
         const matchesMembers = p.members.some(m => m.name.toLowerCase().includes(q));
-        const matchesMentor = p.facultyMentor.name.toLowerCase().includes(q) || p.studentMentor.name.toLowerCase().includes(q);
 
-        if (!matchesTitle && !matchesTeam && !matchesDesc && !matchesTagline && !matchesTech && !matchesMembers && !matchesMentor) {
+        if (!matchesTitle && !matchesTeam && !matchesDesc && !matchesTagline && !matchesTech && !matchesMembers) {
           return false;
         }
       }

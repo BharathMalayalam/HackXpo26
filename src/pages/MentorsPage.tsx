@@ -1,23 +1,11 @@
-import React, { useState } from 'react';
-import { mentorsData } from '../data/mentors';
+import React from 'react';
+import { studentMentorsData } from '../data/mentors';
 import { 
-  Award, 
-  GraduationCap, 
-  Linkedin, 
-  Briefcase, 
-  BookOpen, 
-  ExternalLink,
-  Sparkles,
-  ShieldCheck
+  Users, 
+  Linkedin
 } from 'lucide-react';
 
 export const MentorsPage: React.FC = () => {
-  const [filterType, setFilterType] = useState<'All' | 'Faculty' | 'Industry'>('All');
-
-  const filteredMentors = mentorsData.filter((m) => {
-    if (filterType === 'All') return true;
-    return m.type === filterType;
-  });
 
   return (
     <div className="min-h-screen bg-black text-slate-100 py-12 tech-grid-bg">
@@ -25,113 +13,74 @@ export const MentorsPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-mono">
-            <Award className="w-3.5 h-3.5" />
-            <span>Academic & Industry Advisory</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 text-xs font-mono">
+            <Users className="w-3.5 h-3.5" />
+            <span>Student Mentors</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight">
-            Mentors & Faculty Showcase
+            Student Mentor Showcase
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
-            Guidance from departmental research scholars and distinguished alumni engineers powering HackXpo ’26 teams through rigorous architecture and code reviews.
+            Peer leaders from HackXpo '26 guiding their teams through architecture decisions, code reviews, and sprint planning.
           </p>
-        </div>
-
-        {/* Filter Switcher */}
-        <div className="flex items-center justify-center">
-          <div className="inline-flex items-center p-1.5 rounded-none bg-slate-900 border border-slate-800">
-            <button
-              onClick={() => setFilterType('All')}
-              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
-                filterType === 'All' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              All Mentors ({mentorsData.length})
-            </button>
-            <button
-              onClick={() => setFilterType('Faculty')}
-              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                filterType === 'Faculty' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'text-slate-400 hover:text-purple-300'
-              }`}
-            >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>Department Faculty ({mentorsData.filter(m => m.type === 'Faculty').length})</span>
-            </button>
-            <button
-              onClick={() => setFilterType('Industry')}
-              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                filterType === 'Industry' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'text-slate-400 hover:text-cyan-300'
-              }`}
-            >
-              <Briefcase className="w-3.5 h-3.5" />
-              <span>Industry & Alumni ({mentorsData.filter(m => m.type === 'Industry').length})</span>
-            </button>
-          </div>
-        </div>
-
+        </div>      
         {/* Mentors Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredMentors.map((mentor) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {studentMentorsData.map((mentor, idx) => (
             <div
-              key={mentor.id}
-              className="group rounded-none bg-gradient-to-b from-[#0C0C0C] to-[#050505] border border-slate-800/90 hover:border-cyan-500/40 p-6 flex flex-col justify-between transition-all duration-300 shadow-xl"
+              key={idx}
+              className="group relative rounded-none overflow-hidden bg-[#0A0A0A] border border-slate-800/60 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)]"
             >
-              <div>
-                {/* Photo & Type Tag */}
-                <div className="relative mb-5">
-                  <div className="w-24 h-24 mx-auto rounded-none overflow-hidden border-2 border-slate-700 group-hover:border-cyan-400 transition-colors shadow-lg">
+              {/* Top Accent Bar */}
+              <div className="h-1 w-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" />
+              <div className="p-5 flex flex-col items-center text-center">
+                {/* Photo with ring glow */}
+                <div className="relative mb-4">
+                  <div className="relative w-20 h-20 rounded-none overflow-hidden border-2 border-slate-700/80 group-hover:border-cyan-400/60 transition-all duration-500">
                     <img
-                      src={mentor.photo}
+                      src={mentor.avatar}
                       alt={mentor.name}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-none text-[10px] font-mono font-semibold uppercase tracking-wider border shadow-md ${
-                    mentor.type === 'Faculty'
-                      ? 'bg-purple-950 text-purple-300 border-purple-600/50'
-                      : 'bg-cyan-950 text-cyan-300 border-cyan-600/50'
-                  }`}>
-                    {mentor.type}
-                  </span>
+                  {/* Year Badge on photo */}
                 </div>
 
-                {/* Name & Designation */}
-                <div className="text-center space-y-1 mt-4">
-                  <h3 className="text-base font-heading font-bold text-white group-hover:text-cyan-300 transition-colors">
-                    {mentor.name}
-                  </h3>
-                  <p className="text-xs font-semibold text-cyan-400">
-                    {mentor.designation}
-                  </p>
-                  <p className="text-[11px] text-slate-400 leading-tight">
-                    {mentor.organization}
-                  </p>
-                </div>
+                {/* Name */}
+                <h3 className="mt-3 text-sm font-heading font-bold text-white group-hover:text-cyan-300 transition-colors duration-300 leading-tight">
+                  {mentor.name}
+                </h3>
 
-                {/* Domain Pill */}
-                <div className="mt-4 pt-3 border-t border-slate-800/80 text-center">
-                  <span className="inline-block text-[11px] font-mono px-2.5 py-1 rounded bg-slate-800/90 text-slate-300 border border-slate-700">
-                    {mentor.domain}
-                  </span>
-                </div>
+                {/* Designation */}
+                <p className="mt-1 text-[11px] text-cyan-400/80 font-medium">
+                  {mentor.designation}
+                </p>
 
-                {/* Bio text */}
-                <p className="text-xs text-slate-300 mt-3 leading-relaxed text-center line-clamp-3">
-                  {mentor.bio}
+                {/* Divider */}
+                <div className="w-8 h-px bg-slate-800 my-3" />
+
+                {/* Team Name */}
+                <span className="text-[10px] font-mono px-2.5 py-1 rounded-none bg-slate-800/60 text-slate-300 border border-slate-700/50">
+                  {mentor.teamName}
+                </span>
+
+                {/* Project Name */}
+                <p className="mt-2 text-[10px] text-slate-500 leading-relaxed line-clamp-2 min-h-[28px]">
+                  {mentor.projectName}
                 </p>
               </div>
 
-              {/* Bottom LinkedIn link */}
-              <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-center">
+              {/* Bottom Action */}
+              <div className="px-5 pb-5">
                 <a
-                  href={mentor.linkedin}
+                  href="https://linkedin.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 hover:text-cyan-300 border border-slate-800 transition-colors"
+                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-none bg-slate-800/50 hover:bg-slate-800 text-[11px] font-medium text-slate-400 hover:text-cyan-300 border border-slate-700/40 hover:border-cyan-500/30 transition-all duration-300"
                 >
-                  <Linkedin className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Connect Profile</span>
+                  <Linkedin className="w-3 h-3" />
+                  <span>Connect</span>
                 </a>
               </div>
             </div>
@@ -140,10 +89,10 @@ export const MentorsPage: React.FC = () => {
 
         {/* Mentorship Philosophy Callout */}
         <div className="p-8 rounded-none bg-slate-900/40 border border-slate-800 text-center max-w-4xl mx-auto space-y-3">
-          <GraduationCap className="w-8 h-8 text-purple-400 mx-auto" />
-          <h3 className="text-xl font-heading font-bold text-white">Mentorship at HackXpo ’26</h3>
+          <Users className="w-8 h-8 text-cyan-400 mx-auto" />
+          <h3 className="text-xl font-heading font-bold text-white">Mentorship at HackXpo '26</h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
-            Mentors maintain scheduled hourly syncs with all participating 2nd and 3rd year teams, guiding problem definition, algorithmic complexity, hardware selection, and pitch presentation fidelity.
+            Each team is assigned a senior student mentor who conducts weekly syncs, guiding problem definition, algorithmic complexity, hardware selection, and pitch presentation fidelity.
           </p>
         </div>
 
