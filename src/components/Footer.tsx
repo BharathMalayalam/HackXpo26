@@ -17,7 +17,7 @@ import {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative bg-[#05070D] border-t border-slate-800/80 pt-16 pb-12 overflow-hidden text-slate-400">
+    <footer className="relative bg-black border-t border-slate-800/80 pt-16 pb-12 overflow-hidden text-slate-400">
       {/* Background ambient glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-gradient-to-t from-cyan-900/10 via-purple-900/10 to-transparent blur-3xl pointer-events-none" />
 
@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-none bg-gradient-to-br from-cyan-500 to-purple-600 p-0.5 shadow-md shadow-cyan-500/20">
-                <div className="w-full h-full bg-[#080B11] rounded-none flex items-center justify-center">
+                <div className="w-full h-full bg-black rounded-none flex items-center justify-center">
                   <Terminal className="w-5 h-5 text-cyan-400" />
                 </div>
               </div>

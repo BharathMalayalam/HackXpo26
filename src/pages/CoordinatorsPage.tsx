@@ -18,7 +18,7 @@ export const CoordinatorsPage: React.FC = () => {
   const studentList = coordinatorsData.filter((c) => c.category === 'Student Committee');
 
   return (
-    <div className="min-h-screen bg-[#06080F] text-slate-100 py-12 tech-grid-bg">
+    <div className="min-h-screen bg-black text-slate-100 py-12 tech-grid-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {/* Page Header */}

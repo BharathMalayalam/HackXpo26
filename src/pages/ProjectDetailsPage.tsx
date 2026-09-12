@@ -29,7 +29,7 @@ export const ProjectDetailsPage: React.FC = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#06080F] text-slate-100 flex flex-col items-center justify-center p-6 tech-grid-bg">
+      <div className="min-h-screen bg-black text-slate-100 flex flex-col items-center justify-center p-6 tech-grid-bg">
         <div className="text-center space-y-4 max-w-md">
           <span className="text-4xl font-mono text-cyan-400">404</span>
           <h1 className="text-2xl font-heading font-bold text-white">Project Not Found</h1>
@@ -63,7 +63,7 @@ export const ProjectDetailsPage: React.FC = () => {
   const siblingProjects = projectsData.filter((p) => p.year === project.year && p.id !== project.id).slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#06080F] text-slate-100 py-8 sm:py-12 tech-grid-bg">
+    <div className="min-h-screen bg-black text-slate-100 py-8 sm:py-12 tech-grid-bg">
       
       {/* Lightbox for screenshots */}
       <LightboxModal

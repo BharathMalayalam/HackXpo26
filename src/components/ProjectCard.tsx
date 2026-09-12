@@ -21,7 +21,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080B11] via-[#080B11]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
         {/* Academic Year Badge */}
         <div className="absolute top-3 left-3 flex items-center gap-2">

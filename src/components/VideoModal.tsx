@@ -64,7 +64,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
         </div>
 
         {/* Video Details Body */}
-        <div className="p-6 bg-[#080B11] space-y-3">
+        <div className="p-6 bg-black space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <span className="text-sm font-semibold text-cyan-300">
               Presented by: {video.speakerOrTeam}

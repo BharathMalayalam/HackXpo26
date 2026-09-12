@@ -24,7 +24,7 @@ function AppContent() {
   const isHome = location.pathname === '/';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#06080F] text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen flex flex-col bg-black text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
       <Navbar />
       <main className={`flex-1 ${isHome ? '' : 'pt-28 sm:pt-32'}`}>
         <Routes>

@@ -9,7 +9,7 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #06080F;
+    background-color: #000000;
     color: #F1F5F9;
     overflow-x: hidden;
   }
@@ -72,7 +72,7 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #080B11;
+    background: #000000;
 }
 ::-webkit-scrollbar-thumb {
   background: #1E293B;

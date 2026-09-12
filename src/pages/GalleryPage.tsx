@@ -30,7 +30,7 @@ export const GalleryPage: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#06080F] text-slate-100 py-12 tech-grid-bg">
+    <div className="min-h-screen bg-black text-slate-100 py-12 tech-grid-bg">
       
       {/* Lightbox Modal */}
       <LightboxModal

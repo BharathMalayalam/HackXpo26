@@ -20,7 +20,7 @@ export const AboutSection: React.FC = () => {
   const [showPosterModal, setShowPosterModal] = useState(false);
 
   return (
-    <section id="about-section" className="relative py-16 sm:py-24 bg-[#06080F]/90 backdrop-blur-sm text-slate-100 border-t border-slate-800/80 tech-grid-bg">
+    <section id="about-section" className="relative py-16 sm:py-24 bg-black/90 backdrop-blur-sm text-slate-100 border-t border-slate-800/80 tech-grid-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Two-Column Section Layout: Left = Department of IT HackXpo Title & Description, Right = Poster */}
@@ -74,7 +74,7 @@ export const AboutSection: React.FC = () => {
             <div className="p-4 rounded-none bg-slate-950/70 border border-slate-800/80 flex items-center justify-between gap-4">
               <div>
                 <span className="text-[11px] font-mono uppercase text-slate-400 block">Host Institution</span>
-                <span className="text-xs sm:text-sm font-semibold text-white">GCE Erode • Est. 1984 • Autonomous</span>
+                <span className="text-xs sm:text-sm font-semibold text-white">GCE Erode • Est. 1984</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="inline-flex items-center px-2.5 py-1 rounded-none bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[11px] font-mono">
