@@ -23,7 +23,7 @@ export const CoordinatorsPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
             <Users className="w-3.5 h-3.5" />
             <span>Organizing Leadership</span>
           </div>
@@ -37,10 +37,10 @@ export const CoordinatorsPage: React.FC = () => {
 
         {/* Tab Switcher */}
         <div className="flex items-center justify-center">
-          <div className="inline-flex items-center p-1.5 rounded-xl bg-slate-900 border border-slate-800">
+          <div className="inline-flex items-center p-1.5 rounded-none bg-slate-900 border border-slate-800">
             <button
               onClick={() => setActiveTab('All')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
                 activeTab === 'All' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -48,7 +48,7 @@ export const CoordinatorsPage: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('Faculty')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'Faculty' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'text-slate-400 hover:text-purple-300'
               }`}
             >
@@ -57,7 +57,7 @@ export const CoordinatorsPage: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('Student')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 activeTab === 'Student' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'text-slate-400 hover:text-cyan-300'
               }`}
             >
@@ -71,7 +71,7 @@ export const CoordinatorsPage: React.FC = () => {
         {(activeTab === 'All' || activeTab === 'Faculty') && (
           <div className="space-y-6">
             <div className="flex items-center gap-3 border-b border-slate-800 pb-3">
-              <span className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400">
+              <span className="p-1.5 rounded-none bg-purple-500/10 text-purple-400">
                 <GraduationCap className="w-5 h-5" />
               </span>
               <div>
@@ -84,14 +84,14 @@ export const CoordinatorsPage: React.FC = () => {
               {facultyList.map((coordinator) => (
                 <div
                   key={coordinator.id}
-                  className="rounded-2xl bg-gradient-to-b from-[#0F1424] to-[#070A12] border border-slate-800 p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all shadow-lg"
+                  className="rounded-none bg-gradient-to-b from-[#0F1424] to-[#070A12] border border-slate-800 p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all shadow-lg"
                 >
                   <div className="text-center space-y-3">
                     <img
                       src={coordinator.photo}
                       alt={coordinator.name}
                       referrerPolicy="no-referrer"
-                      className="w-20 h-20 rounded-2xl mx-auto object-cover border-2 border-slate-700 shadow-md"
+                      className="w-20 h-20 rounded-none mx-auto object-cover border-2 border-slate-700 shadow-md"
                     />
                     <div>
                       <h3 className="text-base font-heading font-bold text-white">{coordinator.name}</h3>
@@ -104,7 +104,7 @@ export const CoordinatorsPage: React.FC = () => {
                     {coordinator.contactEmail && (
                       <a
                         href={`mailto:${coordinator.contactEmail}`}
-                        className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-purple-300 transition-colors"
+                        className="p-2 rounded-none bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-purple-300 transition-colors"
                         title={coordinator.contactEmail}
                       >
                         <Mail className="w-4 h-4" />
@@ -115,7 +115,7 @@ export const CoordinatorsPage: React.FC = () => {
                         href={coordinator.linkedin}
                         target="_blank"
                         rel="noreferrer"
-                        className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 transition-colors"
+                        className="p-2 rounded-none bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 transition-colors"
                         aria-label="LinkedIn"
                       >
                         <Linkedin className="w-4 h-4" />
@@ -132,7 +132,7 @@ export const CoordinatorsPage: React.FC = () => {
         {(activeTab === 'All' || activeTab === 'Student') && (
           <div className="space-y-6 pt-4">
             <div className="flex items-center gap-3 border-b border-slate-800 pb-3">
-              <span className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400">
+              <span className="p-1.5 rounded-none bg-cyan-500/10 text-cyan-400">
                 <Users className="w-5 h-5" />
               </span>
               <div>
@@ -145,14 +145,14 @@ export const CoordinatorsPage: React.FC = () => {
               {studentList.map((coordinator) => (
                 <div
                   key={coordinator.id}
-                  className="rounded-2xl bg-gradient-to-b from-[#0C1220] to-[#070A12] border border-slate-800 p-6 flex flex-col justify-between hover:border-cyan-500/40 transition-all shadow-lg"
+                  className="rounded-none bg-gradient-to-b from-[#0C1220] to-[#070A12] border border-slate-800 p-6 flex flex-col justify-between hover:border-cyan-500/40 transition-all shadow-lg"
                 >
                   <div className="flex items-start gap-4">
                     <img
                       src={coordinator.photo}
                       alt={coordinator.name}
                       referrerPolicy="no-referrer"
-                      className="w-16 h-16 rounded-xl object-cover border border-slate-700 shrink-0"
+                      className="w-16 h-16 rounded-none object-cover border border-slate-700 shrink-0"
                     />
                     <div className="min-w-0">
                       <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/40">

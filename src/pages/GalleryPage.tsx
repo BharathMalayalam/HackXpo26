@@ -44,7 +44,7 @@ export const GalleryPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
             <Camera className="w-3.5 h-3.5" />
             <span>Event Photography & Visual Archive</span>
           </div>
@@ -58,12 +58,12 @@ export const GalleryPage: React.FC = () => {
 
         {/* Category Tabs */}
         <div className="flex items-center justify-center">
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-slate-900/80 border border-slate-800">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-none bg-slate-900/80 border border-slate-800">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
                   selectedCategory === cat
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/20'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
@@ -81,7 +81,7 @@ export const GalleryPage: React.FC = () => {
             <div
               key={photo.id}
               onClick={() => setActiveItem(photo)}
-              className="group relative rounded-2xl overflow-hidden bg-slate-950 border border-slate-800/80 hover:border-cyan-500/50 cursor-pointer shadow-lg transition-all duration-300 flex flex-col justify-end"
+              className="group relative rounded-none overflow-hidden bg-slate-950 border border-slate-800/80 hover:border-cyan-500/50 cursor-pointer shadow-lg transition-all duration-300 flex flex-col justify-end"
             >
               {/* Image */}
               <div className="relative h-64 sm:h-72 w-full overflow-hidden">
@@ -98,13 +98,13 @@ export const GalleryPage: React.FC = () => {
 
                 {/* Top Category Badge */}
                 <div className="absolute top-3 left-3">
-                  <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-slate-900/80 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
+                  <span className="text-[11px] font-mono px-2.5 py-1 rounded-none bg-slate-900/80 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
                     {photo.category}
                   </span>
                 </div>
 
                 {/* Expand Hover Icon */}
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-cyan-500 text-black shadow-lg">
+                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-none bg-cyan-500 text-black shadow-lg">
                   <Maximize2 className="w-3.5 h-3.5" />
                 </div>
 

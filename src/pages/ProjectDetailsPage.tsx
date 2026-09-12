@@ -38,7 +38,7 @@ export const ProjectDetailsPage: React.FC = () => {
           </p>
           <Link
             to="/projects"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 text-black font-semibold text-sm hover:bg-cyan-400 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-none bg-cyan-500 text-black font-semibold text-sm hover:bg-cyan-400 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to All Projects</span>
@@ -95,7 +95,7 @@ export const ProjectDetailsPage: React.FC = () => {
         </div>
 
         {/* HERO BANNER BLOCK */}
-        <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-[#090D18] shadow-2xl">
+        <div className="relative rounded-none overflow-hidden border border-slate-800 bg-[#090D18] shadow-2xl" style={{ borderRadius: '0px' }}>
           <div className="relative h-72 sm:h-96 w-full overflow-hidden">
             <img 
               src={project.bannerImage} 
@@ -111,17 +111,17 @@ export const ProjectDetailsPage: React.FC = () => {
                 
                 {/* Year + Category Badges */}
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider border ${
+                  <span className={`px-3 py-1 rounded-none text-xs font-mono font-bold uppercase tracking-wider border ${
                     is3rdYear 
                       ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shadow-sm shadow-cyan-500/20' 
                       : 'bg-purple-500/20 text-purple-300 border-purple-500/40 shadow-sm shadow-purple-500/20'
                   }`}>
                     {project.year} Innovation
                   </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-mono bg-slate-900/80 text-slate-300 border border-slate-700/80">
+                  <span className="px-3 py-1 rounded-none text-xs font-mono bg-slate-900/80 text-slate-300 border border-slate-700/80">
                     {project.category}
                   </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-mono bg-blue-900/30 text-blue-300 border border-blue-700/40">
+                  <span className="px-3 py-1 rounded-none text-xs font-mono bg-blue-900/30 text-blue-300 border border-blue-700/40">
                     Team: {project.teamName}
                   </span>
                 </div>
@@ -140,7 +140,7 @@ export const ProjectDetailsPage: React.FC = () => {
                     href={project.liveDemoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-black bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-lg shadow-cyan-500/20"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-black bg-cyan-400 hover:bg-cyan-300 transition-colors shadow-lg shadow-cyan-500/20"
                   >
                     <ExternalLink className="w-4 h-4" />
                     <span>Launch Live Prototype</span>
@@ -150,7 +150,7 @@ export const ProjectDetailsPage: React.FC = () => {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-colors"
                   >
                     <Github className="w-4 h-4" />
                     <span>View GitHub Source Repository</span>
@@ -170,7 +170,7 @@ export const ProjectDetailsPage: React.FC = () => {
           <div className="lg:col-span-8 space-y-10">
             
             {/* Overview / Abstract */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+            <div className="p-6 sm:p-8 rounded-none bg-slate-900/60 border border-slate-800 space-y-3" style={{ borderRadius: '0px' }}>
               <h2 className="text-xl font-heading font-bold text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-cyan-400" />
                 <span>Executive Summary</span>
@@ -181,9 +181,9 @@ export const ProjectDetailsPage: React.FC = () => {
             </div>
 
             {/* Problem Statement */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+            <div className="p-6 sm:p-8 rounded-none bg-slate-900/60 border border-slate-800 space-y-3" style={{ borderRadius: '0px' }}>
               <h2 className="text-xl font-heading font-bold text-white flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                <span className="w-2.5 h-2.5 rounded-none bg-red-400" />
                 <span>Problem Statement</span>
               </h2>
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
@@ -192,7 +192,7 @@ export const ProjectDetailsPage: React.FC = () => {
             </div>
 
             {/* Solution Architecture */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="p-6 sm:p-8 rounded-none bg-slate-900/60 border border-slate-800 space-y-4" style={{ borderRadius: '0px' }}>
               <h2 className="text-xl font-heading font-bold text-white flex items-center gap-2">
                 <Cpu className="w-5 h-5 text-purple-400" />
                 <span>Solution Architecture & Engineering Workflow</span>
@@ -218,7 +218,7 @@ export const ProjectDetailsPage: React.FC = () => {
             </div>
 
             {/* Screenshots & System Interface Gallery */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="p-6 sm:p-8 rounded-none bg-slate-900/60 border border-slate-800 space-y-4" style={{ borderRadius: '0px' }}>
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-heading font-bold text-white flex items-center gap-2">
                   <Layers className="w-5 h-5 text-cyan-400" />
@@ -232,7 +232,7 @@ export const ProjectDetailsPage: React.FC = () => {
                   <div
                     key={idx}
                     onClick={() => setSelectedGalleryImage(item)}
-                    className="group relative rounded-xl overflow-hidden aspect-video border border-slate-800 cursor-pointer bg-black"
+                    className="group relative rounded-none overflow-hidden aspect-video border border-slate-800 cursor-pointer bg-black"
                   >
                     <img
                       src={item.imageUrl}
@@ -254,7 +254,7 @@ export const ProjectDetailsPage: React.FC = () => {
           <div className="lg:col-span-4 space-y-8">
             
             {/* Tech Stack Box */}
-            <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+            <div className="p-6 rounded-none bg-slate-900/60 border border-slate-800 space-y-3" style={{ borderRadius: '0px' }}>
               <h3 className="text-sm font-semibold text-white uppercase font-mono tracking-wider text-cyan-400 flex items-center gap-2">
                 <Code2 className="w-4 h-4" />
                 <span>Technologies & Frameworks</span>
@@ -263,7 +263,7 @@ export const ProjectDetailsPage: React.FC = () => {
                 {project.techStack.map((tech, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 rounded-lg text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700/70"
+                    className="px-3 py-1 rounded-none text-xs font-mono bg-slate-800 text-slate-200 border border-slate-700/70"
                   >
                     {tech}
                   </span>
@@ -272,7 +272,7 @@ export const ProjectDetailsPage: React.FC = () => {
             </div>
 
             {/* Team Members List */}
-            <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="p-6 rounded-none bg-slate-900/60 border border-slate-800 space-y-4" style={{ borderRadius: '0px' }}>
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-white uppercase font-mono tracking-wider text-purple-400">
                   Student Team ({project.members.length})
@@ -288,7 +288,7 @@ export const ProjectDetailsPage: React.FC = () => {
                         src={member.avatar}
                         alt={member.name}
                         referrerPolicy="no-referrer"
-                        className="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0"
+                        className="w-10 h-10 rounded-none object-cover border border-slate-700 shrink-0"
                       />
                       <div>
                         <h4 className="text-sm font-semibold text-white">{member.name}</h4>
@@ -302,7 +302,7 @@ export const ProjectDetailsPage: React.FC = () => {
                           href={member.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                          className="p-1.5 rounded-none text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
                           aria-label="GitHub Profile"
                         >
                           <Github className="w-3.5 h-3.5" />
@@ -313,7 +313,7 @@ export const ProjectDetailsPage: React.FC = () => {
                           href={member.linkedin}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-colors"
+                          className="p-1.5 rounded-none text-slate-400 hover:text-cyan-400 hover:bg-slate-800 transition-colors"
                           aria-label="LinkedIn Profile"
                         >
                           <Linkedin className="w-3.5 h-3.5" />
@@ -326,7 +326,7 @@ export const ProjectDetailsPage: React.FC = () => {
             </div>
 
             {/* Faculty Mentor Spotlight Card */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900 border border-purple-500/30 space-y-3">
+            <div className="p-6 rounded-none bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900 border border-purple-500/30 space-y-3" style={{ borderRadius: '0px' }}>
               <span className="text-xs font-mono uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
                 <GraduationCap className="w-4 h-4" />
                 Faculty Mentor
@@ -336,7 +336,7 @@ export const ProjectDetailsPage: React.FC = () => {
                   src={project.mentor.avatar}
                   alt={project.mentor.name}
                   referrerPolicy="no-referrer"
-                  className="w-12 h-12 rounded-xl object-cover border border-purple-500/40"
+                  className="w-12 h-12 rounded-none object-cover border border-purple-500/40"
                 />
                 <div>
                   <h4 className="text-sm font-bold text-white">{project.mentor.name}</h4>
@@ -347,7 +347,7 @@ export const ProjectDetailsPage: React.FC = () => {
 
             {/* Sibling Projects Shortcut */}
             {siblingProjects.length > 0 && (
-              <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+              <div className="p-6 rounded-none bg-slate-900/60 border border-slate-800 space-y-3" style={{ borderRadius: '0px' }}>
                 <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
                   More {project.year} Projects
                 </h3>
@@ -356,7 +356,7 @@ export const ProjectDetailsPage: React.FC = () => {
                     <Link
                       key={sib.id}
                       to={`/projects/${sib.id}`}
-                      className="block p-3 rounded-xl bg-slate-900 hover:bg-slate-850 hover:border-cyan-500/30 border border-slate-800 transition-all group"
+                      className="block p-3 rounded-none bg-slate-900 hover:bg-slate-850 hover:border-cyan-500/30 border border-slate-800 transition-all group"
                     >
                       <h5 className="text-xs font-bold text-white group-hover:text-cyan-300 truncate">
                         {sib.title}

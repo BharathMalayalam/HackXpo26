@@ -24,13 +24,13 @@ export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
       onClick={onClose}
     >
       <div 
-        className="relative max-w-4xl w-full bg-[#0A0E17] rounded-2xl border border-slate-800 overflow-hidden shadow-2xl"
+        className="relative max-w-4xl w-full bg-[#0A0E17] rounded-none border border-slate-800 overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-slate-900/60">
           <div className="flex items-center gap-2.5">
-            <span className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-400">
+            <span className="p-1.5 rounded-none bg-cyan-500/20 text-cyan-400">
               <Video className="w-4 h-4" />
             </span>
             <div>
@@ -45,7 +45,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+            className="p-2 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
             aria-label="Close video player"
           >
             <X className="w-5 h-5" />

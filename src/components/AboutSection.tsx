@@ -30,14 +30,14 @@ export const AboutSection: React.FC = () => {
           <div className="lg:col-span-6 space-y-6">
             
             {/* Tag / Category Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
               <Building2 className="w-3.5 h-3.5" />
               <span>Government College of Engineering, Erode</span>
             </div>
 
             {/* Main Title as requested: Department of IT HackXpo */}
             <h2 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight leading-[1.15]">
-              Department of IT <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-400">HackXpo</span>
+              Department of IT <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-400">HackXpo'26</span>
             </h2>
 
             {/* Narrative Descriptions */}
@@ -45,19 +45,11 @@ export const AboutSection: React.FC = () => {
               <p>
                 HackXpo ’26 is the flagship annual technical innovation sprint organized by the <strong className="text-white font-semibold">Department of Information Technology</strong> at <strong className="text-white font-semibold">Government College of Engineering, Erode (formerly IRTT)</strong>. Conceived as an intensive 36-hour continuous hackathon and engineering exhibition, the platform brings together our talented 2nd and 3rd-year undergraduate cohorts to transform theoretical compute principles into production-ready software and hardware systems.
               </p>
-
-              <p>
-                Anchored in addressing regional and national industrial challenges, participating engineering teams tackle real-world problem statements ranging from edge-computed agricultural telemetry and decentralized healthcare custody to automated textile quality inspection and civic accessibility tools for differently-abled citizens.
-              </p>
-
-              <p>
-                At GCE Erode, our IT curriculum champions a <span className="text-cyan-300 font-medium">"Production-First, Testable Software"</span> ethos. Every prototype submitted to HackXpo undergoes rigorous code-review benchmarks, runtime container evaluation, and live demonstration before an esteemed jury of industry architects, distinguished alumni, and faculty researchers.
-              </p>
             </div>
 
             {/* Key Feature Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-colors">
+              <div className="p-4 rounded-none bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-colors">
                 <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase font-bold mb-1">
                   <Terminal className="w-4 h-4" />
                   <span>36-Hour Hackathon</span>
@@ -67,7 +59,7 @@ export const AboutSection: React.FC = () => {
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-colors">
+              <div className="p-4 rounded-none bg-slate-900/80 border border-slate-800 hover:border-slate-700 transition-colors">
                 <div className="flex items-center gap-2 text-purple-400 font-mono text-xs uppercase font-bold mb-1">
                   <Users className="w-4 h-4" />
                   <span>2nd & 3rd Year Synergy</span>
@@ -79,13 +71,13 @@ export const AboutSection: React.FC = () => {
             </div>
 
             {/* Institutional Legacy Mini Strip */}
-            <div className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between gap-4">
+            <div className="p-4 rounded-none bg-slate-950/70 border border-slate-800/80 flex items-center justify-between gap-4">
               <div>
                 <span className="text-[11px] font-mono uppercase text-slate-400 block">Host Institution</span>
                 <span className="text-xs sm:text-sm font-semibold text-white">GCE Erode • Est. 1984 • Autonomous</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[11px] font-mono">
+                <span className="inline-flex items-center px-2.5 py-1 rounded-none bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-[11px] font-mono">
                   Anna University Affiliated
                 </span>
               </div>
@@ -96,7 +88,7 @@ export const AboutSection: React.FC = () => {
               <Link
                 to="/projects"
                 id="about-explore-projects-btn"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition-all shadow-md shadow-cyan-500/20"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition-all shadow-md shadow-cyan-500/20"
               >
                 <span>View Cohort Projects</span>
                 <ArrowRight className="w-4 h-4" />
@@ -104,7 +96,7 @@ export const AboutSection: React.FC = () => {
               <Link
                 to="/mentors"
                 id="about-explore-mentors-btn"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-slate-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-slate-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-all"
               >
                 <span>Meet Mentors & Jury</span>
               </Link>
@@ -136,19 +128,19 @@ export const AboutSection: React.FC = () => {
               {/* Event Poster Card / Canvas */}
               <div 
                 onClick={() => setShowPosterModal(true)}
-                className="group relative rounded-3xl overflow-hidden cursor-pointer border border-cyan-500/30 bg-gradient-to-b from-[#0F172A] via-[#0A0E1A] to-[#04060A] shadow-2xl shadow-cyan-950/40 hover:border-cyan-400/60 hover:shadow-cyan-500/20 transition-all duration-300"
+                className="group relative rounded-none overflow-hidden cursor-pointer border border-cyan-500/30 bg-gradient-to-b from-[#0F172A] via-[#0A0E1A] to-[#04060A] shadow-2xl shadow-cyan-950/40 hover:border-cyan-400/60 hover:shadow-cyan-500/20 transition-all duration-300"
               >
                 {/* Poster Subtle Glow Accents */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/15 rounded-none blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-600/15 rounded-none blur-3xl pointer-events-none" />
 
                 {/* Inner Border Frame (Poster Style) */}
-                <div className="p-6 sm:p-7 space-y-6 relative z-10 border border-slate-700/50 m-2 rounded-2xl bg-[#090D18]/90">
+                <div className="p-6 sm:p-7 space-y-6 relative z-10 border border-slate-700/50 m-2 rounded-none bg-[#090D18]/90">
                   
                   {/* Institutional Poster Header */}
                   <div className="text-center space-y-1.5 border-b border-slate-800 pb-4">
                     <div className="inline-flex items-center justify-center gap-2 mb-1">
-                      <div className="w-7 h-7 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-none bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center">
                         <Building2 className="w-4 h-4 text-cyan-400" />
                       </div>
                       <span className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase">
@@ -162,7 +154,7 @@ export const AboutSection: React.FC = () => {
                       (An Autonomous Institution Affiliated with Anna University)
                     </p>
                     <div className="pt-2">
-                      <span className="inline-block text-[11px] font-extrabold uppercase tracking-widest px-3 py-0.5 rounded-full bg-slate-800 text-cyan-300 border border-slate-700">
+                      <span className="inline-block text-[11px] font-extrabold uppercase tracking-widest px-3 py-0.5 rounded-none bg-slate-800 text-cyan-300 border border-slate-700">
                         Department of Information Technology
                       </span>
                     </div>
@@ -186,7 +178,7 @@ export const AboutSection: React.FC = () => {
 
                   {/* Poster Key Info Badges */}
                   <div className="grid grid-cols-2 gap-2.5 py-1">
-                    <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
+                    <div className="p-3 rounded-none bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
                       <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
                       <div>
                         <span className="text-[10px] text-slate-400 block uppercase font-mono">Date</span>
@@ -194,7 +186,7 @@ export const AboutSection: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
+                    <div className="p-3 rounded-none bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
                       <MapPin className="w-4 h-4 text-purple-400 shrink-0" />
                       <div>
                         <span className="text-[10px] text-slate-400 block uppercase font-mono">Venue</span>
@@ -202,7 +194,7 @@ export const AboutSection: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
+                    <div className="p-3 rounded-none bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
                       <Users className="w-4 h-4 text-blue-400 shrink-0" />
                       <div>
                         <span className="text-[10px] text-slate-400 block uppercase font-mono">Cohorts</span>
@@ -210,7 +202,7 @@ export const AboutSection: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
+                    <div className="p-3 rounded-none bg-slate-900/90 border border-slate-800 flex items-center gap-2.5">
                       <Trophy className="w-4 h-4 text-amber-400 shrink-0" />
                       <div>
                         <span className="text-[10px] text-slate-400 block uppercase font-mono">Prizes</span>
@@ -253,7 +245,7 @@ export const AboutSection: React.FC = () => {
 
                 {/* Hover overlay prompt */}
                 <div className="absolute inset-0 bg-cyan-950/20 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="px-4 py-2 rounded-xl bg-slate-900/90 text-white text-xs font-semibold border border-cyan-400/50 shadow-xl flex items-center gap-2">
+                  <span className="px-4 py-2 rounded-none bg-slate-900/90 text-white text-xs font-semibold border border-cyan-400/50 shadow-xl flex items-center gap-2">
                     <Maximize2 className="w-3.5 h-3.5 text-cyan-400" />
                     Click to view full poster
                   </span>
@@ -275,13 +267,13 @@ export const AboutSection: React.FC = () => {
           onClick={() => setShowPosterModal(false)}
         >
           <div 
-            className="relative w-full max-w-xl bg-[#090D18] border border-cyan-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6"
+            className="relative w-full max-w-xl bg-[#090D18] border border-cyan-500/50 rounded-none p-6 sm:p-8 shadow-2xl space-y-6"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setShowPosterModal(false)}
-              className="absolute top-4 right-4 p-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-cyan-400 transition-colors"
+              className="absolute top-4 right-4 p-2 rounded-none bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-cyan-400 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -312,25 +304,25 @@ export const AboutSection: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+              <div className="p-3.5 rounded-none bg-slate-900 border border-slate-800">
                 <span className="text-[11px] text-slate-400 block font-mono">Date</span>
                 <span className="text-sm font-bold text-white">OCTOBER 2026</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+              <div className="p-3.5 rounded-none bg-slate-900 border border-slate-800">
                 <span className="text-[11px] text-slate-400 block font-mono">Duration</span>
                 <span className="text-sm font-bold text-cyan-400">36 Hours Live</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+              <div className="p-3.5 rounded-none bg-slate-900 border border-slate-800">
                 <span className="text-[11px] text-slate-400 block font-mono">Venue</span>
                 <span className="text-sm font-bold text-white">GCE Erode IT Complex</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+              <div className="p-3.5 rounded-none bg-slate-900 border border-slate-800">
                 <span className="text-[11px] text-slate-400 block font-mono">Eligibility</span>
                 <span className="text-sm font-bold text-purple-300">2nd & 3rd Yr IT</span>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300 space-y-1">
+            <div className="p-4 rounded-none bg-slate-900/80 border border-slate-800 text-xs text-slate-300 space-y-1">
               <span className="font-bold text-white block">Key Evaluation Criteria:</span>
               <p>• Working Code & Live Prototype Runtime</p>
               <p>• Hardware/IoT Integration or Edge AI Model Quantization</p>
@@ -340,7 +332,7 @@ export const AboutSection: React.FC = () => {
             <div className="text-center pt-2">
               <button
                 onClick={() => setShowPosterModal(false)}
-                className="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors"
+                className="px-6 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors"
               >
                 Close Preview
               </button>

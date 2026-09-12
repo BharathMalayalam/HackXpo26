@@ -25,7 +25,7 @@ export const MentorsPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-mono">
             <Award className="w-3.5 h-3.5" />
             <span>Academic & Industry Advisory</span>
           </div>
@@ -39,10 +39,10 @@ export const MentorsPage: React.FC = () => {
 
         {/* Filter Switcher */}
         <div className="flex items-center justify-center">
-          <div className="inline-flex items-center p-1.5 rounded-xl bg-slate-900 border border-slate-800">
+          <div className="inline-flex items-center p-1.5 rounded-none bg-slate-900 border border-slate-800">
             <button
               onClick={() => setFilterType('All')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
                 filterType === 'All' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -50,7 +50,7 @@ export const MentorsPage: React.FC = () => {
             </button>
             <button
               onClick={() => setFilterType('Faculty')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 filterType === 'Faculty' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'text-slate-400 hover:text-purple-300'
               }`}
             >
@@ -59,7 +59,7 @@ export const MentorsPage: React.FC = () => {
             </button>
             <button
               onClick={() => setFilterType('Industry')}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
                 filterType === 'Industry' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'text-slate-400 hover:text-cyan-300'
               }`}
             >
@@ -74,12 +74,12 @@ export const MentorsPage: React.FC = () => {
           {filteredMentors.map((mentor) => (
             <div
               key={mentor.id}
-              className="group rounded-2xl bg-gradient-to-b from-[#0C111E] to-[#070A12] border border-slate-800/90 hover:border-cyan-500/40 p-6 flex flex-col justify-between transition-all duration-300 shadow-xl"
+              className="group rounded-none bg-gradient-to-b from-[#0C111E] to-[#070A12] border border-slate-800/90 hover:border-cyan-500/40 p-6 flex flex-col justify-between transition-all duration-300 shadow-xl"
             >
               <div>
                 {/* Photo & Type Tag */}
                 <div className="relative mb-5">
-                  <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden border-2 border-slate-700 group-hover:border-cyan-400 transition-colors shadow-lg">
+                  <div className="w-24 h-24 mx-auto rounded-none overflow-hidden border-2 border-slate-700 group-hover:border-cyan-400 transition-colors shadow-lg">
                     <img
                       src={mentor.photo}
                       alt={mentor.name}
@@ -87,7 +87,7 @@ export const MentorsPage: React.FC = () => {
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold uppercase tracking-wider border shadow-md ${
+                  <span className={`absolute -bottom-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-none text-[10px] font-mono font-semibold uppercase tracking-wider border shadow-md ${
                     mentor.type === 'Faculty'
                       ? 'bg-purple-950 text-purple-300 border-purple-600/50'
                       : 'bg-cyan-950 text-cyan-300 border-cyan-600/50'
@@ -128,7 +128,7 @@ export const MentorsPage: React.FC = () => {
                   href={mentor.linkedin}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 hover:text-cyan-300 border border-slate-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none bg-slate-900 hover:bg-slate-800 text-xs font-medium text-slate-300 hover:text-cyan-300 border border-slate-800 transition-colors"
                 >
                   <Linkedin className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Connect Profile</span>
@@ -139,7 +139,7 @@ export const MentorsPage: React.FC = () => {
         </div>
 
         {/* Mentorship Philosophy Callout */}
-        <div className="p-8 rounded-3xl bg-slate-900/40 border border-slate-800 text-center max-w-4xl mx-auto space-y-3">
+        <div className="p-8 rounded-none bg-slate-900/40 border border-slate-800 text-center max-w-4xl mx-auto space-y-3">
           <GraduationCap className="w-8 h-8 text-purple-400 mx-auto" />
           <h3 className="text-xl font-heading font-bold text-white">Mentorship at HackXpo ’26</h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">

@@ -40,7 +40,7 @@ export const TeamsPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
             <Users className="w-3.5 h-3.5" />
             <span>Talent Directory</span>
           </div>
@@ -53,7 +53,7 @@ export const TeamsPage: React.FC = () => {
         </div>
 
         {/* Search and Cohort Filter */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-none bg-slate-900/80 border border-slate-800">
           {/* Search Box */}
           <div className="relative w-full sm:w-96">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -62,15 +62,15 @@ export const TeamsPage: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search team name, student, or project..."
-              className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+              className="w-full pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-none text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
             />
           </div>
 
           {/* Year Switcher */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-950 border border-slate-800 self-stretch sm:self-auto justify-center">
+          <div className="flex items-center gap-1 p-1 rounded-none bg-slate-950 border border-slate-800 self-stretch sm:self-auto justify-center">
             <button
               onClick={() => setSelectedYear('All')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-none text-xs font-semibold transition-all ${
                 selectedYear === 'All' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'
               }`}
             >
@@ -78,7 +78,7 @@ export const TeamsPage: React.FC = () => {
             </button>
             <button
               onClick={() => setSelectedYear('3rd Year')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-none text-xs font-semibold transition-all ${
                 selectedYear === '3rd Year' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'text-slate-400 hover:text-cyan-300'
               }`}
             >
@@ -86,7 +86,7 @@ export const TeamsPage: React.FC = () => {
             </button>
             <button
               onClick={() => setSelectedYear('2nd Year')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-none text-xs font-semibold transition-all ${
                 selectedYear === '2nd Year' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'text-slate-400 hover:text-purple-300'
               }`}
             >
@@ -103,7 +103,7 @@ export const TeamsPage: React.FC = () => {
             return (
               <div
                 key={team.id}
-                className="rounded-3xl bg-[#090D18] border border-slate-800/90 overflow-hidden shadow-xl hover:border-slate-700 transition-all flex flex-col justify-between"
+                className="rounded-none bg-[#090D18] border border-slate-800/90 overflow-hidden shadow-xl hover:border-slate-700 transition-all flex flex-col justify-between"
               >
                 {/* Team Top Header with Photo */}
                 <div className="relative h-44 sm:h-48 overflow-hidden bg-slate-950">
@@ -116,14 +116,14 @@ export const TeamsPage: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#090D18] via-[#090D18]/70 to-transparent" />
 
                   <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-                    <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider border backdrop-blur-md ${
+                    <span className={`px-3 py-1 rounded-none text-xs font-mono font-bold uppercase tracking-wider border backdrop-blur-md ${
                       is3rdYear 
                         ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' 
                         : 'bg-purple-500/20 text-purple-300 border-purple-500/40'
                     }`}>
                       {team.year}
                     </span>
-                    <span className="text-xs font-mono px-2.5 py-1 rounded-md bg-slate-900/90 text-slate-300 border border-slate-700/60 backdrop-blur-md">
+                    <span className="text-xs font-mono px-2.5 py-1 rounded-none bg-slate-900/90 text-slate-300 border border-slate-700/60 backdrop-blur-md">
                       {team.category}
                     </span>
                   </div>
@@ -157,14 +157,14 @@ export const TeamsPage: React.FC = () => {
                     {team.members.map((member, idx) => (
                       <div
                         key={idx}
-                        className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-colors flex items-center justify-between gap-2"
+                        className="p-3 rounded-none bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-colors flex items-center justify-between gap-2"
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <img
                             src={member.avatar}
                             alt={member.name}
                             referrerPolicy="no-referrer"
-                            className="w-9 h-9 rounded-full object-cover border border-slate-700 shrink-0"
+                            className="w-9 h-9 rounded-none object-cover border border-slate-700 shrink-0"
                           />
                           <div className="min-w-0">
                             <h5 className="text-xs font-semibold text-white truncate">{member.name}</h5>

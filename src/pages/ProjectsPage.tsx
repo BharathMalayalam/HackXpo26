@@ -121,7 +121,7 @@ export const ProjectsPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="space-y-4 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
             <Layers className="w-3.5 h-3.5" />
             <span>Academic Cohort Showcase</span>
           </div>
@@ -134,7 +134,7 @@ export const ProjectsPage: React.FC = () => {
         </div>
 
         {/* Search & Filter Control Station */}
-        <div className="p-6 rounded-2xl bg-[#0A0E17]/90 border border-slate-800 backdrop-blur-md space-y-6 shadow-xl">
+        <div className="p-6 rounded-none bg-[#0A0E17]/90 border border-slate-800 backdrop-blur-md space-y-6 shadow-xl" style={{ borderRadius: '0px' }}>
           
           {/* Top Row: Search Input + Academic Year Tabs */}
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
@@ -147,7 +147,7 @@ export const ProjectsPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by project name, tech stack, team, or student author..."
-                className="w-full pl-10 pr-10 py-3 bg-slate-900/90 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                className="w-full pl-10 pr-10 py-3 bg-slate-900/90 border border-slate-800 rounded-none text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
               />
               {searchQuery && (
                 <button
@@ -160,10 +160,10 @@ export const ProjectsPage: React.FC = () => {
             </div>
 
             {/* Academic Year Tab Buttons */}
-            <div className="flex items-center p-1.5 rounded-xl bg-slate-900 border border-slate-800 shrink-0">
+            <div className="flex items-center p-1.5 rounded-none bg-slate-900 border border-slate-800 shrink-0" style={{ borderRadius: '0px' }}>
               <button
                 onClick={() => handleYearChange('All')}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
                   selectedYear === 'All' 
                     ? 'bg-slate-800 text-white shadow-sm' 
                     : 'text-slate-400 hover:text-white'
@@ -173,24 +173,24 @@ export const ProjectsPage: React.FC = () => {
               </button>
               <button
                 onClick={() => handleYearChange('3rd Year')}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
                   selectedYear === '3rd Year' 
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' 
                     : 'text-slate-400 hover:text-cyan-300'
                 }`}
               >
-                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="w-2 h-2 rounded-none bg-cyan-400" />
                 3rd Year ({projectsData.filter(p => p.year === '3rd Year').length})
               </button>
               <button
                 onClick={() => handleYearChange('2nd Year')}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
                   selectedYear === '2nd Year' 
                     ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' 
                     : 'text-slate-400 hover:text-purple-300'
                 }`}
               >
-                <span className="w-2 h-2 rounded-full bg-purple-400" />
+                <span className="w-2 h-2 rounded-none bg-purple-400" />
                 2nd Year ({projectsData.filter(p => p.year === '2nd Year').length})
               </button>
             </div>
@@ -208,7 +208,7 @@ export const ProjectsPage: React.FC = () => {
                 <button
                   key={tech}
                   onClick={() => setSelectedTech(tech)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-mono shrink-0 transition-colors ${
+                  className={`px-2.5 py-1 rounded-none text-xs font-mono shrink-0 transition-colors ${
                     selectedTech === tech
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50'
                       : 'bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800'
@@ -242,7 +242,7 @@ export const ProjectsPage: React.FC = () => {
 
         {/* RESULTS SECTION */}
         {filteredProjects.length === 0 ? (
-          <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800 space-y-4">
+          <div className="text-center py-20 bg-slate-900/40 rounded-none border border-slate-800 space-y-4" style={{ borderRadius: '0px' }}>
             <Layers className="w-12 h-12 text-slate-600 mx-auto" />
             <h3 className="text-xl font-heading font-bold text-white">No projects match your filter</h3>
             <p className="text-sm text-slate-400 max-w-md mx-auto">
@@ -250,7 +250,8 @@ export const ProjectsPage: React.FC = () => {
             </p>
             <button
               onClick={resetFilters}
-              className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-semibold transition-colors"
+              className="px-5 py-2.5 rounded-none bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-semibold transition-colors"
+              style={{ borderRadius: '0px' }}
             >
               Reset Filters
             </button>
@@ -263,7 +264,7 @@ export const ProjectsPage: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
                   <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/50" />
+                    <span className="w-3 h-3 rounded-none bg-cyan-400 shadow-sm shadow-cyan-400/50" />
                     <div>
                       <h2 className="text-2xl font-heading font-bold text-white">
                         3rd Year Student Projects
@@ -273,7 +274,7 @@ export const ProjectsPage: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 self-start sm:self-auto">
+                  <span className="text-xs font-mono px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 self-start sm:self-auto">
                     {thirdYearList.length} Projects
                   </span>
                 </div>
@@ -291,7 +292,7 @@ export const ProjectsPage: React.FC = () => {
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
                   <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-purple-400 shadow-sm shadow-purple-400/50" />
+                    <span className="w-3 h-3 rounded-none bg-purple-400 shadow-sm shadow-purple-400/50" />
                     <div>
                       <h2 className="text-2xl font-heading font-bold text-white">
                         2nd Year Student Projects
@@ -301,7 +302,7 @@ export const ProjectsPage: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 self-start sm:self-auto">
+                  <span className="text-xs font-mono px-3 py-1 rounded-none bg-purple-500/10 text-purple-300 border border-purple-500/20 self-start sm:self-auto">
                     {secondYearList.length} Projects
                   </span>
                 </div>

@@ -27,8 +27,8 @@ export const Footer: React.FC = () => {
           {/* Col 1 & 2: Institutional Brand */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 p-0.5 shadow-md shadow-cyan-500/20">
-                <div className="w-full h-full bg-[#080B11] rounded-[10px] flex items-center justify-center">
+              <div className="flex items-center justify-center w-10 h-10 rounded-none bg-gradient-to-br from-cyan-500 to-purple-600 p-0.5 shadow-md shadow-cyan-500/20">
+                <div className="w-full h-full bg-[#080B11] rounded-none flex items-center justify-center">
                   <Terminal className="w-5 h-5 text-cyan-400" />
                 </div>
               </div>
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
           {/* Col 3: Exploration */}
           <div>
             <h4 className="text-white font-heading font-semibold text-sm tracking-wider uppercase mb-4 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span className="w-1.5 h-1.5 rounded-none bg-cyan-400"></span>
               Explore
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
           {/* Col 4: Event & People */}
           <div>
             <h4 className="text-white font-heading font-semibold text-sm tracking-wider uppercase mb-4 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+              <span className="w-1.5 h-1.5 rounded-none bg-purple-400"></span>
               Event & People
             </h4>
             <ul className="space-y-2.5 text-sm">
@@ -143,10 +143,10 @@ export const Footer: React.FC = () => {
           {/* Col 5: Institution Badge & Socials */}
           <div className="space-y-4">
             <h4 className="text-white font-heading font-semibold text-sm tracking-wider uppercase mb-4 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span className="w-1.5 h-1.5 rounded-none bg-emerald-400"></span>
               Accreditation
             </h4>
-            <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-xs space-y-2">
+            <div className="p-3.5 rounded-none bg-slate-900/60 border border-slate-800 text-xs space-y-2">
               <div className="flex items-center gap-2 text-slate-300 font-medium">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>Autonomous Institution</span>
@@ -163,7 +163,7 @@ export const Footer: React.FC = () => {
                   href="https://github.com" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="p-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-all"
+                  className="p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-all"
                   aria-label="GitHub"
                 >
                   <Github className="w-4 h-4" />
@@ -172,7 +172,7 @@ export const Footer: React.FC = () => {
                   href="https://linkedin.com" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="p-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 border border-slate-800 hover:border-slate-700 transition-all"
+                  className="p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-cyan-400 border border-slate-800 hover:border-slate-700 transition-all"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-4 h-4" />
@@ -181,7 +181,7 @@ export const Footer: React.FC = () => {
                   href="https://youtube.com" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="p-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-red-400 border border-slate-800 hover:border-slate-700 transition-all"
+                  className="p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-red-400 border border-slate-800 hover:border-slate-700 transition-all"
                   aria-label="YouTube"
                 >
                   <Youtube className="w-4 h-4" />
@@ -190,7 +190,7 @@ export const Footer: React.FC = () => {
                   href="http://www.gceerode.ac.in" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="p-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-purple-400 border border-slate-800 hover:border-slate-700 transition-all"
+                  className="p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-purple-400 border border-slate-800 hover:border-slate-700 transition-all"
                   aria-label="College Website"
                 >
                   <Globe className="w-4 h-4" />

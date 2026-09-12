@@ -42,7 +42,7 @@ export const VideosPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs font-mono">
             <Video className="w-3.5 h-3.5" />
             <span>Digital Broadcast Archives</span>
           </div>
@@ -56,12 +56,12 @@ export const VideosPage: React.FC = () => {
 
         {/* Category Filter Pills */}
         <div className="flex items-center justify-center">
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl bg-slate-900/80 border border-slate-800">
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-none bg-slate-900/80 border border-slate-800">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
                   selectedCategory === cat
                     ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md shadow-purple-500/20'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
@@ -79,7 +79,7 @@ export const VideosPage: React.FC = () => {
             <div
               key={video.id}
               onClick={() => setActiveVideo(video)}
-              className="group rounded-2xl bg-[#090D18] border border-slate-800/90 hover:border-cyan-500/40 overflow-hidden cursor-pointer shadow-xl transition-all duration-300 flex flex-col justify-between"
+              className="group rounded-none bg-[#090D18] border border-slate-800/90 hover:border-cyan-500/40 overflow-hidden cursor-pointer shadow-xl transition-all duration-300 flex flex-col justify-between"
             >
               {/* Thumbnail with Play Icon */}
               <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-black">
@@ -92,7 +92,7 @@ export const VideosPage: React.FC = () => {
                 
                 {/* Play Button Overlay */}
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/10 transition-colors">
-                  <div className="w-14 h-14 rounded-full bg-cyan-500/90 text-black flex items-center justify-center shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-none bg-cyan-500/90 text-black flex items-center justify-center shadow-lg shadow-cyan-500/40 group-hover:scale-110 transition-transform">
                     <Play className="w-6 h-6 ml-1 fill-black" />
                   </div>
                 </div>
@@ -105,7 +105,7 @@ export const VideosPage: React.FC = () => {
 
                 {/* Category Badge */}
                 <div className="absolute top-3 left-3">
-                  <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-slate-900/90 text-cyan-300 border border-cyan-500/40 backdrop-blur-md">
+                  <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-none bg-slate-900/90 text-cyan-300 border border-cyan-500/40 backdrop-blur-md">
                     {video.category}
                   </span>
                 </div>

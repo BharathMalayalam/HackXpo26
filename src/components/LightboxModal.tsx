@@ -51,7 +51,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
       {/* Top action header */}
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20 text-white">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+          <span className="text-xs font-mono px-2.5 py-1 rounded-none bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
             {item.category}
           </span>
           <span className="text-xs font-mono text-slate-400">
@@ -61,7 +61,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
 
         <button
           onClick={onClose}
-          className="p-2 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+          className="p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors"
           aria-label="Close lightbox"
         >
           <X className="w-6 h-6" />
@@ -71,7 +71,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
       {/* Prev / Next controls */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-slate-900/80 hover:bg-cyan-500 hover:text-black text-white border border-slate-700 transition-all active:scale-95"
+        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-none bg-slate-900/80 hover:bg-cyan-500 hover:text-black text-white border border-slate-700 transition-all active:scale-95"
         aria-label="Previous photo"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -79,7 +79,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
 
       <button
         onClick={handleNext}
-        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-slate-900/80 hover:bg-cyan-500 hover:text-black text-white border border-slate-700 transition-all active:scale-95"
+        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-none bg-slate-900/80 hover:bg-cyan-500 hover:text-black text-white border border-slate-700 transition-all active:scale-95"
         aria-label="Next photo"
       >
         <ChevronRight className="w-6 h-6" />
@@ -90,7 +90,7 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({ item, items, onClo
         className="relative max-w-5xl max-h-[85vh] w-full flex flex-col items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative rounded-xl overflow-hidden border border-slate-800 shadow-2xl bg-black">
+        <div className="relative rounded-none overflow-hidden border border-slate-800 shadow-2xl bg-black">
           <img
             src={item.imageUrl}
             alt={item.title}

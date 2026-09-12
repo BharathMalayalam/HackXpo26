@@ -44,7 +44,7 @@ export const WinnersPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-none bg-amber-500/15 text-amber-300 border border-amber-500/30 text-xs font-mono">
             <Trophy className="w-3.5 h-3.5 text-amber-400" />
             <span>Official Awards Declaration</span>
           </div>
@@ -57,7 +57,7 @@ export const WinnersPage: React.FC = () => {
 
           <button
             onClick={triggerConfetti}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-amber-300 hover:bg-slate-800 transition-colors shadow-md"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-none bg-slate-900 border border-slate-700 text-xs font-semibold text-amber-300 hover:bg-slate-800 transition-colors shadow-md"
           >
             <PartyPopper className="w-4 h-4 text-amber-400" />
             <span>Celebrate Champions (Confetti)</span>
@@ -69,14 +69,14 @@ export const WinnersPage: React.FC = () => {
           
           {/* 2nd Place Podium Card */}
           {podium2 && (
-            <div className="order-2 md:order-1 rounded-3xl p-6 bg-gradient-to-b from-[#0E1528] to-[#070A12] border border-cyan-500/40 shadow-xl flex flex-col justify-between relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-slate-800 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/50 shadow-md flex items-center gap-1.5">
+            <div className="order-2 md:order-1 rounded-none p-6 bg-gradient-to-b from-[#0E1528] to-[#070A12] border border-cyan-500/40 shadow-xl flex flex-col justify-between relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-none bg-slate-800 text-cyan-300 text-xs font-mono font-bold border border-cyan-500/50 shadow-md flex items-center gap-1.5">
                 <Medal className="w-4 h-4 text-cyan-400" />
                 <span>2nd Place</span>
               </div>
 
               <div className="pt-4 space-y-4">
-                <div className="relative rounded-2xl overflow-hidden aspect-video bg-black border border-slate-800">
+                <div className="relative rounded-none overflow-hidden aspect-video bg-black border border-slate-800">
                   <img src={podium2.thumbnail} alt={podium2.projectName} className="w-full h-full object-cover" />
                   <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-cyan-400">
                     {podium2.year}
@@ -116,16 +116,16 @@ export const WinnersPage: React.FC = () => {
 
           {/* 1st Place Champion Podium Card (Highlighted & Taller) */}
           {podium1 && (
-            <div className="order-1 md:order-2 rounded-3xl p-8 bg-gradient-to-b from-[#1C170A] via-[#101322] to-[#070A12] border-2 border-amber-500/60 shadow-2xl shadow-amber-500/15 flex flex-col justify-between relative transform md:-translate-y-4">
-              <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-xs font-mono font-black border border-amber-300 shadow-xl flex items-center gap-2">
+            <div className="order-1 md:order-2 rounded-none p-8 bg-gradient-to-b from-[#1C170A] via-[#101322] to-[#070A12] border-2 border-amber-500/60 shadow-2xl shadow-amber-500/15 flex flex-col justify-between relative transform md:-translate-y-4">
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 px-5 py-1.5 rounded-none bg-gradient-to-r from-amber-400 to-yellow-500 text-black text-xs font-mono font-black border border-amber-300 shadow-xl flex items-center gap-2">
                 <Crown className="w-4 h-4 fill-black" />
                 <span>GRAND CHAMPIONS — 1ST</span>
               </div>
 
               <div className="pt-4 space-y-4">
-                <div className="relative rounded-2xl overflow-hidden aspect-video bg-black border border-amber-500/30 shadow-lg">
+                <div className="relative rounded-none overflow-hidden aspect-video bg-black border border-amber-500/30 shadow-lg">
                   <img src={podium1.thumbnail} alt={podium1.projectName} className="w-full h-full object-cover" />
-                  <div className="absolute top-2 right-2 px-2.5 py-0.5 rounded-full bg-amber-500 text-black text-[10px] font-mono font-bold">
+                  <div className="absolute top-2 right-2 px-2.5 py-0.5 rounded-none bg-amber-500 text-black text-[10px] font-mono font-bold">
                     WINNER
                   </div>
                 </div>
@@ -153,7 +153,7 @@ export const WinnersPage: React.FC = () => {
                 <a href={podium1.githubUrl} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white p-1.5">
                   <Github className="w-4 h-4" />
                 </a>
-                <Link to={`/projects/${podium1.projectId}`} className="px-4 py-2 rounded-xl bg-amber-400 text-black text-xs font-bold hover:bg-amber-300 transition-colors flex items-center gap-1.5">
+                <Link to={`/projects/${podium1.projectId}`} className="px-4 py-2 rounded-none bg-amber-400 text-black text-xs font-bold hover:bg-amber-300 transition-colors flex items-center gap-1.5">
                   <span>Explore Blueprint</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -163,14 +163,14 @@ export const WinnersPage: React.FC = () => {
 
           {/* 3rd Place Podium Card */}
           {podium3 && (
-            <div className="order-3 md:order-3 rounded-3xl p-6 bg-gradient-to-b from-[#180F26] to-[#070A12] border border-purple-500/40 shadow-xl flex flex-col justify-between relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-slate-800 text-purple-300 text-xs font-mono font-bold border border-purple-500/50 shadow-md flex items-center gap-1.5">
+            <div className="order-3 md:order-3 rounded-none p-6 bg-gradient-to-b from-[#180F26] to-[#070A12] border border-purple-500/40 shadow-xl flex flex-col justify-between relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-none bg-slate-800 text-purple-300 text-xs font-mono font-bold border border-purple-500/50 shadow-md flex items-center gap-1.5">
                 <Medal className="w-4 h-4 text-purple-400" />
                 <span>3rd Place</span>
               </div>
 
               <div className="pt-4 space-y-4">
-                <div className="relative rounded-2xl overflow-hidden aspect-video bg-black border border-slate-800">
+                <div className="relative rounded-none overflow-hidden aspect-video bg-black border border-slate-800">
                   <img src={podium3.thumbnail} alt={podium3.projectName} className="w-full h-full object-cover" />
                   <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-purple-400">
                     {podium3.year} Junior Breakthrough
@@ -223,7 +223,7 @@ export const WinnersPage: React.FC = () => {
             {specialMentions.map((winner, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 flex flex-col justify-between space-y-4"
+                className="p-6 rounded-none bg-slate-900/60 border border-slate-800 hover:border-slate-700 flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">

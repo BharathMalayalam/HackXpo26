@@ -20,7 +20,10 @@ export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [moreHover, setMoreHover] = useState(false);
   const [moreMobileOpen, setMoreMobileOpen] = useState(false);
+  const [projectHover, setProjectHover] = useState(false);
+  const [projectMobileOpen, setProjectMobileOpen] = useState(false);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const projectDropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
   // Close mobile drawer on route change
@@ -28,6 +31,8 @@ export const Navbar: React.FC = () => {
     setIsOpen(false);
     setMoreHover(false);
     setMoreMobileOpen(false);
+    setProjectHover(false);
+    setProjectMobileOpen(false);
   }, [location.pathname]);
 
   const handleMouseEnterMore = () => {
@@ -38,6 +43,17 @@ export const Navbar: React.FC = () => {
   const handleMouseLeaveMore = () => {
     dropdownTimeoutRef.current = setTimeout(() => {
       setMoreHover(false);
+    }, 150);
+  };
+
+  const handleMouseEnterProject = () => {
+    if (projectDropdownTimeoutRef.current) clearTimeout(projectDropdownTimeoutRef.current);
+    setProjectHover(true);
+  };
+
+  const handleMouseLeaveProject = () => {
+    projectDropdownTimeoutRef.current = setTimeout(() => {
+      setProjectHover(false);
     }, 150);
   };
 
@@ -58,83 +74,183 @@ export const Navbar: React.FC = () => {
   const isMoreActive = moreItems.some(item => location.pathname === item.path || location.pathname.startsWith(item.path));
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#07090F]/90 backdrop-blur-md border-b border-slate-700/60 shadow-lg shadow-black/40">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+    <header 
+      id="floating-navbar"
+      className="fixed top-4 sm:top-5 inset-x-4 sm:inset-x-8 max-w-7xl mx-auto z-50 bg-black/65 backdrop-blur-md border border-white/20 shadow-2xl shadow-black/80 transition-all rounded-none"
+      style={{ borderRadius: '0px' }}
+    >
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-18">
 
           {/* Left Brand Identity matching the reference image layout */}
           <Link 
             to="/" 
             id="navbar-brand-link" 
-            className="flex items-center gap-3.5 group select-none py-2"
+            className="flex items-center gap-3 group select-none py-2"
           >
             {/* Custom Department Monogram / Academic Logo */}
-            <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-slate-900 border border-slate-700/80 group-hover:border-cyan-400/60 transition-colors shadow-md">
+            <div 
+              className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-none bg-black/80 border border-white/25 group-hover:border-white transition-colors shadow-md"
+              style={{ borderRadius: '0px' }}
+            >
               <div className="relative flex flex-col items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-cyan-400 group-hover:scale-105 transition-transform" />
-                <span className="text-[11px] font-black tracking-tighter text-white -mt-0.5 font-mono">
-                  IT
+                <GraduationCap className="w-4 h-4 text-white group-hover:scale-105 transition-transform" />
+                <span className="text-[10px] font-black tracking-tighter text-white font-mono">
+                  GCEE
                 </span>
               </div>
-              <div className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#07090F] animate-pulse" />
+              <div 
+                className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-none border border-black animate-pulse" 
+                style={{ borderRadius: '0px' }}
+              />
             </div>
 
             {/* Department Text in two uppercase lines matching reference image */}
             <div className="flex flex-col">
-              <span className="text-[12px] sm:text-[13px] font-extrabold uppercase tracking-wider text-slate-100 leading-tight">
-                Department of
+              <span className="text-[11px] sm:text-[12px] font-extrabold uppercase tracking-wider text-cyan-400 leading-tight">
+                HackXpo ’26
               </span>
-              <span className="text-[12px] sm:text-[13px] font-extrabold uppercase tracking-wider text-cyan-400 leading-tight">
-                Information Technology
-              </span>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-slate-400">
-                GCE Erode (IRTT)
+              <span className="text-[8.5px] sm:text-[9.5px] uppercase font-mono tracking-widest text-slate-300/80 leading-none mt-0.5">
+               Department of Information Technology
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links matching reference screenshot */}
-          <nav className="hidden lg:flex items-center gap-2 xl:gap-4" id="navbar-desktop-nav">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2" id="navbar-desktop-nav">
             
             {/* 1. HOME */}
             <Link
               to="/"
               id="nav-link-home"
-              className={`flex items-center gap-2 px-3 py-2 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-md ${
+              style={{ borderRadius: '0px' }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
                 isHomeActive
-                  ? 'text-white bg-slate-800/80 shadow-inner'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  ? 'text-white bg-white/10'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {isHomeActive && <span className="text-cyan-400 text-xs">■</span>}
+              {isHomeActive && <span className="text-white text-xs">▪</span>}
               <span>Home</span>
             </Link>
 
-            {/* 2. PROJECT */}
-            <Link
-              to="/projects"
-              id="nav-link-project"
-              className={`flex items-center gap-2 px-3 py-2 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-md ${
-                isProjectsActive
-                  ? 'text-white bg-slate-800/80 shadow-inner'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
-              }`}
+            {/* 2. PROJECT with HOVER DROPDOWN */}
+            <div 
+              className="relative"
+              onMouseEnter={handleMouseEnterProject}
+              onMouseLeave={handleMouseLeaveProject}
             >
-              {isProjectsActive && <span className="text-cyan-400 text-xs">■</span>}
-              <span>Project</span>
-            </Link>
+              <Link
+                to="/projects"
+                id="nav-link-project"
+                style={{ borderRadius: '0px' }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
+                  isProjectsActive || projectHover
+                    ? 'text-white bg-white/10'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                {isProjectsActive && <span className="text-white text-xs">▪</span>}
+                <span>Project</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${projectHover ? 'rotate-180 text-white' : 'text-slate-400'}`} />
+              </Link>
+
+              {/* Hover Dropdown Menu */}
+              {projectHover && (
+                <div 
+                  id="nav-project-dropdown-menu"
+                  className="absolute left-0 top-full pt-2 w-52 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                >
+                  <div 
+                    className="rounded-none bg-[#090D17] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl"
+                    style={{ borderRadius: '0px' }}
+                  >
+                    <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800 mb-1 flex items-center justify-between">
+                      <span>Browse Projects</span>
+                      <span className="text-cyan-400">HackXpo '26</span>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Link
+                        to="/projects"
+                        style={{ borderRadius: '0px' }}
+                        className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
+                          location.pathname === '/projects'
+                            ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/30'
+                            : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
+                        }`}
+                      >
+                        <div 
+                          style={{ borderRadius: '0px' }}
+                          className={`p-2 rounded-none ${location.pathname === '/projects' ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
+                        >
+                          <Layers className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs font-bold uppercase tracking-wider">All Projects</span>
+                          <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">View all 2nd & 3rd year</p>
+                        </div>
+                      </Link>
+
+                      <Link
+                        to="/projects/3rd-year"
+                        style={{ borderRadius: '0px' }}
+                        className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
+                          location.pathname === '/projects/3rd-year'
+                            ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/30'
+                            : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
+                        }`}
+                      >
+                        <div 
+                          style={{ borderRadius: '0px' }}
+                          className={`p-2 rounded-none ${location.pathname === '/projects/3rd-year' ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
+                        >
+                          <GraduationCap className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs font-bold uppercase tracking-wider">3rd Year</span>
+                          <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">Advanced research & ML systems</p>
+                        </div>
+                      </Link>
+
+                      <Link
+                        to="/projects/2nd-year"
+                        style={{ borderRadius: '0px' }}
+                        className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
+                          location.pathname === '/projects/2nd-year'
+                            ? 'bg-purple-950/60 text-purple-300 border border-purple-500/30'
+                            : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
+                        }`}
+                      >
+                        <div 
+                          style={{ borderRadius: '0px' }}
+                          className={`p-2 rounded-none ${location.pathname === '/projects/2nd-year' ? 'bg-purple-500/20 text-purple-400' : 'bg-slate-800/80 text-slate-400'}`}
+                        >
+                          <FolderGit2 className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs font-bold uppercase tracking-wider">2nd Year</span>
+                          <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">Full-stack prototypes & campus tech</p>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* 3. GALLERY */}
             <Link
               to="/gallery"
               id="nav-link-gallery"
-              className={`flex items-center gap-2 px-3 py-2 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-md ${
+              style={{ borderRadius: '0px' }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
                 isGalleryActive
-                  ? 'text-white bg-slate-800/80 shadow-inner'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  ? 'text-white bg-white/10'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {isGalleryActive && <span className="text-cyan-400 text-xs">■</span>}
+              {isGalleryActive && <span className="text-white text-xs">▪</span>}
               <span>Gallery</span>
             </Link>
 
@@ -142,13 +258,14 @@ export const Navbar: React.FC = () => {
             <Link
               to="/mentors"
               id="nav-link-mentors"
-              className={`flex items-center gap-2 px-3 py-2 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-md ${
+              style={{ borderRadius: '0px' }}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
                 isMentorsActive
-                  ? 'text-white bg-slate-800/80 shadow-inner'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                  ? 'text-white bg-white/10'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
-              {isMentorsActive && <span className="text-cyan-400 text-xs">■</span>}
+              {isMentorsActive && <span className="text-white text-xs">▪</span>}
               <span>Mentors</span>
             </Link>
 
@@ -161,16 +278,17 @@ export const Navbar: React.FC = () => {
               <button
                 type="button"
                 id="nav-link-more-btn"
-                className={`flex items-center gap-1.5 px-3 py-2 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-md cursor-pointer ${
+                style={{ borderRadius: '0px' }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none cursor-pointer ${
                   isMoreActive || moreHover
-                    ? 'text-white bg-slate-800/80 shadow-inner'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/40'
+                    ? 'text-white bg-white/10'
+                    : 'text-slate-300 hover:text-white hover:bg-white/5'
                 }`}
                 aria-expanded={moreHover}
               >
-                {isMoreActive && <span className="text-cyan-400 text-xs">■</span>}
+                {isMoreActive && <span className="text-white text-xs">▪</span>}
                 <span>More</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreHover ? 'rotate-180 text-cyan-400' : 'text-slate-400'}`} />
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreHover ? 'rotate-180 text-white' : 'text-slate-400'}`} />
               </button>
 
               {/* Hover Dropdown Menu */}
@@ -179,7 +297,10 @@ export const Navbar: React.FC = () => {
                   id="nav-more-dropdown-menu"
                   className="absolute right-0 top-full pt-2 w-72 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                 >
-                  <div className="rounded-2xl bg-[#090D17] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl">
+                  <div 
+                    className="rounded-none bg-[#090D17] border border-slate-700/90 shadow-2xl shadow-black/80 overflow-hidden p-2 backdrop-blur-xl"
+                    style={{ borderRadius: '0px' }}
+                  >
                     <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800 mb-1 flex items-center justify-between">
                       <span>Event Sections</span>
                       <span className="text-cyan-400">HackXpo ’26</span>
@@ -193,19 +314,23 @@ export const Navbar: React.FC = () => {
                           <Link
                             key={item.path}
                             to={item.path}
-                            className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
+                            style={{ borderRadius: '0px' }}
+                            className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
                               isCurrent
                                 ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/30'
                                 : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
                             }`}
                           >
-                            <div className={`p-2 rounded-lg ${isCurrent ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}>
+                            <div 
+                              style={{ borderRadius: '0px' }}
+                              className={`p-2 rounded-none ${isCurrent ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
+                            >
                               <Icon className="w-4 h-4" />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5">
                                 <span className="text-xs font-bold uppercase tracking-wider">{item.label}</span>
-                                {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>}
+                                {isCurrent && <span className="w-1.5 h-1.5 rounded-none bg-cyan-400"></span>}
                               </div>
                               <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{item.desc}</p>
                             </div>
@@ -226,7 +351,8 @@ export const Navbar: React.FC = () => {
               onClick={() => setIsOpen(!isOpen)}
               id="navbar-mobile-toggle-btn"
               aria-label="Toggle Navigation"
-              className="p-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors cursor-pointer"
+              style={{ borderRadius: '0px' }}
+              className="p-2 rounded-none bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors cursor-pointer"
             >
               {isOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -237,12 +363,16 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {isOpen && (
-        <div className="lg:hidden bg-[#07090F]/98 border-b border-slate-700 backdrop-blur-2xl px-5 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200">
+        <div 
+          style={{ borderRadius: '0px' }}
+          className="lg:hidden bg-[#07090F]/98 border-t border-slate-700 backdrop-blur-2xl px-5 py-4 space-y-3 animate-in slide-in-from-top-2 duration-200 rounded-none"
+        >
           <div className="grid grid-cols-2 gap-2">
             
             <Link
               to="/"
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider ${
+              style={{ borderRadius: '0px' }}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
                 isHomeActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
               }`}
             >
@@ -250,19 +380,62 @@ export const Navbar: React.FC = () => {
               <span>Home</span>
             </Link>
 
-            <Link
-              to="/projects"
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider ${
-                isProjectsActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
-              }`}
-            >
-              {isProjectsActive && <span className="text-cyan-400 text-xs">■</span>}
-              <span>Project</span>
-            </Link>
+            {/* Mobile Project Accordion */}
+            <div>
+              <button
+                onClick={() => setProjectMobileOpen(!projectMobileOpen)}
+                style={{ borderRadius: '0px' }}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
+                  isProjectsActive || projectMobileOpen ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {isProjectsActive && <span className="text-cyan-400 text-xs">■</span>}
+                  <span>Project</span>
+                </div>
+                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${projectMobileOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {projectMobileOpen && (
+                <div className="grid grid-cols-1 gap-2 mt-2 pl-1">
+                  <Link
+                    to="/projects"
+                    style={{ borderRadius: '0px' }}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
+                      location.pathname === '/projects' ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/50 text-slate-300'
+                    }`}
+                  >
+                    <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>All Projects</span>
+                  </Link>
+                  <Link
+                    to="/projects/3rd-year"
+                    style={{ borderRadius: '0px' }}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
+                      location.pathname === '/projects/3rd-year' ? 'bg-cyan-950/70 text-cyan-300 border border-cyan-500/30' : 'bg-slate-900/50 text-slate-300'
+                    }`}
+                  >
+                    <GraduationCap className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>3rd Year</span>
+                  </Link>
+                  <Link
+                    to="/projects/2nd-year"
+                    style={{ borderRadius: '0px' }}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
+                      location.pathname === '/projects/2nd-year' ? 'bg-purple-950/70 text-purple-300 border border-purple-500/30' : 'bg-slate-900/50 text-slate-300'
+                    }`}
+                  >
+                    <FolderGit2 className="w-3.5 h-3.5 text-purple-400" />
+                    <span>2nd Year</span>
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <Link
               to="/gallery"
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider ${
+              style={{ borderRadius: '0px' }}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
                 isGalleryActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
               }`}
             >
@@ -272,7 +445,8 @@ export const Navbar: React.FC = () => {
 
             <Link
               to="/mentors"
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider ${
+              style={{ borderRadius: '0px' }}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
                 isMentorsActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
               }`}
             >
@@ -286,7 +460,8 @@ export const Navbar: React.FC = () => {
           <div className="pt-2 border-t border-slate-800">
             <button
               onClick={() => setMoreMobileOpen(!moreMobileOpen)}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-slate-900/90 text-xs font-bold uppercase tracking-wider text-slate-200 border border-slate-800"
+              style={{ borderRadius: '0px' }}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-none bg-slate-900/90 text-xs font-bold uppercase tracking-wider text-slate-200 border border-slate-800"
             >
               <div className="flex items-center gap-2">
                 {isMoreActive && <span className="text-cyan-400 text-xs">■</span>}
@@ -304,7 +479,8 @@ export const Navbar: React.FC = () => {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium ${
+                      style={{ borderRadius: '0px' }}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
                         isCurrent ? 'bg-cyan-950/70 text-cyan-300 border border-cyan-500/30' : 'bg-slate-900/50 text-slate-300'
                       }`}
                     >

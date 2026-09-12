@@ -37,7 +37,7 @@ export const ContactPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-mono">
             <Mail className="w-3.5 h-3.5" />
             <span>Official Communications</span>
           </div>
@@ -55,7 +55,7 @@ export const ContactPage: React.FC = () => {
           <div className="lg:col-span-5 space-y-6">
             
             {/* Department Office Card */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-6">
+            <div className="p-6 sm:p-8 rounded-none bg-slate-900/60 border border-slate-800 space-y-6">
               <h2 className="text-xl font-heading font-bold text-white flex items-center gap-2">
                 <Building className="w-5 h-5 text-cyan-400" />
                 <span>Department IT Secretariat</span>
@@ -106,7 +106,7 @@ export const ContactPage: React.FC = () => {
             </div>
 
             {/* Travel & Route Guide */}
-            <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-3">
+            <div className="p-6 rounded-none bg-slate-900/40 border border-slate-800 space-y-3">
               <h3 className="text-sm font-heading font-bold text-white flex items-center gap-2">
                 <Navigation className="w-4 h-4 text-purple-400" />
                 <span>Transit & Campus Access</span>
@@ -122,7 +122,7 @@ export const ContactPage: React.FC = () => {
 
           {/* Right 7 Cols: Interactive Contact & Inquiry Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-10 rounded-3xl bg-[#090D18] border border-slate-800 shadow-xl space-y-6">
+            <div className="p-6 sm:p-10 rounded-none bg-[#090D18] border border-slate-800 shadow-xl space-y-6">
               
               <div>
                 <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">Quick Inquiry</span>
@@ -133,8 +133,8 @@ export const ContactPage: React.FC = () => {
               </div>
 
               {submitted ? (
-                <div className="p-8 rounded-2xl bg-emerald-950/40 border border-emerald-500/50 text-center space-y-3">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center">
+                <div className="p-8 rounded-none bg-emerald-950/40 border border-emerald-500/50 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-none bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-heading font-bold text-white">Message Transmitted Successfully</h3>
@@ -146,7 +146,7 @@ export const ContactPage: React.FC = () => {
                       setSubmitted(false);
                       setFormData({ name: '', email: '', affiliation: '', category: 'General Inquiry', message: '' });
                     }}
-                    className="mt-4 px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-cyan-400 hover:text-cyan-300"
+                    className="mt-4 px-4 py-2 rounded-none bg-slate-900 border border-slate-700 text-xs font-semibold text-cyan-400 hover:text-cyan-300"
                   >
                     Send Another Inquiry
                   </button>
@@ -162,7 +162,7 @@ export const ContactPage: React.FC = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Anand Sundaram"
-                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-none text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
                       />
                     </div>
 
@@ -174,7 +174,7 @@ export const ContactPage: React.FC = () => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="e.g. anand@company.org"
-                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-none text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
                       />
                     </div>
                   </div>
@@ -187,7 +187,7 @@ export const ContactPage: React.FC = () => {
                         value={formData.affiliation}
                         onChange={(e) => setFormData({ ...formData, affiliation: e.target.value })}
                         placeholder="e.g. TechCorp / Alumnus / Student"
-                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-none text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
                       />
                     </div>
 
@@ -196,7 +196,7 @@ export const ContactPage: React.FC = () => {
                       <select
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
+                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-none text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors"
                       >
                         <option value="General Inquiry">General Event Information</option>
                         <option value="Student Project Incubation">Student Project Incubation / IP</option>
@@ -215,13 +215,13 @@ export const ContactPage: React.FC = () => {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Share details about your query, desired project collaboration, or feedback on HackXpo ’26..."
-                      className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-none text-sm text-white focus:outline-none focus:border-cyan-500 transition-colors resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:via-blue-500 hover:to-purple-500 shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-none font-semibold text-sm text-white bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 hover:from-cyan-400 hover:via-blue-500 hover:to-purple-500 shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
                   >
                     <Send className="w-4 h-4" />
                     <span>Send Message to Committee</span>
