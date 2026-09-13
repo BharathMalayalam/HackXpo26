@@ -3,7 +3,6 @@ export type AcademicYear = '2nd Year' | '3rd Year';
 export interface ProjectMember {
   name: string;
   role: string;
-  avatar: string;
   github?: string;
   linkedin?: string;
 }

@@ -187,12 +187,9 @@ export const TeamsPage: React.FC = () => {
                         className="p-3 rounded-none bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition-colors flex items-center justify-between gap-2"
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
-                          <img
-                            src={member.avatar}
-                            alt={member.name}
-                            referrerPolicy="no-referrer"
-                            className="w-9 h-9 rounded-none object-cover border border-slate-700 shrink-0"
-                          />
+                          <div className="w-9 h-9 rounded-none bg-slate-800 border border-slate-700 shrink-0 flex items-center justify-center text-[10px] font-bold text-slate-300">
+                            {member.name.charAt(0)}
+                          </div>
                           <div className="min-w-0">
                             <h5 className="text-xs font-semibold text-white truncate">{member.name}</h5>
                             <p className="text-[11px] text-slate-400 truncate">{member.role}</p>

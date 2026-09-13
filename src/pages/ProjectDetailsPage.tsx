@@ -234,12 +234,9 @@ export const ProjectDetailsPage: React.FC = () => {
                 {project.members.map((member, idx) => (
                   <div key={idx} className="pt-3 first:pt-0 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <img
-                        src={member.avatar}
-                        alt={member.name}
-                        referrerPolicy="no-referrer"
-                        className="w-10 h-10 rounded-none object-cover border border-slate-700 shrink-0"
-                      />
+                      <div className="w-10 h-10 rounded-none bg-slate-800 border border-slate-700 shrink-0 flex items-center justify-center text-xs font-bold text-slate-300">
+                        {member.name.charAt(0)}
+                      </div>
                       <div>
                         <h4 className="text-sm font-semibold text-white">{member.name}</h4>
                         <p className="text-xs text-slate-400">{member.role}</p>

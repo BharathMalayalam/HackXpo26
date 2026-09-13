@@ -99,10 +99,6 @@ export const Navbar: React.FC = () => {
                   GCEE
                 </span>
               </div>
-              <div 
-                className="absolute -bottom-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-none border border-black animate-pulse" 
-                style={{ borderRadius: '0px' }}
-              />
             </div>
 
             {/* Department Text in two uppercase lines matching reference image */}

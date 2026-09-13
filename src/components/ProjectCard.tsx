@@ -92,15 +92,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         {/* Team Summary & Mentor */}
         <div className="pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center gap-2">
-            <div className="flex -space-x-2 overflow-hidden">
+            <div className="flex -space-x-1">
               {project.members.slice(0, 3).map((member, i) => (
-                <img
+                <div
                   key={i}
-                  src={member.avatar}
-                  alt={member.name}
-                  referrerPolicy="no-referrer"
-                  className="inline-block h-6 w-6 rounded-none ring-2 ring-slate-900 object-cover"
-                />
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-none ring-2 ring-slate-900 bg-slate-800 text-[9px] font-bold text-slate-300 border border-slate-700"
+                >
+                  {member.name.charAt(0)}
+                </div>
               ))}
             </div>
             <span className="text-[11px] text-slate-300 truncate max-w-[120px]">

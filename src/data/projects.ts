@@ -22,10 +22,10 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Karthik Raja S', role: 'Team Lead & ML Architect', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Dharshini M', role: 'Full Stack & UI Developer', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Vigneshwaran P', role: 'Edge Computing & IoT Engineer', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Swetha R', role: 'Data Engineer & Model Optimization', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Karthik Raja S', role: 'Team Lead & ML Architect', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Dharshini M', role: 'Full Stack & UI Developer', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Vigneshwaran P', role: 'Edge Computing & IoT Engineer', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Swetha R', role: 'Data Engineer & Model Optimization', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-2',
     studentMentorId: 'sm-1',
@@ -53,9 +53,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Arun Kumar T', role: 'Lead Embedded Systems', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Sneha Priyadharshini B', role: 'RL Agent & Simulation', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Naveen Prasath K', role: 'Industrial Dashboard Engineer', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Arun Kumar T', role: 'Lead Embedded Systems', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Sneha Priyadharshini B', role: 'RL Agent & Simulation', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Naveen Prasath K', role: 'Industrial Dashboard Engineer', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-1',
     studentMentorId: 'sm-2',
@@ -82,9 +82,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Pradeep Chandran V', role: 'Smart Contract & Cryptography', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Janani K', role: 'Security & Protocol Testing', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Abishek S', role: 'Frontend Architecture & Web3 UI', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Pradeep Chandran V', role: 'Smart Contract & Cryptography', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Janani K', role: 'Security & Protocol Testing', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Abishek S', role: 'Frontend Architecture & Web3 UI', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-3',
     studentMentorId: 'sm-3',
@@ -112,9 +112,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Sanjay Kumar S', role: 'CV Lead & Algorithm Design', avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Bhavani R', role: 'IoT & Firmware Integration', avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Hariharan N', role: 'Frontend & Map Visualization', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Sanjay Kumar S', role: 'CV Lead & Algorithm Design', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Bhavani R', role: 'IoT & Firmware Integration', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Hariharan N', role: 'Frontend & Map Visualization', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-4',
     studentMentorId: 'sm-4',
@@ -143,9 +143,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Manoj Kumar V', role: 'Frontend & UI Specialist', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Preethi G', role: 'Backend API & Schema Architect', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Dhanush R', role: 'Database & Auth Integration', avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Manoj Kumar V', role: 'Frontend & UI Specialist', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Preethi G', role: 'Backend API & Schema Architect', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Dhanush R', role: 'Database & Auth Integration', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-5',
     studentMentorId: 'sm-5',
@@ -173,9 +173,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Aakash R', role: 'Full Stack & IoT Integrator', avatar: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Pavithra S', role: 'ML Model & Data Wrangling', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Kishore B', role: 'UI/UX & Mobile Interface', avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Aakash R', role: 'Full Stack & IoT Integrator', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Pavithra S', role: 'ML Model & Data Wrangling', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Kishore B', role: 'UI/UX & Mobile Interface', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-6',
     studentMentorId: 'sm-6',
@@ -202,9 +202,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Siddharth M', role: 'Security Analyst & Scripting', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Nandhini P', role: 'Frontend & Report Visuals', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Vijay Anand K', role: 'Network Protocols & Backend', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Siddharth M', role: 'Security Analyst & Scripting', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Nandhini P', role: 'Frontend & Report Visuals', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Vijay Anand K', role: 'Network Protocols & Backend', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-2',
     studentMentorId: 'sm-7',
@@ -231,9 +231,9 @@ export const projectsData: Project[] = [
     projectPhoto: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1600&auto=format&fit=crop',
     teamPhoto: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop',
     members: [
-      { name: 'Kavya Shree T', role: 'Vision Pipeline & Model Lead', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Rohit Balaji S', role: 'Speech Synthesis & UI Design', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' },
-      { name: 'Deepika M', role: 'Dataset Curation & User Testing', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', github: 'https://github.com', linkedin: 'https://linkedin.com' }
+      { name: 'Kavya Shree T', role: 'Vision Pipeline & Model Lead', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Rohit Balaji S', role: 'Speech Synthesis & UI Design', github: 'https://github.com', linkedin: 'https://linkedin.com' },
+      { name: 'Deepika M', role: 'Dataset Curation & User Testing', github: 'https://github.com', linkedin: 'https://linkedin.com' }
     ],
     facultyMentorId: 'mentor-3',
     studentMentorId: 'sm-8',
