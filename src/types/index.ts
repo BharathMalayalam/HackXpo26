@@ -99,6 +99,18 @@ export interface Coordinator {
   github?: string;
 }
 
+export interface Judge {
+  id: string;
+  name: string;
+  role: string;
+  organization: string;
+  domain: string;
+  photo: string;
+  contactEmail?: string;
+  linkedin?: string;
+  category: 'Industry' | 'Academic';
+}
+
 export interface StatItem {
   label: string;
   value: number;

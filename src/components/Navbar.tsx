@@ -10,6 +10,7 @@ import {
   Video, 
   Trophy, 
   Award, 
+  Scale,
   Mail,
   FolderGit2,
   Image as ImageIcon,
@@ -64,6 +65,7 @@ export const Navbar: React.FC = () => {
     { path: '/videos', label: 'Videos', icon: Video, desc: 'Keynotes & project demo recordings' },
     { path: '/winners', label: 'Winners', icon: Trophy, desc: 'Awardees, runners-up & best pitch' },
     { path: '/coordinators', label: 'Coordinators', icon: Award, desc: 'Faculty convenors & student leads' },
+    { path: '/judges', label: 'Judges', icon: Scale, desc: 'Industry & academic jury panel' },
     { path: '/contact', label: 'Contact', icon: Mail, desc: 'Reach out to the HackXpo committee' },
   ];
 
@@ -89,25 +91,20 @@ export const Navbar: React.FC = () => {
             className="flex items-center gap-3 group select-none py-2"
           >
             {/* Custom Department Monogram / Academic Logo */}
-            <div 
-              className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-none bg-black/80 border border-white/25 group-hover:border-white transition-colors shadow-md"
-              style={{ borderRadius: '0px' }}
-            >
-              <div className="relative flex flex-col items-center justify-center">
-                <GraduationCap className="w-4 h-4 text-white group-hover:scale-105 transition-transform" />
-                <span className="text-[10px] font-black tracking-tighter text-white font-mono">
-                  GCEE
-                </span>
+              <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-none bg-black/80 border border-white/25 group-hover:border-white transition-colors shadow-md overflow-hidden">
+                <img src="/gce_logo.webp" alt="GCE Erode" className="w-full h-full object-contain p-0.5" />
               </div>
-            </div>
 
-            {/* Department Text in two uppercase lines matching reference image */}
+            {/* Deparfont-extraboldtment Text in two uppercase lines matching reference image */}
             <div className="flex flex-col">
               <span className="text-[11px] sm:text-[12px] font-extrabold uppercase tracking-wider text-cyan-400 leading-tight">
                 HackXpo ’26
               </span>
               <span className="text-[8.5px] sm:text-[9.5px] uppercase font-mono tracking-widest text-slate-300/80 leading-none mt-0.5">
-               Department of Information Technology
+               Department of Information Technology &
+              </span>
+              <span className="text-[8.5px] sm:text-[9.5px] uppercase font-mono tracking-widest text-slate-300/80 leading-none mt-0.5">
+               Association of Information Technologists (AIT)
               </span>
             </div>
           </Link>

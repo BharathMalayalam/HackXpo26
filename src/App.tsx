@@ -17,6 +17,7 @@ import { GalleryPage } from './pages/GalleryPage';
 import { VideosPage } from './pages/VideosPage';
 import { WinnersPage } from './pages/WinnersPage';
 import { CoordinatorsPage } from './pages/CoordinatorsPage';
+import { JudgesPage } from './pages/JudgesPage';
 import { ContactPage } from './pages/ContactPage';
 
 function AppContent() {
@@ -41,6 +42,7 @@ function AppContent() {
           <Route path="/videos" element={<VideosPage />} />
           <Route path="/winners" element={<WinnersPage />} />
           <Route path="/coordinators" element={<CoordinatorsPage />} />
+          <Route path="/judges" element={<JudgesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
