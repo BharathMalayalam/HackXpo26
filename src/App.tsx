@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MoonStar, SunMedium } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -23,9 +24,23 @@ function AppContent() {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const isGallery = location.pathname === '/gallery';
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    if (typeof window === 'undefined') return 'dark';
+    const savedTheme = localStorage.getItem('hackxpo-theme');
+    return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('hackxpo-theme', theme);
+  }, [theme]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
+    <div
+      className={`min-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black transition-colors duration-1000 ease-in-out ${
+        theme === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-black text-slate-100'
+      }`}
+    >
       <Navbar />
       <main className={`flex-1 ${isHome ? '' : 'pt-28 sm:pt-32'}`}>
         <Routes>
@@ -46,6 +61,21 @@ function AppContent() {
         </Routes>
       </main>
       {!isGallery && <Footer />}
+
+      <button
+        type="button"
+        aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        onClick={() => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'))}
+        className="theme-toggle"
+        data-theme={theme}
+      >
+        <span className="theme-toggle__track">
+          <span className="theme-toggle__thumb">
+            <SunMedium className="theme-toggle__icon theme-toggle__icon--sun" size={13} />
+            <MoonStar className="theme-toggle__icon theme-toggle__icon--moon" size={13} />
+          </span>
+        </span>
+      </button>
     </div>
   );
 }

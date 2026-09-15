@@ -51,11 +51,14 @@ export interface StudentMentor {
   linkedin: string;
 }
 
+export type GalleryCategory = 'EVENTS' | 'PROJECTS' | 'WORKSHOPS' | 'STUDENTS' | 'MEMORIES';
+
 export interface GalleryItem {
   id: string;
   imageUrl: string;
   title: string;
   description: string;
+  category: GalleryCategory;
   isNew?: boolean;
 }
 

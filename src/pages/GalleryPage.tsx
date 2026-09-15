@@ -1,630 +1,564 @@
 
 
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { ArrowDown, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { galleryData } from '../data/gallery';
 import { GalleryItem } from '../types';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-const ROW_COUNT   = 3;
-const TOTAL_COLS  = 20;                           // slots in the infinite loop
-const SLOT_ANGLE  = (2 * Math.PI) / TOTAL_COLS;  // radians per slot
-const ROW_DIRS: (-1 | 1)[] = [1, -1, 1];
+const categoryOptions = ['ALL', 'EVENTS', 'PROJECTS', 'WORKSHOPS', 'STUDENTS', 'MEMORIES'] as const;
+type CategoryFilter = (typeof categoryOptions)[number];
 
-// Physics — deliberately slow and cinematic
-const FRICTION         = 0.915;    // velocity decay per frame
-const SNAP_SPEED       = 0.08;     // lerp factor toward nearest slot
-const SNAP_THRESHOLD   = 0.0015;   // start snapping below this velocity
-const SCROLL_SENS      = 0.00055;  // wheel delta → velocity
-const KEY_IMPULSE      = 0.022;    // velocity per arrow-key press
-const DRAG_SENS        = 0.0009;   // pointer-px → velocity
+const storyStages = [
+  { id: '01', label: 'ARRIVAL', caption: 'The energy of the first pulse.' },
+  { id: '02', label: 'INNOVATION', caption: 'Ideas turn into prototypes.' },
+  { id: '03', label: 'COLLABORATION', caption: 'Teams build together.' },
+  { id: '04', label: 'SHOWCASE', caption: 'Solutions meet the crowd.' },
+  { id: '05', label: 'CELEBRATION', caption: 'The memories lock in.' },
+] as const;
 
-// Entrance
-const ENT_STAGGER      = 48;   // ms delay per column-distance from center
-const ENT_ROW_STAGGER  = 85;   // ms extra per row index
-const ENT_DURATION     = 580;  // ms for each card blur→sharp
-const ENT_NAV_EXTRA    = 380;  // ms after last card → nav appears
+const memoryPattern = [
+  { left: '4%', top: '8%', width: '28%', height: '210px', rotate: -9 },
+  { left: '33%', top: '4%', width: '25%', height: '230px', rotate: 7 },
+  { left: '62%', top: '9%', width: '30%', height: '200px', rotate: -4 },
+  { left: '15%', top: '34%', width: '24%', height: '220px', rotate: 6 },
+  { left: '46%', top: '35%', width: '34%', height: '260px', rotate: -7 },
+  { left: '75%', top: '35%', width: '20%', height: '190px', rotate: 9 },
+  { left: '9%', top: '60%', width: '26%', height: '230px', rotate: 3 },
+  { left: '40%', top: '68%', width: '29%', height: '220px', rotate: -5 },
+  { left: '72%', top: '59%', width: '22%', height: '200px', rotate: 6 },
+  { left: '58%', top: '15%', width: '18%', height: '160px', rotate: -2 },
+  { left: '22%', top: '14%', width: '16%', height: '150px', rotate: 5 },
+  { left: '82%', top: '16%', width: '12%', height: '140px', rotate: -6 },
+] as const;
 
-const REDUCED = typeof window !== 'undefined'
-  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface CS {
-  visible: boolean;
-  x: number;         // translateX (px) — linear, fills screen
-  ry: number;        // rotateY (deg) — subtle curve illusion
-  scale: number;
-  opacity: number;
-  mBlur: number;     // motion blur on <img> layer only
-  eOp: number;       // entrance opacity
-  eBlur: number;     // entrance blur
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-const easeOut3   = (t: number) => 1 - Math.pow(1 - Math.max(0, Math.min(1, t)), 3);
-const normAngle  = (a: number) => ((a % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-const signedAngle = (a: number) => { const n = normAngle(a); return n > Math.PI ? n - 2 * Math.PI : n; };
-
-// ─── Component ────────────────────────────────────────────────────────────────
 export const GalleryPage: React.FC = () => {
+  const [activeFilter, setActiveFilter] = useState<CategoryFilter>('ALL');
+  const [activeStory, setActiveStory] = useState(0);
+  const [momentIndex, setMomentIndex] = useState(0);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [photoOffsets, setPhotoOffsets] = useState<Record<string, { x: number; y: number }>>({});
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const filmStripRef = useRef<HTMLDivElement | null>(null);
+  const dragStartX = useRef<number | null>(null);
+  const dragStartScrollLeft = useRef<number | null>(null);
 
-  // Viewport-relative card dimensions — recomputed on resize
-  const dimRef = useRef({ cardW: 0, cardH: 0, gapX: 0, gapY: 0, slotPx: 0 });
+  const visibleItems = useMemo(() => {
+    if (activeFilter === 'ALL') return galleryData;
+    return galleryData.filter(item => item.category === activeFilter);
+  }, [activeFilter]);
 
-  const computeDims = useCallback(() => {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    // Rows fill the full viewport height
-    const gapY  = Math.max(6, Math.round(vh * 0.016));
-    const cardH = Math.round((vh - gapY * (ROW_COUNT + 1)) / ROW_COUNT);
-    const cardW = Math.round(cardH * 1.72);   // ~16:9.3 aspect
-    const gapX  = Math.max(6, Math.round(vw * 0.007));
-    const slotPx = cardW + gapX;
-
-    dimRef.current = { cardW, cardH, gapX, gapY, slotPx };
-  }, []);
-
-  // Row item arrays (looped)
-  const rows = useMemo<GalleryItem[][]>(() =>
-    Array.from({ length: ROW_COUNT }, (_, r) =>
-      Array.from({ length: TOTAL_COLS }, (_, c) =>
-        galleryData[(r * TOTAL_COLS + c) % galleryData.length]
-      )
-    ), []);
-
-  // Physics refs (mutable, live outside React state)
-  const anglesRef   = useRef<number[]>(Array(ROW_COUNT).fill(0));
-  const velRef      = useRef<number[]>(Array(ROW_COUNT).fill(0));
-  const rafRef      = useRef<number>(0);
-  const hiddenRef   = useRef(false);
-  const expandedRef = useRef(false);
-
-  // Entrance
-  const entStartRef = useRef<number | null>(null);
-  const entDoneRef  = useRef(REDUCED);
-
-  // Drag
-  const dragRef = useRef({ active: false, lastX: 0 });
-
-  // Computed card states written each frame
-  const csRef = useRef<CS[][][]>([]);
-
-  // React state (minimal — only triggers re-render)
-  const [, bump]      = useState(0);
-  const tickRef       = useRef(0);
-  const [expanded,    setExpanded]   = useState<GalleryItem | null>(null);
-  const [navVisible,  setNavVisible] = useState(REDUCED);
-  const [stageScale,  setStageScale] = useState(REDUCED ? 1 : 0.52);
-
-  // Entrance total duration
-  const entTotalMs = useMemo(() => {
-    const center = Math.floor(TOTAL_COLS / 2);
-    let max = 0;
-    for (let r = 0; r < ROW_COUNT; r++)
-      for (let c = 0; c < TOTAL_COLS; c++)
-        max = Math.max(max,
-          Math.abs(c - center) * ENT_STAGGER + r * ENT_ROW_STAGGER + ENT_DURATION);
-    return max;
-  }, []);
-
-  // Init + resize
   useEffect(() => {
-    computeDims();
-    const ro = new ResizeObserver(computeDims);
-    ro.observe(document.documentElement);
-    return () => ro.disconnect();
-  }, [computeDims]);
+    setMomentIndex(0);
+  }, [activeFilter]);
 
-  // Dolly-in
   useEffect(() => {
-    if (REDUCED) { setNavVisible(true); return; }
-    const t = setTimeout(() => setStageScale(1), 80);
-    return () => clearTimeout(t);
-  }, []);
+    if (lightboxIndex !== null && lightboxIndex >= visibleItems.length) {
+      setLightboxIndex(Math.max(0, visibleItems.length - 1));
+    }
+  }, [lightboxIndex, visibleItems.length]);
 
-  // ── RAF loop ──────────────────────────────────────────────────────────────
   useEffect(() => {
-    let lastT = 0;
+    if (lightboxIndex === null) return;
 
-    const loop = (now: number) => {
-      rafRef.current = requestAnimationFrame(loop);
-      const dt = Math.min(now - lastT, 50);
-      lastT = now;
-      if (hiddenRef.current) return;
-
-      // Entrance timer
-      let entT = Infinity;
-      if (!REDUCED) {
-        if (entStartRef.current === null) entStartRef.current = now;
-        entT = now - entStartRef.current;
-        if (!entDoneRef.current && entT >= entTotalMs + ENT_NAV_EXTRA) {
-          entDoneRef.current = true;
-          setNavVisible(true);
-        }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setLightboxIndex(null);
+        return;
       }
-
-      // Physics
-      if (!expandedRef.current) {
-        for (let r = 0; r < ROW_COUNT; r++) {
-          let v = velRef.current[r] * Math.pow(FRICTION, dt / 16.67);
-
-          if (Math.abs(v) < SNAP_THRESHOLD) {
-            const nearest = Math.round(anglesRef.current[r] / SLOT_ANGLE) * SLOT_ANGLE;
-            const diff    = nearest - anglesRef.current[r];
-            anglesRef.current[r] += diff * SNAP_SPEED;
-            if (Math.abs(diff) < 0.0004) { anglesRef.current[r] = nearest; v = 0; }
-          }
-
-          velRef.current[r] = v;
-          anglesRef.current[r] += v;
-        }
+      if (event.key === 'ArrowLeft') {
+        setLightboxIndex(prev => prev === null ? 0 : (prev - 1 + visibleItems.length) % visibleItems.length);
       }
-
-      // Card state computation
-      const { cardW, slotPx } = dimRef.current;
-      const halfVw = window.innerWidth / 2;
-      const center = Math.floor(TOTAL_COLS / 2);
-
-      const newCS: CS[][][] = Array.from({ length: ROW_COUNT }, (_, r) =>
-        Array.from({ length: TOTAL_COLS }, (_, c): CS[] => {
-          const slotAng = c * SLOT_ANGLE;
-          const eff     = slotAng - anglesRef.current[r];
-          const sa      = signedAngle(eff);
-
-          // Signed slot index (fractional, −½TOTAL_COLS … +½TOTAL_COLS)
-          const si = sa / SLOT_ANGLE;
-
-          // LINEAR x-position — cards always fill the screen evenly
-          const x = si * slotPx;
-
-          // Cull only when completely outside the visible area (+1 card buffer)
-          if (Math.abs(x) > halfVw + cardW) return [{ visible: false } as CS];
-
-          const absI  = Math.abs(si);
-          // Subtle visual curve: 7° per slot, capped at 45°
-          const ry    = Math.max(-45, Math.min(45, si * 7));
-          // Gentle scale falloff — center 4 slots stay at 1.0
-          const scale   = 1 - Math.max(0, absI - 2) * 0.038;
-          // Gentle opacity fade at edges
-          const opacity = 1 - Math.max(0, absI - 1) * 0.09;
-
-          // Motion blur on img only
-          const speed = Math.abs(velRef.current[r]);
-          const mBlur = REDUCED ? 0 : Math.min(speed * 25, 14);
-
-          // Entrance
-          let eOp = 1, eBlur = 0;
-          if (!REDUCED && !entDoneRef.current) {
-            const dist  = Math.abs(c - center);
-            const delay = dist * ENT_STAGGER + r * ENT_ROW_STAGGER;
-            const prog  = easeOut3((entT - delay) / ENT_DURATION);
-            eOp   = prog;
-            eBlur = (1 - prog) * 16;
-          }
-
-          return [{ visible: true, x, ry, scale, opacity, mBlur, eOp, eBlur }];
-        })
-      );
-
-      csRef.current = newCS;
-      tickRef.current++;
-      bump(tickRef.current);
-    };
-
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [entTotalMs]);
-
-  // ── Inputs ────────────────────────────────────────────────────────────────
-  useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      if (expandedRef.current) return;
-      e.preventDefault();
-      const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      for (let r = 0; r < ROW_COUNT; r++)
-        velRef.current[r] += d * SCROLL_SENS * ROW_DIRS[r];
-    };
-    window.addEventListener('wheel', onWheel, { passive: false });
-    return () => window.removeEventListener('wheel', onWheel);
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { if (expandedRef.current) closeCard(); return; }
-      if (expandedRef.current) return;
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        const dir = e.key === 'ArrowLeft' ? -1 : 1;
-        for (let r = 0; r < ROW_COUNT; r++)
-          velRef.current[r] += dir * KEY_IMPULSE * ROW_DIRS[r];
+      if (event.key === 'ArrowRight') {
+        setLightboxIndex(prev => prev === null ? 0 : (prev + 1) % visibleItems.length);
       }
     };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  const onPD = useCallback((e: React.PointerEvent) => {
-    if (expandedRef.current) return;
-    dragRef.current = { active: true, lastX: e.clientX };
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  }, []);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxIndex, visibleItems.length]);
 
-  const onPM = useCallback((e: React.PointerEvent) => {
-    if (!dragRef.current.active) return;
-    const dx = e.clientX - dragRef.current.lastX;
-    dragRef.current.lastX = e.clientX;
-    for (let r = 0; r < ROW_COUNT; r++)
-      velRef.current[r] += dx * DRAG_SENS * ROW_DIRS[r];
-  }, []);
+  const handleExplore = () => {
+    document.getElementById('memory-wall')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
-  const onPU = useCallback(() => { dragRef.current.active = false; }, []);
+  const wallItems = useMemo(
+    () => visibleItems.map((item, index) => ({ ...item, ...memoryPattern[index % memoryPattern.length] })),
+    [visibleItems]
+  );
 
-  useEffect(() => {
-    const fn = () => { hiddenRef.current = document.hidden; };
-    document.addEventListener('visibilitychange', fn);
-    return () => document.removeEventListener('visibilitychange', fn);
-  }, []);
+  const filmItems = useMemo(() => [...galleryData, ...galleryData], []);
 
-  // ── Card expand / close ───────────────────────────────────────────────────
-  const openCard = useCallback((item: GalleryItem) => {
-    if (expandedRef.current) return;
-    expandedRef.current = true;
-    setExpanded(item);
-  }, []);
+  const updateTilt = (itemId: string, clientX: number, clientY: number, rect: DOMRect) => {
+    const x = ((clientX - rect.left) / rect.width - 0.5) * 12;
+    const y = ((clientY - rect.top) / rect.height - 0.5) * 10;
+    setPhotoOffsets(prev => ({ ...prev, [itemId]: { x, y } }));
+  };
 
-  const closeCard = useCallback(() => {
-    expandedRef.current = false;
-    setExpanded(null);
-  }, []);
+  const nextMoment = (dir: -1 | 1) => {
+    setMomentIndex(prev => (prev + dir + visibleItems.length) % visibleItems.length);
+  };
 
-  const goPrev = useCallback(() => {
-    setExpanded(cur => {
-      if (!cur) return cur;
-      const i = galleryData.findIndex(g => g.id === cur.id);
-      return galleryData[(i - 1 + galleryData.length) % galleryData.length];
-    });
-  }, []);
+  const filmPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    dragStartX.current = event.clientX;
+    dragStartScrollLeft.current = filmStripRef.current?.scrollLeft ?? 0;
+  };
 
-  const goNext = useCallback(() => {
-    setExpanded(cur => {
-      if (!cur) return cur;
-      const i = galleryData.findIndex(g => g.id === cur.id);
-      return galleryData[(i + 1) % galleryData.length];
-    });
-  }, []);
+  const filmPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (dragStartX.current === null || dragStartScrollLeft.current === null || !filmStripRef.current) return;
+    const delta = event.clientX - dragStartX.current;
+    filmStripRef.current.scrollLeft = dragStartScrollLeft.current - delta;
+  };
 
-  const expandedIdx = expanded
-    ? galleryData.findIndex(g => g.id === expanded.id)
-    : -1;
+  const filmPointerUp = () => {
+    dragStartX.current = null;
+    dragStartScrollLeft.current = null;
+  };
 
-  const { cardW, cardH, gapY } = dimRef.current;
+  const activeMoment = visibleItems[momentIndex] ?? visibleItems[0];
 
-  // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        overflow: 'hidden',
-        userSelect: 'none',
-        background: '#080808',
-        cursor: dragRef.current.active ? 'grabbing' : 'grab',
-      }}
-      onPointerDown={onPD}
-      onPointerMove={onPM}
-      onPointerUp={onPU}
-      onPointerLeave={onPU}
-    >
+    <>
+      <style>{`
+        .gallery-shell {
+          background:
+            radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 35%),
+            linear-gradient(180deg, #06070b 0%, #090b12 36%, #0b0d13 100%);
+          overflow-x: hidden;
+        }
 
-      {/*
-        ── 3D Stage ────────────────────────────────────────────────────────
-        isolation: isolate keeps 3D-composited children from bleeding above
-        the z-indexed UI chrome (nav bar) that lives as a sibling.
-      */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          isolation: 'isolate',        // ← stacking context: cards stay below UI
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          perspective: 1200,
-          perspectiveOrigin: '50% 50%',
-        }}
-      >
-        {/* Stage: dolly-in + dim when lightbox open */}
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-            transformStyle: 'preserve-3d',
-            transform: `scale(${stageScale})`,
-            opacity: expanded ? 0.1 : 1,
-            transition: REDUCED
-              ? 'none'
-              : `transform 1.15s cubic-bezier(.16,1,.3,1), opacity ${expanded ? '0.45s' : '0.35s'} ease`,
-            willChange: 'transform, opacity',
-          }}
-        >
-          {rows.map((rowItems, r) => {
-            // Row Y: rows are evenly distributed across full viewport height
-            const rowY = (gapY) + r * (cardH + gapY) + cardH / 2;
-            // Offset from center: rows centered at 50% of viewport height
-            const totalH = ROW_COUNT * cardH + (ROW_COUNT + 1) * gapY;
-            const startY = (window.innerHeight - totalH) / 2 + gapY;
-            const centerY = startY + r * (cardH + gapY) + cardH / 2;
-            const offsetY = centerY; // absolute from top
+        .memory-wall-grid {
+          position: relative;
+          min-height: 980px;
+          overflow: hidden;
+        }
 
-            return (
-              <div
-                key={r}
-                style={{
-                  position: 'absolute',
-                  top: offsetY,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 0,
-                  height: 0,
-                }}
-              >
-                {rowItems.map((item, c) => {
-                  const cs = csRef.current[r]?.[c]?.[0];
-                  if (!cs?.visible) return null;
+        .memory-photo {
+          position: absolute;
+          overflow: hidden;
+          border-radius: 22px;
+          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(15,17,21,0.9);
+          box-shadow: 0 30px 60px -25px rgba(2,6,23,0.8), 0 0 0 1px rgba(255,255,255,0.04);
+          transform-style: preserve-3d;
+        }
 
-                  const totalBlur = cs.mBlur + cs.eBlur;
+        .memory-photo img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.5s ease;
+        }
 
-                  return (
-                    <div
-                      key={`${r}-${c}`}
-                      style={{
-                        position: 'absolute',
-                        width: cardW,
-                        height: cardH,
-                        left: -cardW / 2,
-                        top: -cardH / 2,
-                        transform: `translateX(${cs.x}px) rotateY(${cs.ry}deg) scale(${cs.scale})`,
-                        opacity: cs.opacity * cs.eOp,
-                        // zIndex within the isolated stage — just for correct 3D sorting
-                        zIndex: Math.round((1 - Math.abs(cs.ry) / 90) * 10),
-                        willChange: 'transform, opacity',
-                      }}
-                    >
-                      <button
-                        onClick={(e) => { e.stopPropagation(); openCard(item); }}
-                        aria-label={item.title}
-                        disabled={!!expanded}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          border: 'none',
-                          padding: 0,
-                          cursor: 'pointer',
-                          borderRadius: 8,
-                          overflow: 'hidden',
-                          background: '#111',
-                          display: 'block',
-                          boxShadow: '0 0 0 1px rgba(255,255,255,0.05)',
-                        }}
-                      >
-                        {/* Motion blur applied ONLY on <img>, not on the 3D wrapper */}
-                        <img
-                          src={item.imageUrl}
-                          alt={item.title}
-                          referrerPolicy="no-referrer"
-                          draggable={false}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center',
-                            display: 'block',
-                            filter: totalBlur > 0.1 ? `blur(${totalBlur}px)` : 'none',
-                            transition: 'filter 0.06s linear',
-                            willChange: 'filter',
-                            pointerEvents: 'none',
-                          }}
-                        />
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-      </div>
+        .memory-photo:hover img {
+          transform: scale(1.08);
+        }
 
-      {/*
-        ── UI Chrome ────────────────────────────────────────────────────────
-        Lives OUTSIDE the isolated stage div → always renders above cards.
-      */}
+        @keyframes film-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
 
-      {/* Top bar */}
-     
+        .film-track {
+          display: flex;
+          gap: 18px;
+          width: max-content;
+          animation: film-scroll 36s linear infinite;
+        }
 
-      {/* Scroll hint */}
-      <motion.p
-        style={{
-          position: 'absolute', bottom: 22, left: 0, right: 0,
-          textAlign: 'center', zIndex: 50,
-          fontFamily: 'var(--font-mono, monospace)', fontSize: 10,
-          letterSpacing: '0.16em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.15)', pointerEvents: 'none',
-        }}
-        initial={{ opacity: 0 }}
-        animate={navVisible ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-      >
-        Scroll · Drag · ← → to rotate
-      </motion.p>
+        .film-track:hover {
+          animation-play-state: paused;
+        }
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {expanded && (
-          <Lightbox
-            item={expanded}
-            idx={expandedIdx}
-            total={galleryData.length}
-            allItems={galleryData}
-            onClose={closeCard}
-            onPrev={goPrev}
-            onNext={goNext}
-            onJump={setExpanded}
+        @media (max-width: 768px) {
+          .memory-wall-grid {
+            min-height: auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+          }
+
+          .memory-photo {
+            position: relative;
+            width: 100% !important;
+            left: auto !important;
+            top: auto !important;
+            height: 260px !important;
+          }
+
+          .story-rail {
+            padding-left: 0;
+          }
+
+          .story-rail::before {
+            left: 12px !important;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .film-track { animation: none; }
+          * { scroll-behavior: auto !important; }
+        }
+      `}</style>
+
+      <div className="gallery-shell min-h-screen text-white">
+        <section className="relative overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `linear-gradient(90deg, rgba(2,6,23,0.8), rgba(2,6,23,0.4)), url(${galleryData[0].imageUrl})`,
+              transform: 'scale(1.08)',
+            }}
           />
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.4)_55%,rgba(2,6,23,0.78)_100%)]" />
 
-// ─── Lightbox ─────────────────────────────────────────────────────────────────
-interface LBProps {
-  item: GalleryItem; idx: number; total: number; allItems: GalleryItem[];
-  onClose(): void; onPrev(): void; onNext(): void; onJump(i: GalleryItem): void;
-}
+          <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-24 sm:px-8 lg:px-10 lg:pb-20 lg:pt-32">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="max-w-3xl"
+            >
+              <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.36em] text-cyan-300/80">HackXpo '26</p>
+              <h1 className="text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl lg:text-8xl">
+                WHERE IDEAS <span className="text-cyan-300">BECAME REAL</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-sm text-slate-300 sm:text-base">
+                A living memory wall of prototypes, people, late nights, and the moments that shaped HACKXPO '26.
+              </p>
 
-const Lightbox: React.FC<LBProps> = ({
-  item, idx, total, allItems, onClose, onPrev, onNext, onJump,
-}) => {
-  const stripRef = useRef<HTMLDivElement>(null);
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <button
+                  onClick={handleExplore}
+                  className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-xs font-medium uppercase tracking-[0.22em] text-white backdrop-blur-sm transition hover:border-cyan-400/60 hover:bg-cyan-400/10"
+                >
+                  Explore memories
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-400/15 text-cyan-200 transition group-hover:translate-y-1">
+                    <ArrowDown size={14} />
+                  </span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-  useEffect(() => {
-    stripRef.current
-      ?.querySelector<HTMLElement>(`[data-t="${item.id}"]`)
-      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  }, [item.id]);
+        <section id="memory-wall" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between"
+          >
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300/80">Memory wall</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">The spirit of HACKXPO</h2>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {categoryOptions.map(option => (
+                <button
+                  key={option}
+                  onClick={() => setActiveFilter(option)}
+                  className={`rounded-full border px-4 py-2 text-[10px] font-medium uppercase tracking-[0.2em] transition ${
+                    activeFilter === option
+                      ? 'border-cyan-400/70 bg-cyan-400/15 text-white'
+                      : 'border-white/10 bg-white/3 text-slate-300 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </motion.div>
 
-  useEffect(() => {
-    const fn = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') onPrev();
-      if (e.key === 'ArrowRight') onNext();
-    };
-    window.addEventListener('keydown', fn);
-    return () => window.removeEventListener('keydown', fn);
-  }, [onPrev, onNext]);
+          <div className="memory-wall-grid">
+            {wallItems.map((item, index) => {
+              const offset = photoOffsets[item.id] ?? { x: 0, y: 0 };
 
-  return (
-    <motion.div
-      key="lb"
-      style={{
-        position: 'fixed', inset: 0, zIndex: 200,
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(4,4,4,0.97)',
-        backdropFilter: 'blur(32px)', WebkitBackdropFilter: 'blur(32px)',
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.35 }}
-      onClick={onClose}
-    >
-      {/* Counter */}
-      <div style={{
-        position: 'absolute', top: 24, left: 26, zIndex: 10,
-        fontFamily: 'var(--font-mono, monospace)', fontSize: 13,
-        color: 'rgba(255,255,255,0.3)', pointerEvents: 'none',
-      }}>
-        <b style={{ color: '#fff', fontWeight: 700 }}>{String(idx + 1).padStart(2, '0')}</b>
-        {' / '}{String(total).padStart(2, '0')}
-      </div>
+              return (
+                <motion.button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setLightboxIndex(visibleItems.findIndex(entry => entry.id === item.id))}
+                  onMouseMove={event => updateTilt(item.id, event.clientX, event.clientY, event.currentTarget.getBoundingClientRect())}
+                  onMouseLeave={() => setPhotoOffsets(prev => ({ ...prev, [item.id]: { x: 0, y: 0 } }))}
+                  initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.55, delay: index * 0.05, ease: 'easeOut' }}
+                  animate={{
+                    x: offset.x,
+                    y: offset.y,
+                    rotate: item.rotate + offset.x * 0.4,
+                  }}
+                  whileHover={{ scale: 1.04, y: -8, rotate: 0 }}
+                  style={{
+                    left: item.left,
+                    top: item.top,
+                    width: item.width,
+                    height: item.height,
+                  }}
+                  className="memory-photo group"
+                >
+                  <img src={item.imageUrl} alt={item.title} loading="lazy" referrerPolicy="no-referrer" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4 opacity-0 transition duration-300 group-hover:opacity-100">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-cyan-300">{item.category}</p>
+                    <div className="mt-3 flex items-center justify-between gap-3 text-left">
+                      <div>
+                        <p className="text-base font-medium text-white">{item.title}</p>
+                        <p className="text-[11px] text-slate-300">{item.description}</p>
+                      </div>
+                      <span className="text-sm text-white">VIEW MOMENT →</span>
+                    </div>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+        </section>
 
-      <IBtn style={{ position: 'absolute', top: 20, right: 20 }}
-        onClick={(e) => { e.stopPropagation(); onClose(); }} aria-label="Close">
-        <X size={17} />
-      </IBtn>
-      <IBtn style={{ position: 'absolute', top: '50%', left: 14, transform: 'translateY(-50%)' }}
-        onClick={(e) => { e.stopPropagation(); onPrev(); }} aria-label="Previous">
-        <ChevronLeft size={20} />
-      </IBtn>
-      <IBtn style={{ position: 'absolute', top: '50%', right: 14, transform: 'translateY(-50%)' }}
-        onClick={(e) => { e.stopPropagation(); onNext(); }} aria-label="Next">
-        <ChevronRight size={20} />
-      </IBtn>
+        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-cyan-300/80">The HackXpo story</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">THE HACKXPO STORY</h2>
+          </motion.div>
 
-      <motion.div
-        key={item.id}
-        onClick={(e) => e.stopPropagation()}
-        style={{ position: 'relative', width: '100%', maxWidth: 1100, padding: '0 72px' }}
-        initial={{ scale: 0.88, opacity: 0, y: 18 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.94, opacity: 0 }}
-        transition={{ duration: 0.44, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div style={{
-          borderRadius: 14, overflow: 'hidden', background: '#111',
-          boxShadow: '0 60px 150px -30px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.06)',
-        }}>
-          <img src={item.imageUrl} alt={item.title} referrerPolicy="no-referrer"
-            style={{ width: '100%', maxHeight: '65vh', objectFit: 'contain', display: 'block' }} />
-        </div>
-        <motion.div
-          key={item.id + 'c'}
-          initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.35 }}
-          style={{ marginTop: 18, textAlign: 'center' }}
-        >
-          <p style={{ fontSize: 15, fontWeight: 600, color: '#fff',
-            fontFamily: 'var(--font-heading, "Space Grotesk", system-ui)', letterSpacing: '-0.01em' }}>
-            {item.title}
-          </p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)', marginTop: 4 }}>
-            {item.description}
-          </p>
-        </motion.div>
-      </motion.div>
+          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="story-rail relative pl-6 sm:pl-8">
+              {storyStages.map((stage, index) => (
+                <motion.div
+                  key={stage.id}
+                  data-story-stage
+                  onViewportEnter={() => setActiveStory(index)}
+                  viewport={{ once: false, amount: 0.7 }}
+                  className="relative mb-10 last:mb-0"
+                >
+                  <div className={`absolute left-[-20px] top-1.5 h-3 w-3 rounded-full border ${activeStory === index ? 'border-cyan-200 bg-cyan-300 shadow-[0_0_25px_rgba(103,232,249,0.9)]' : 'border-slate-500 bg-slate-900'} `} />
+                  <div className={`absolute left-[-11px] top-0 h-full w-px ${activeStory >= index ? 'bg-cyan-400/70' : 'bg-slate-700'}`} />
+                  <div className={`rounded-2xl border p-4 transition ${activeStory === index ? 'border-cyan-500/50 bg-cyan-500/5' : 'border-white/5 bg-white/[0.02]'}`}>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-300">{stage.id}</p>
+                    <h3 className="mt-3 text-2xl font-medium text-white">{stage.label}</h3>
+                    <p className="mt-2 text-sm text-slate-300">{stage.caption}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-      {/* Thumbnail strip */}
-      <div onClick={(e) => e.stopPropagation()} style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, pointerEvents: 'auto',
-        padding: '20px 0 22px',
-        background: 'linear-gradient(to top, rgba(4,4,4,0.96), transparent)',
-      }}>
-        <div ref={stripRef} style={{
-          display: 'flex', gap: 7, overflowX: 'auto', padding: '4px 28px',
-          scrollbarWidth: 'none',
-        }}>
-          {allItems.map((t) => {
-            const a = t.id === item.id;
-            return (
-              <button key={t.id} data-t={t.id} onClick={() => onJump(t)} aria-label={t.title}
-                style={{
-                  flexShrink: 0, width: 44, height: 44, borderRadius: 7,
-                  overflow: 'hidden', padding: 0, cursor: 'pointer', background: '#1a1a1a',
-                  border: a ? '2px solid #fff' : '2px solid transparent',
-                  opacity: a ? 1 : 0.28,
-                  transform: a ? 'scale(1.1)' : 'scale(1)',
-                  transition: 'all 0.2s cubic-bezier(.16,1,.3,1)',
-                }}>
-                <img src={t.imageUrl} alt="" referrerPolicy="no-referrer"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', pointerEvents: 'none' }} />
+            <motion.div
+              key={storyStages[activeStory].id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+              className="overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02]"
+            >
+              <div className="relative h-[420px] w-full sm:h-[520px]">
+                <img
+                  src={galleryData[(activeStory * 2 + 1) % galleryData.length]?.imageUrl || galleryData[0].imageUrl}
+                  alt={storyStages[activeStory].label}
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/30 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-300">{storyStages[activeStory].id} • {storyStages[activeStory].label}</p>
+                  <p className="mt-4 max-w-md text-lg text-slate-100 sm:text-2xl">{storyStages[activeStory].caption}</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+          <div className="mb-8 flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300/80">Photo of the moment</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">ONE MEMORY, SHARPER</h2>
+            </div>
+            <div className="hidden items-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-300 sm:flex">
+              <button
+                onClick={() => nextMoment(-1)}
+                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2 transition hover:border-cyan-400/60 hover:text-white"
+              >
+                <ChevronLeft size={14} /> Previous
               </button>
-            );
-          })}
-        </div>
+              <span className="font-mono text-cyan-300">{String(momentIndex + 1).padStart(2, '0')} / {String(visibleItems.length).padStart(2, '0')}</span>
+              <button
+                onClick={() => nextMoment(1)}
+                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2 transition hover:border-cyan-400/60 hover:text-white"
+              >
+                Next <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
+
+          <div
+            className="overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02]"
+            onTouchStart={event => {
+              setTouchStartX(event.touches[0]?.clientX ?? null);
+              setTouchStartY(event.touches[0]?.clientY ?? null);
+            }}
+            onTouchEnd={event => {
+              if (touchStartX === null || touchStartY === null) return;
+              const dx = event.changedTouches[0].clientX - touchStartX;
+              const dy = event.changedTouches[0].clientY - touchStartY;
+              if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+                nextMoment(dx < 0 ? 1 : -1);
+              }
+              setTouchStartX(null);
+              setTouchStartY(null);
+            }}
+          >
+            <motion.div
+              key={activeMoment.id}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <img
+                src={activeMoment.imageUrl}
+                alt={activeMoment.title}
+                className="h-[420px] w-full object-cover sm:h-[560px]"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#04070d] via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.26em] text-cyan-300">{activeMoment.category}</p>
+                    <h3 className="mt-3 text-2xl font-medium text-white sm:text-4xl">{activeMoment.title}</h3>
+                  </div>
+                  <button
+                    onClick={() => setLightboxIndex(momentIndex)}
+                    className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white transition hover:border-cyan-400/50 hover:bg-cyan-400/10"
+                  >
+                    View fullscreen
+                  </button>
+                </div>
+                <p className="mt-3 max-w-xl text-sm text-slate-200">{activeMoment.description}</p>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="mt-5 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-300 sm:hidden">
+            <button onClick={() => nextMoment(-1)} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2">
+              <ChevronLeft size={14} /> Prev
+            </button>
+            <span className="font-mono text-cyan-300">{String(momentIndex + 1).padStart(2, '0')} / {String(visibleItems.length).padStart(2, '0')}</span>
+            <button onClick={() => nextMoment(1)} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2">
+              Next <ChevronRight size={14} />
+            </button>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+          <div className="mb-8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300/80">Memories in motion</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">A ROLLING WINDOW OF MOMENTS</h2>
+          </div>
+
+          <div
+            ref={filmStripRef}
+            onPointerDown={filmPointerDown}
+            onPointerMove={filmPointerMove}
+            onPointerUp={filmPointerUp}
+            onPointerLeave={filmPointerUp}
+            className="overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.02] p-4"
+          >
+            <div className="film-track py-2">
+              {filmItems.map((item, index) => (
+                <button
+                  key={`${item.id}-${index}`}
+                  type="button"
+                  onClick={() => setLightboxIndex(galleryData.findIndex(entry => entry.id === item.id))}
+                  className="group relative h-52 w-72 flex-shrink-0 overflow-hidden rounded-[18px] border border-white/10 bg-slate-900/80 transition hover:border-cyan-400/50"
+                >
+                  <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-cyan-300">{item.category}</p>
+                    <p className="mt-2 text-sm font-medium text-white">{item.title}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <AnimatePresence>
+          {lightboxIndex !== null && visibleItems[lightboxIndex] && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-50 bg-[#05070d]/95 backdrop-blur-lg"
+              onClick={() => setLightboxIndex(null)}
+            >
+              <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-4 py-8 sm:px-8">
+                <button
+                  onClick={() => setLightboxIndex(null)}
+                  className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10"
+                  aria-label="Close gallery item"
+                >
+                  <X size={18} />
+                </button>
+
+                <button
+                  onClick={() => setLightboxIndex(prev => prev === null ? 0 : (prev - 1 + visibleItems.length) % visibleItems.length)}
+                  className="absolute left-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10 sm:flex"
+                  aria-label="Previous gallery item"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={() => setLightboxIndex(prev => prev === null ? 0 : (prev + 1) % visibleItems.length)}
+                  className="absolute right-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10 sm:flex"
+                  aria-label="Next gallery item"
+                >
+                  <ChevronRight size={18} />
+                </button>
+
+                <motion.div
+                  key={visibleItems[lightboxIndex].id}
+                  initial={{ opacity: 0, scale: 0.96, y: 16 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.96 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  onClick={event => event.stopPropagation()}
+                  className="relative mx-auto w-full max-w-5xl"
+                >
+                  <div className="overflow-hidden rounded-[24px] border border-white/10 bg-slate-900/80 shadow-[0_35px_100px_rgba(0,0,0,0.7)]">
+                    <img
+                      src={visibleItems[lightboxIndex].imageUrl}
+                      alt={visibleItems[lightboxIndex].title}
+                      className="max-h-[70vh] w-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+
+                  <div className="mt-5 flex flex-col gap-2 text-center sm:mt-6">
+                    <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-300">
+                      {String(lightboxIndex + 1).padStart(2, '0')} / {String(visibleItems.length).padStart(2, '0')}
+                    </div>
+                    <h3 className="text-2xl font-medium text-white">{visibleItems[lightboxIndex].title}</h3>
+                    <p className="text-sm text-slate-300">{visibleItems[lightboxIndex].description}</p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </motion.div>
+    </>
   );
 };
-
-// ─── Icon button ──────────────────────────────────────────────────────────────
-type IBtnProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-const IBtn: React.FC<IBtnProps> = ({ children, style, ...rest }) => (
-  <button {...rest} style={{
-    width: 40, height: 40, borderRadius: 10, cursor: 'pointer',
-    border: '1px solid rgba(255,255,255,0.1)',
-    background: 'rgba(255,255,255,0.06)',
-    color: '#888', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    transition: 'all 0.16s', zIndex: 10, ...style,
-  }}
-    onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.13)'; }}
-    onMouseLeave={(e) => { e.currentTarget.style.color = '#888'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
-  >
-    {children}
-  </button>
-);
