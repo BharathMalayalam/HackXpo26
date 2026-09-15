@@ -22,6 +22,7 @@ import { ContactPage } from './pages/ContactPage';
 function AppContent() {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isGallery = location.pathname === '/gallery';
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
@@ -44,7 +45,7 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <Footer />
+      {!isGallery && <Footer />}
     </div>
   );
 }

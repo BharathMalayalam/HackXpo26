@@ -54,6 +54,9 @@ export interface StudentMentor {
 export interface GalleryItem {
   id: string;
   imageUrl: string;
+  title: string;
+  description: string;
+  isNew?: boolean;
 }
 
 export interface VideoItem {
