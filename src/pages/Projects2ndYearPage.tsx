@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { projectsData } from '../data/projects';
+import { useYear } from '../context/YearContext';
 import { ProjectCard } from '../components/ProjectCard';
 import {
   Search,
@@ -25,6 +25,8 @@ const popularTechStacks = [
 ];
 
 export const Projects2ndYearPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const projectsData = data.projects;
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTech, setSelectedTech] = useState('All Tech');
 
@@ -67,7 +69,7 @@ export const Projects2ndYearPage: React.FC = () => {
 
         {/* Back Link */}
         <Link
-          to="/projects"
+          to={`/${year}/projects`}
           className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-purple-400 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />

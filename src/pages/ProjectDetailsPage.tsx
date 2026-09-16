@@ -1,8 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { projectsData } from '../data/projects';
-import { mentorsData } from '../data/mentors';
-import { studentMentorsData } from '../data/mentors';
+import { useYear } from '../context/YearContext';
 import { 
   ArrowLeft, 
   Github, 
@@ -19,6 +17,11 @@ import {
 
 export const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const { year, config, data } = useYear();
+
+  const projectsData = data.projects;
+  const mentorsData = data.mentors;
+  const studentMentorsData = data.studentMentors;
 
   const project = projectsData.find((p) => p.id === id);
 
@@ -29,10 +32,10 @@ export const ProjectDetailsPage: React.FC = () => {
           <span className="text-4xl font-mono text-cyan-400">404</span>
           <h1 className="text-2xl font-heading font-bold text-white">Project Not Found</h1>
           <p className="text-sm text-slate-400">
-            The requested project identifier could not be located in the HackXpo '26 registry.
+            The requested project identifier could not be located in the {config.label} registry.
           </p>
           <Link
-            to="/projects"
+            to={`/${year}/projects`}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-none bg-cyan-500 text-black font-semibold text-sm hover:bg-cyan-400 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -58,7 +61,7 @@ export const ProjectDetailsPage: React.FC = () => {
         {/* Top Breadcrumb & Navigation */}
         <div className="flex items-center justify-between">
           <Link
-            to="/projects"
+            to={`/${year}/projects`}
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-400 hover:text-cyan-400 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -66,7 +69,7 @@ export const ProjectDetailsPage: React.FC = () => {
           </Link>
 
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-            <span>HackXpo '26</span>
+            <span>{config.label}</span>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-cyan-400">{project.year}</span>
             <ChevronRight className="w-3.5 h-3.5" />

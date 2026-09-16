@@ -1,5 +1,5 @@
 {
-  "name": "HackXpo ’26",
+  "name": "HackXpo Portal",
   "description": "Official technical event and hackathon portal conducted by the Department of Information Technology, Government College of Engineering, Erode.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

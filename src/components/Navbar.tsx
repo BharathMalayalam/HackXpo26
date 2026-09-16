@@ -15,6 +15,8 @@ import {
   Image as ImageIcon,
   Layers
 } from 'lucide-react';
+import { useYear } from '../context/YearContext';
+import { AVAILABLE_YEARS, YearKey } from '../config/years';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +27,7 @@ export const Navbar: React.FC = () => {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const projectDropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
+  const { year, config } = useYear();
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -67,11 +70,11 @@ export const Navbar: React.FC = () => {
     { path: '/judges', label: 'Judges', icon: Scale, desc: 'Industry & academic jury panel' },
   ];
 
-  const isHomeActive = location.pathname === '/';
-  const isProjectsActive = location.pathname.startsWith('/projects');
-  const isGalleryActive = location.pathname.startsWith('/gallery');
-  const isMentorsActive = location.pathname.startsWith('/mentors');
-  const isMoreActive = moreItems.some(item => location.pathname === item.path || location.pathname.startsWith(item.path));
+  const isHomeActive = location.pathname === `/${year}/`;
+  const isProjectsActive = location.pathname.startsWith(`/${year}/projects`);
+  const isGalleryActive = location.pathname.startsWith(`/${year}/gallery`);
+  const isMentorsActive = location.pathname.startsWith(`/${year}/mentors`);
+  const isMoreActive = moreItems.some(item => location.pathname === `/${year}${item.path}` || location.pathname.startsWith(`/${year}${item.path}`));
 
   return (
     <header 
@@ -84,7 +87,7 @@ export const Navbar: React.FC = () => {
 
           {/* Left Brand Identity matching the reference image layout */}
           <Link 
-            to="/" 
+            to={`/${year}/`} 
             id="navbar-brand-link" 
             className="flex items-center gap-3 group select-none py-2"
           >
@@ -96,7 +99,7 @@ export const Navbar: React.FC = () => {
             {/* Deparfont-extraboldtment Text in two uppercase lines matching reference image */}
             <div className="flex flex-col">
               <span className="text-[11px] sm:text-[12px] font-extrabold uppercase tracking-wider text-cyan-400 leading-tight">
-                HackXpo ’26
+                {config.label}
               </span>
               <span className="text-[8.5px] sm:text-[9.5px] uppercase font-mono tracking-widest text-slate-300/80 leading-none mt-0.5">
                Department of Information Technology &
@@ -112,7 +115,7 @@ export const Navbar: React.FC = () => {
             
             {/* 1. HOME */}
             <Link
-              to="/"
+              to={`/${year}/`}
               id="nav-link-home"
               style={{ borderRadius: '0px' }}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
@@ -132,7 +135,7 @@ export const Navbar: React.FC = () => {
               onMouseLeave={handleMouseLeaveProject}
             >
               <Link
-                to="/projects"
+                to={`/${year}/projects`}
                 id="nav-link-project"
                 style={{ borderRadius: '0px' }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
@@ -158,22 +161,22 @@ export const Navbar: React.FC = () => {
                   >
                     <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800 mb-1 flex items-center justify-between">
                       <span>Browse Projects</span>
-                      <span className="text-cyan-400">HackXpo '26</span>
+                      <span className="text-cyan-400">{config.label}</span>
                     </div>
 
                     <div className="space-y-1">
                       <Link
-                        to="/projects"
+                        to={`/${year}/projects`}
                         style={{ borderRadius: '0px' }}
                         className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
-                          location.pathname === '/projects'
+                          location.pathname === `/${year}/projects`
                             ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/30'
                             : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
                         }`}
                       >
                         <div 
                           style={{ borderRadius: '0px' }}
-                          className={`p-2 rounded-none ${location.pathname === '/projects' ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
+                          className={`p-2 rounded-none ${location.pathname === `/${year}/projects` ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
                         >
                           <Layers className="w-4 h-4" />
                         </div>
@@ -184,17 +187,17 @@ export const Navbar: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="/projects/3rd-year"
+                        to={`/${year}/projects/3rd-year`}
                         style={{ borderRadius: '0px' }}
                         className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
-                          location.pathname === '/projects/3rd-year'
+                          location.pathname === `/${year}/projects/3rd-year`
                             ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/30'
                             : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
                         }`}
                       >
                         <div 
                           style={{ borderRadius: '0px' }}
-                          className={`p-2 rounded-none ${location.pathname === '/projects/3rd-year' ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
+                          className={`p-2 rounded-none ${location.pathname === `/${year}/projects/3rd-year` ? 'bg-cyan-500/20 text-cyan-400' : 'bg-slate-800/80 text-slate-400'}`}
                         >
                           <GraduationCap className="w-4 h-4" />
                         </div>
@@ -205,17 +208,17 @@ export const Navbar: React.FC = () => {
                       </Link>
 
                       <Link
-                        to="/projects/2nd-year"
+                        to={`/${year}/projects/2nd-year`}
                         style={{ borderRadius: '0px' }}
                         className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
-                          location.pathname === '/projects/2nd-year'
+                          location.pathname === `/${year}/projects/2nd-year`
                             ? 'bg-purple-950/60 text-purple-300 border border-purple-500/30'
                             : 'text-slate-200 hover:bg-slate-800/70 hover:text-white'
                         }`}
                       >
                         <div 
                           style={{ borderRadius: '0px' }}
-                          className={`p-2 rounded-none ${location.pathname === '/projects/2nd-year' ? 'bg-purple-500/20 text-purple-400' : 'bg-slate-800/80 text-slate-400'}`}
+                          className={`p-2 rounded-none ${location.pathname === `/${year}/projects/2nd-year` ? 'bg-purple-500/20 text-purple-400' : 'bg-slate-800/80 text-slate-400'}`}
                         >
                           <FolderGit2 className="w-4 h-4" />
                         </div>
@@ -232,7 +235,7 @@ export const Navbar: React.FC = () => {
 
             {/* 3. GALLERY */}
             <Link
-              to="/gallery"
+              to={`/${year}/gallery`}
               id="nav-link-gallery"
               style={{ borderRadius: '0px' }}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
@@ -247,7 +250,7 @@ export const Navbar: React.FC = () => {
 
             {/* 4. MENTORS */}
             <Link
-              to="/mentors"
+              to={`/${year}/mentors`}
               id="nav-link-mentors"
               style={{ borderRadius: '0px' }}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-[13px] font-bold uppercase tracking-widest transition-all duration-150 rounded-none ${
@@ -294,17 +297,17 @@ export const Navbar: React.FC = () => {
                   >
                     <div className="px-3 py-2 text-[10px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-800 mb-1 flex items-center justify-between">
                       <span>Event Sections</span>
-                      <span className="text-cyan-400">HackXpo ’26</span>
+                      <span className="text-cyan-400">{config.label}</span>
                     </div>
 
                     <div className="space-y-1">
                       {moreItems.map((item) => {
                         const Icon = item.icon;
-                        const isCurrent = location.pathname === item.path;
+                        const isCurrent = location.pathname === `/${year}${item.path}`;
                         return (
                           <Link
                             key={item.path}
-                            to={item.path}
+                            to={`/${year}${item.path}`}
                             style={{ borderRadius: '0px' }}
                             className={`flex items-start gap-3 p-2.5 rounded-none transition-all ${
                               isCurrent
@@ -336,14 +339,32 @@ export const Navbar: React.FC = () => {
 
           </nav>
 
-          {/* Mobile Hamburger Toggle */}
-          <div className="flex items-center gap-3 lg:hidden">
+          {/* Year Switcher + Mobile Toggle */}
+          <div className="flex items-center gap-2">
+            {/* Year Switcher */}
+            <div className="flex items-center p-0.5 rounded-none bg-slate-900 border border-slate-700">
+              {AVAILABLE_YEARS.map((y) => (
+                <Link
+                  key={y}
+                  to={`/${y}/${location.pathname.split('/').slice(2).join('/') || ''}`}
+                  className={`px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider rounded-none transition-all ${
+                    y === year
+                      ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  '{y}
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
               id="navbar-mobile-toggle-btn"
               aria-label="Toggle Navigation"
               style={{ borderRadius: '0px' }}
-              className="p-2 rounded-none bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors cursor-pointer"
+              className="p-2 rounded-none bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors cursor-pointer lg:hidden"
             >
               {isOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -361,7 +382,7 @@ export const Navbar: React.FC = () => {
           <div className="grid grid-cols-2 gap-2">
             
             <Link
-              to="/"
+              to={`/${year}/`}
               style={{ borderRadius: '0px' }}
               className={`flex items-center gap-2 px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
                 isHomeActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
@@ -390,30 +411,30 @@ export const Navbar: React.FC = () => {
               {projectMobileOpen && (
                 <div className="grid grid-cols-1 gap-2 mt-2 pl-1">
                   <Link
-                    to="/projects"
+                    to={`/${year}/projects`}
                     style={{ borderRadius: '0px' }}
                     className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
-                      location.pathname === '/projects' ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/50 text-slate-300'
+                      location.pathname === `/${year}/projects` ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/50 text-slate-300'
                     }`}
                   >
                     <Layers className="w-3.5 h-3.5 text-cyan-400" />
                     <span>All Projects</span>
                   </Link>
                   <Link
-                    to="/projects/3rd-year"
+                    to={`/${year}/projects/3rd-year`}
                     style={{ borderRadius: '0px' }}
                     className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
-                      location.pathname === '/projects/3rd-year' ? 'bg-cyan-950/70 text-cyan-300 border border-cyan-500/30' : 'bg-slate-900/50 text-slate-300'
+                      location.pathname === `/${year}/projects/3rd-year` ? 'bg-cyan-950/70 text-cyan-300 border border-cyan-500/30' : 'bg-slate-900/50 text-slate-300'
                     }`}
                   >
                     <GraduationCap className="w-3.5 h-3.5 text-cyan-400" />
                     <span>3rd Year</span>
                   </Link>
                   <Link
-                    to="/projects/2nd-year"
+                    to={`/${year}/projects/2nd-year`}
                     style={{ borderRadius: '0px' }}
                     className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
-                      location.pathname === '/projects/2nd-year' ? 'bg-purple-950/70 text-purple-300 border border-purple-500/30' : 'bg-slate-900/50 text-slate-300'
+                      location.pathname === `/${year}/projects/2nd-year` ? 'bg-purple-950/70 text-purple-300 border border-purple-500/30' : 'bg-slate-900/50 text-slate-300'
                     }`}
                   >
                     <FolderGit2 className="w-3.5 h-3.5 text-purple-400" />
@@ -424,7 +445,7 @@ export const Navbar: React.FC = () => {
             </div>
 
             <Link
-              to="/gallery"
+              to={`/${year}/gallery`}
               style={{ borderRadius: '0px' }}
               className={`flex items-center gap-2 px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
                 isGalleryActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
@@ -435,7 +456,7 @@ export const Navbar: React.FC = () => {
             </Link>
 
             <Link
-              to="/mentors"
+              to={`/${year}/mentors`}
               style={{ borderRadius: '0px' }}
               className={`flex items-center gap-2 px-3 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider ${
                 isMentorsActive ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900/60 text-slate-300'
@@ -465,11 +486,11 @@ export const Navbar: React.FC = () => {
               <div className="grid grid-cols-2 gap-2 mt-2 pl-1">
                 {moreItems.map(item => {
                   const Icon = item.icon;
-                  const isCurrent = location.pathname === item.path;
+                  const isCurrent = location.pathname === `/${year}${item.path}`;
                   return (
                     <Link
                       key={item.path}
-                      to={item.path}
+                      to={`/${year}${item.path}`}
                       style={{ borderRadius: '0px' }}
                       className={`flex items-center gap-2 px-3 py-2 rounded-none text-xs font-medium ${
                         isCurrent ? 'bg-cyan-950/70 text-cyan-300 border border-cyan-500/30' : 'bg-slate-900/50 text-slate-300'

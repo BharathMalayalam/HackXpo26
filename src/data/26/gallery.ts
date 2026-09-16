@@ -1,4 +1,4 @@
-import { GalleryItem } from '../types';
+import { GalleryItem } from '../../types';
 
 export const galleryData: GalleryItem[] = [
   { id: 'gal-1', imageUrl: 'https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop', title: 'Opening Ceremony', description: 'Inaugural keynote and welcome address', category: 'EVENTS', isNew: true },

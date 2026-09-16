@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { VideoItem } from '../types';
+import { useYear } from '../context/YearContext';
 import { X, Play, Video, Share2 } from 'lucide-react';
 
 interface VideoModalProps {
@@ -9,6 +10,7 @@ interface VideoModalProps {
 
 export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
   if (!video) return null;
+  const { year, config } = useYear();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -70,7 +72,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
               Presented by: {video.speakerOrTeam}
             </span>
             <span className="text-xs text-slate-400 font-mono">
-              HackXpo ’26 Official Stream Archive
+              {config.label} Official Stream Archive
             </span>
           </div>
           <p className="text-sm text-slate-300 leading-relaxed">

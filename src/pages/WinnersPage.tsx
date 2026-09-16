@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { winnersData } from '../data/winners';
+import { useYear } from '../context/YearContext';
 import confetti from 'canvas-confetti';
 import { 
   Trophy, 
@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 
 export const WinnersPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const winnersData = data.winners;
 
   const triggerConfetti = () => {
     confetti({
@@ -49,7 +51,7 @@ export const WinnersPage: React.FC = () => {
             <span>Official Awards Declaration</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight">
-            HackXpo ’26 Winners Podium
+            {config.label} Winners Podium
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
             Honoring exceptional engineering rigor, real-world utility, and architectural elegance delivered by 2nd & 3rd Year champions.
@@ -106,7 +108,7 @@ export const WinnersPage: React.FC = () => {
                 <a href={podium2.githubUrl} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white p-1.5">
                   <Github className="w-4 h-4" />
                 </a>
-                <Link to={`/projects/${podium2.projectId}`} className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+                <Link to={`/${year}/projects/${podium2.projectId}`} className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
                   <span>Project Specs</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -153,7 +155,7 @@ export const WinnersPage: React.FC = () => {
                 <a href={podium1.githubUrl} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white p-1.5">
                   <Github className="w-4 h-4" />
                 </a>
-                <Link to={`/projects/${podium1.projectId}`} className="px-4 py-2 rounded-none bg-amber-400 text-black text-xs font-bold hover:bg-amber-300 transition-colors flex items-center gap-1.5">
+                <Link to={`/${year}/projects/${podium1.projectId}`} className="px-4 py-2 rounded-none bg-amber-400 text-black text-xs font-bold hover:bg-amber-300 transition-colors flex items-center gap-1.5">
                   <span>Explore Blueprint</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -200,7 +202,7 @@ export const WinnersPage: React.FC = () => {
                 <a href={podium3.githubUrl} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white p-1.5">
                   <Github className="w-4 h-4" />
                 </a>
-                <Link to={`/projects/${podium3.projectId}`} className="text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-1">
+                <Link to={`/${year}/projects/${podium3.projectId}`} className="text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-1">
                   <span>Project Specs</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -249,7 +251,7 @@ export const WinnersPage: React.FC = () => {
                 <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
                   <span className="text-xs font-mono text-amber-400 font-medium">{winner.prizePool}</span>
                   <Link
-                    to={`/projects/${winner.projectId}`}
+                    to={`/${year}/projects/${winner.projectId}`}
                     className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
                   >
                     <span>View Blueprint</span>

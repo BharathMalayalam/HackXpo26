@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useYear } from '../context/YearContext';
 import { 
   Building2, 
   Terminal, 
@@ -9,6 +10,8 @@ import {
 } from 'lucide-react';
 
 export const AboutSection: React.FC = () => {
+  const { year, config } = useYear();
+
   return (
     <section id="about-section" className="relative py-16 sm:py-24 bg-black/90 backdrop-blur-sm text-slate-100 border-t border-slate-800/80 tech-grid-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,13 +30,13 @@ export const AboutSection: React.FC = () => {
 
             {/* Main Title as requested: Department of IT HackXpo */}
             <h2 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight leading-[1.15]">
-              Department of IT <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-400">HackXpo'26</span>
+              Department of IT <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-400">HackXpo'{year}</span>
             </h2>
 
             {/* Narrative Descriptions */}
             <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
               <p>
-                HackXpo '26 is the flagship annual technical innovation sprint organized by the <strong className="text-white font-semibold">Department of Information Technology</strong> at <strong className="text-white font-semibold">Government College of Engineering, Erode (formerly IRTT)</strong>. Conceived as an intensive 36-hour continuous hackathon and engineering exhibition, the platform brings together our talented 2nd and 3rd-year undergraduate cohorts to transform theoretical compute principles into production-ready software and hardware systems.
+                {config.label} is the flagship annual technical innovation sprint organized by the <strong className="text-white font-semibold">Department of Information Technology</strong> at <strong className="text-white font-semibold">Government College of Engineering, Erode (formerly IRTT)</strong>. Conceived as an intensive 36-hour continuous hackathon and engineering exhibition, the platform brings together our talented 2nd and 3rd-year undergraduate cohorts to transform theoretical compute principles into production-ready software and hardware systems.
               </p>
             </div>
 
@@ -76,7 +79,7 @@ export const AboutSection: React.FC = () => {
             {/* Action buttons on left */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
-                to="/projects"
+                to={`/${year}/projects`}
                 id="about-explore-projects-btn"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 transition-all shadow-md shadow-cyan-500/20"
               >
@@ -84,7 +87,7 @@ export const AboutSection: React.FC = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                to="/mentors"
+                to={`/${year}/mentors`}
                 id="about-explore-mentors-btn"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-none font-semibold text-xs sm:text-sm text-slate-300 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-all"
               >
@@ -111,7 +114,7 @@ export const AboutSection: React.FC = () => {
               <div className="rounded-none overflow-hidden border border-cyan-500/30 shadow-2xl shadow-cyan-950/40">
                 <img
                   src="/Final_page-0001.jpg"
-                  alt="HackXpo'26 Official Event Poster"
+                  alt={`HackXpo'${year} Official Event Poster`}
                   className="w-full h-auto object-contain"
                 />
               </div>

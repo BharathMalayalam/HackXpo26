@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { coordinatorsData } from '../data/coordinators';
+import { useYear } from '../context/YearContext';
 import { 
   Users, 
   GraduationCap, 
@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 
 export const CoordinatorsPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const coordinatorsData = data.coordinators;
   const [activeTab, setActiveTab] = useState<'All' | 'Faculty' | 'Student'>('All');
 
   const facultyList = coordinatorsData.filter((c) => c.category === 'Faculty Coordinator');
@@ -28,7 +30,7 @@ export const CoordinatorsPage: React.FC = () => {
             <span>Organizing Leadership</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight">
-            HackXpo ’26 Organizing Committee
+            {config.label} Organizing Committee
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
             The dedicated team of department faculty conveners and student organizing leads orchestrating infrastructure, technical evaluation, and event execution.

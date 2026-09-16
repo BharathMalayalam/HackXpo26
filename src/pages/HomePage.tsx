@@ -1,7 +1,9 @@
 import React from 'react';
 import { AboutSection } from '../components/AboutSection';
+import { useYear } from '../context/YearContext';
 
 export const HomePage: React.FC = () => {
+  const { year, config } = useYear();
   return (
     <div className="relative min-h-screen text-slate-100 selection:bg-cyan-500 selection:text-black overflow-x-hidden bg-black">
       
@@ -44,7 +46,7 @@ export const HomePage: React.FC = () => {
                 style={{ borderRadius: '0px' }} 
               />
               <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black tracking-tight text-white uppercase leading-none drop-shadow-[0_2px_15px_rgba(0,0,0,0.9)]">
-                HACKXPO'26
+                HACKXPO'{year}
               </h1>
             </div>
 

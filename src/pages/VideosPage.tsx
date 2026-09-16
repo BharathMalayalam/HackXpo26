@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { videosData } from '../data/videos';
+import { useYear } from '../context/YearContext';
 import { VideoItem } from '../types';
 import { VideoModal } from '../components/VideoModal';
 import { 
@@ -21,6 +21,8 @@ const categories = [
 ] as const;
 
 export const VideosPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const videosData = data.videos;
   const [selectedCategory, setSelectedCategory] = useState<string>('All Videos');
   const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
 
@@ -50,7 +52,7 @@ export const VideosPage: React.FC = () => {
             Event Videos & Highlights
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
-            Watch official HackXpo ’26 recap films, in-depth architectural walkthroughs by student teams, and inaugural keynotes by department faculty.
+            Watch official {config.label} recap films, in-depth architectural walkthroughs by student teams, and inaugural keynotes by department faculty.
           </p>
         </div>
 

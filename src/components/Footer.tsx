@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useYear } from '../context/YearContext';
 import { 
   Terminal, 
   MapPin, 
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
+  const { year, config } = useYear();
   return (
     <footer className="relative bg-black border-t border-slate-800/80 pt-16 pb-12 overflow-hidden text-slate-400">
       {/* Background ambient glow */}
@@ -34,7 +36,7 @@ export const Footer: React.FC = () => {
               </div>
               <div>
                 <span className="font-heading text-xl font-bold tracking-tight text-white">
-                  HACK<span className="text-cyan-400">XPO</span> <span className="text-purple-400">’26</span>
+                  HACK<span className="text-cyan-400">XPO</span> <span className="text-purple-400">'{year}</span>
                 </span>
                 <p className="text-xs text-slate-400 font-medium">Official Technical Event & Project Showcase</p>
               </div>
@@ -68,31 +70,31 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/`} className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" />
                   Home Overview
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/about`} className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" />
                   About HackXpo & GCE
                 </Link>
               </li>
               <li>
-                <Link to="/projects" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/projects`} className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" />
                   All Projects (2nd & 3rd Yr)
                 </Link>
               </li>
               <li>
-                <Link to="/teams" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/teams`} className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" />
                   Student Teams
                 </Link>
               </li>
               <li>
-                <Link to="/winners" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/winners`} className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" />
                   Winners Podium
                 </Link>
@@ -108,25 +110,25 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <Link to="/mentors" className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/mentors`} className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-purple-400 transition-colors" />
                   Faculty & Mentors
                 </Link>
               </li>
               <li>
-                <Link to="/gallery" className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/gallery`} className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-purple-400 transition-colors" />
                   Interactive Photo Gallery
                 </Link>
               </li>
               <li>
-                <Link to="/videos" className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/videos`} className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-purple-400 transition-colors" />
                   Videos & Demos
                 </Link>
               </li>
               <li>
-                <Link to="/coordinators" className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
+                <Link to={`/${year}/coordinators`} className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-purple-400 transition-colors" />
                   Organizing Committee
                 </Link>
@@ -197,11 +199,11 @@ export const Footer: React.FC = () => {
 
         {/* Bottom copyright & attribution */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-          <p>© 2026 Department of Information Technology, Government College of Engineering, Erode. All rights reserved.</p>
+          <p>© {config.fullYear} Department of Information Technology, Government College of Engineering, Erode. All rights reserved.</p>
           <div className="flex items-center gap-1 text-slate-400">
             <span>Official Technical Event</span>
             <span>•</span>
-            <span className="text-cyan-400 font-mono">HackXpo ’26 Portal</span>
+            <span className="text-cyan-400 font-mono">{config.label} Portal</span>
           </div>
         </div>
       </div>

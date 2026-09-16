@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { studentMentorsData } from '../data/mentors';
+import { useYear } from '../context/YearContext';
 import { 
   Users, 
   Linkedin,
@@ -9,6 +9,8 @@ import {
 
 export const MentorsPage: React.FC = () => {
   const [isFullView, setIsFullView] = useState(false);
+  const { year, config, data } = useYear();
+  const studentMentorsData = data.studentMentors;
 
   useEffect(() => {
     if (!isFullView) return;
@@ -40,7 +42,7 @@ export const MentorsPage: React.FC = () => {
             Student Mentor Showcase
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
-            Peer leaders from HackXpo '26 guiding their teams through architecture decisions, code reviews, and sprint planning.
+            Peer leaders from HackXpo {config.label} guiding their teams through architecture decisions, code reviews, and sprint planning.
           </p>
         </div>      
         {/* Mentors Grid */}
@@ -109,7 +111,7 @@ export const MentorsPage: React.FC = () => {
         {/* Mentorship Philosophy Callout */}
         <div className="p-8 rounded-none bg-slate-900/40 border border-slate-800 text-center max-w-4xl mx-auto space-y-3">
           <Users className="w-8 h-8 text-cyan-400 mx-auto" />
-          <h3 className="text-xl font-heading font-bold text-white">Mentorship at HackXpo '26</h3>
+          <h3 className="text-xl font-heading font-bold text-white">Mentorship at HackXpo {config.label}</h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
             Each team is assigned a senior student mentor who conducts weekly syncs, guiding problem definition, algorithmic complexity, hardware selection, and pitch presentation fidelity.
           </p>

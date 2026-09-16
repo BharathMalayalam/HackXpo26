@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { projectsData } from '../data/projects';
-import { mentorsData, studentMentorsData } from '../data/mentors';
+import { useYear } from '../context/YearContext';
 import { AcademicYear } from '../types';
 import { 
   Users, 
@@ -14,6 +13,11 @@ import {
 } from 'lucide-react';
 
 export const TeamsPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const projectsData = data.projects;
+  const mentorsData = data.mentors;
+  const studentMentorsData = data.studentMentors;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState<'All' | AcademicYear>('All');
 

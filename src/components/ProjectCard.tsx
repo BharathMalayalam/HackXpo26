@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Project } from '../types';
-import { mentorsData } from '../data/mentors';
+import { useYear } from '../context/YearContext';
 import { Github, ArrowRight, Sparkles, GraduationCap } from 'lucide-react';
 
 interface ProjectCardProps {
@@ -9,8 +9,9 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+  const { year, data } = useYear();
   const is3rdYear = project.year === '3rd Year';
-  const facultyMentor = mentorsData.find((m) => m.id === project.facultyMentorId);
+  const facultyMentor = data.mentors.find((m) => m.id === project.facultyMentorId);
 
   return (
     <div className="group relative flex flex-col rounded-none overflow-hidden glass-panel glass-panel-hover transition-all duration-300 border border-slate-800/80 hover:border-cyan-500/30" style={{ borderRadius: '0px' }}>
@@ -61,7 +62,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
           {/* Project Title */}
           <h3 className="text-lg sm:text-xl font-heading font-bold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug">
-            <Link to={`/projects/${project.id}`}>
+            <Link to={`/${year}/projects/${project.id}`}>
               {project.title}
             </Link>
           </h3>
@@ -128,7 +129,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </a>
 
           <Link
-            to={`/projects/${project.id}`}
+            to={`/${year}/projects/${project.id}`}
             className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-slate-800 hover:bg-cyan-600/90 border border-slate-700/60 hover:border-cyan-500/50 rounded-none transition-all duration-200 group/btn"
           >
             <span>View Details</span>

@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { galleryData } from '../data/gallery';
+import { useYear } from '../context/YearContext';
 
 const wallPattern = [
   { left: '2%', top: '5%', width: '18%', height: '200px', rotate: -9 },
@@ -25,6 +25,8 @@ const wallPattern = [
 ] as const;
 
 export const GalleryPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const galleryData = data.gallery;
   const [showWall, setShowWall] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [tiltMap, setTiltMap] = useState<Record<string, { x: number; y: number }>>({});
@@ -483,7 +485,7 @@ export const GalleryPage: React.FC = () => {
               className="gallery-hero"
             >
               <div className="gallery-hero__content">
-                <p className="gallery-eyebrow">HackXpo '26</p>
+                <p className="gallery-eyebrow">{config.label}</p>
                 <h1 className="gallery-title">
                 <span>EVENT MEMORY</span>
                 </h1>

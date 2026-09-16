@@ -1,4 +1,4 @@
-import { VideoItem } from '../types';
+import { VideoItem } from '../../types';
 
 export const videosData: VideoItem[] = [
   {

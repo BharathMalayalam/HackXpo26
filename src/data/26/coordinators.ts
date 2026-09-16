@@ -1,4 +1,4 @@
-import { Coordinator } from '../types';
+import { Coordinator } from '../../types';
 
 export const coordinatorsData: Coordinator[] = [
   // Faculty Coordinators

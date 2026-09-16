@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { judgesData } from '../data/judges';
+import { useYear } from '../context/YearContext';
 import { 
   Scale, 
   Briefcase, 
@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 
 export const JudgesPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const judgesData = data.judges;
   const [activeTab, setActiveTab] = useState<'All' | 'Industry' | 'Academic'>('All');
 
   const industryList = judgesData.filter((j) => j.category === 'Industry');
@@ -26,7 +28,7 @@ export const JudgesPage: React.FC = () => {
             <span>Jury & Evaluation Panel</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight">
-            HackXpo '26 Judges
+            {config.label} Judges
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
             An esteemed panel of industry experts and academic professionals evaluating projects on innovation, technical depth, and real-world impact.

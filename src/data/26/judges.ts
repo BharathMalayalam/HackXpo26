@@ -1,4 +1,4 @@
-import { Judge } from '../types';
+import { Judge } from '../../types';
 
 export const judgesData: Judge[] = [
   // Industry Judges

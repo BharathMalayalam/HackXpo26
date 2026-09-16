@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { projectsData } from '../data/projects';
+import { useYear } from '../context/YearContext';
 import { ProjectCard } from '../components/ProjectCard';
 import { AcademicYear } from '../types';
 import { 
@@ -41,6 +41,9 @@ const popularTechStacks = [
 ];
 
 export const ProjectsPage: React.FC = () => {
+  const { year, config, data } = useYear();
+  const projectsData = data.projects;
+
   const [searchParams, setSearchParams] = useSearchParams();
   const initialYearParam = searchParams.get('year') as AcademicYear | null;
 
@@ -101,7 +104,7 @@ export const ProjectsPage: React.FC = () => {
 
       return true;
     });
-  }, [selectedYear, selectedCategory, selectedTech, searchQuery]);
+  }, [selectedYear, selectedCategory, selectedTech, searchQuery, projectsData]);
 
   // Explicitly separate for 3rd Year and 2nd Year views
   const thirdYearList = useMemo(() => {
@@ -125,7 +128,7 @@ export const ProjectsPage: React.FC = () => {
             <span>Academic Cohort Showcase</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight">
-            HackXpo ’26 Project Index
+            {config.label} Project Index
           </h1>
           <p className="text-sm sm:text-base text-slate-300 font-light max-w-2xl mx-auto">
             Explore working prototypes, production code repositories, and system architecture blueprints engineered by <strong>2nd Year and 3rd Year</strong> students.
