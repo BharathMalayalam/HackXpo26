@@ -131,12 +131,6 @@ export const Footer: React.FC = () => {
                   Organizing Committee
                 </Link>
               </li>
-              <li>
-                <Link to="/contact" className="hover:text-purple-400 transition-colors flex items-center gap-1.5 group">
-                  <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-purple-400 transition-colors" />
-                  Get in Touch
-                </Link>
-              </li>
             </ul>
           </div>
 

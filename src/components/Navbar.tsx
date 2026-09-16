@@ -11,7 +11,6 @@ import {
   Trophy, 
   Award, 
   Scale,
-  Mail,
   FolderGit2,
   Image as ImageIcon,
   Layers
@@ -66,7 +65,6 @@ export const Navbar: React.FC = () => {
     { path: '/winners', label: 'Winners', icon: Trophy, desc: 'Awardees, runners-up & best pitch' },
     { path: '/coordinators', label: 'Coordinators', icon: Award, desc: 'Faculty convenors & student leads' },
     { path: '/judges', label: 'Judges', icon: Scale, desc: 'Industry & academic jury panel' },
-    { path: '/contact', label: 'Contact', icon: Mail, desc: 'Reach out to the HackXpo committee' },
   ];
 
   const isHomeActive = location.pathname === '/';
