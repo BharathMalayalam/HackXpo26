@@ -223,9 +223,8 @@ export const GalleryPage: React.FC = () => {
         }
 
         .gallery-wall-bar {
-          position: sticky;
-          top: 0;
-          z-index: 10;
+          position: relative;
+          z-index: 1;
           display: flex;
           justify-content: flex-end;
           padding: 14px 22px 0;
@@ -486,7 +485,7 @@ export const GalleryPage: React.FC = () => {
               <div className="gallery-hero__content">
                 <p className="gallery-eyebrow">HackXpo '26</p>
                 <h1 className="gallery-title">
-                  WHERE IDEAS <span>BECAME REAL</span>
+                <span>EVENT MEMORY</span>
                 </h1>
 
                 <button

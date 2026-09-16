@@ -32,15 +32,6 @@ export const MentorsPage: React.FC = () => {
 
         {/* Page Header */}
         <div className="mentors-showcase-header relative text-center max-w-3xl mx-auto space-y-4">
-          <button
-            type="button"
-            className="mentors-full-view-button"
-            onClick={() => setIsFullView((current) => !current)}
-            aria-label={isFullView ? 'Close full view' : 'Open full view'}
-          >
-            {isFullView ? <X className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-            <span>{isFullView ? 'Close' : 'Full View'}</span>
-          </button>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 text-xs font-mono">
             <Users className="w-3.5 h-3.5" />
             <span>Student Mentors</span>

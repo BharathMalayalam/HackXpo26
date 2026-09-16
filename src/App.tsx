@@ -18,10 +18,6 @@ import { VideosPage } from './pages/VideosPage';
 import { WinnersPage } from './pages/WinnersPage';
 import { CoordinatorsPage } from './pages/CoordinatorsPage';
 import { JudgesPage } from './pages/JudgesPage';
-<<<<<<< HEAD
-=======
-
->>>>>>> ec1783f (remove the contact pages)
 
 function AppContent() {
   const location = useLocation();
@@ -31,7 +27,7 @@ function AppContent() {
   return (
     <div className="min-h-screen flex flex-col bg-black text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
       <Navbar />
-      <main className="flex-1">
+      <main className={`flex-1`}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
