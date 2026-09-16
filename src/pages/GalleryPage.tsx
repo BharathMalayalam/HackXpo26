@@ -1,563 +1,657 @@
 
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowDown, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { galleryData } from '../data/gallery';
-import { GalleryItem } from '../types';
 
-const categoryOptions = ['ALL', 'EVENTS', 'PROJECTS', 'WORKSHOPS', 'STUDENTS', 'MEMORIES'] as const;
-type CategoryFilter = (typeof categoryOptions)[number];
-
-const storyStages = [
-  { id: '01', label: 'ARRIVAL', caption: 'The energy of the first pulse.' },
-  { id: '02', label: 'INNOVATION', caption: 'Ideas turn into prototypes.' },
-  { id: '03', label: 'COLLABORATION', caption: 'Teams build together.' },
-  { id: '04', label: 'SHOWCASE', caption: 'Solutions meet the crowd.' },
-  { id: '05', label: 'CELEBRATION', caption: 'The memories lock in.' },
-] as const;
-
-const memoryPattern = [
-  { left: '4%', top: '8%', width: '28%', height: '210px', rotate: -9 },
-  { left: '33%', top: '4%', width: '25%', height: '230px', rotate: 7 },
-  { left: '62%', top: '9%', width: '30%', height: '200px', rotate: -4 },
-  { left: '15%', top: '34%', width: '24%', height: '220px', rotate: 6 },
-  { left: '46%', top: '35%', width: '34%', height: '260px', rotate: -7 },
-  { left: '75%', top: '35%', width: '20%', height: '190px', rotate: 9 },
-  { left: '9%', top: '60%', width: '26%', height: '230px', rotate: 3 },
-  { left: '40%', top: '68%', width: '29%', height: '220px', rotate: -5 },
-  { left: '72%', top: '59%', width: '22%', height: '200px', rotate: 6 },
-  { left: '58%', top: '15%', width: '18%', height: '160px', rotate: -2 },
-  { left: '22%', top: '14%', width: '16%', height: '150px', rotate: 5 },
-  { left: '82%', top: '16%', width: '12%', height: '140px', rotate: -6 },
+const wallPattern = [
+  { left: '2%', top: '5%', width: '18%', height: '200px', rotate: -9 },
+  { left: '21%', top: '8%', width: '22%', height: '260px', rotate: 7 },
+  { left: '45%', top: '4%', width: '18%', height: '230px', rotate: -6 },
+  { left: '66%', top: '7%', width: '20%', height: '240px', rotate: 8 },
+  { left: '82%', top: '10%', width: '12%', height: '170px', rotate: -4 },
+  { left: '10%', top: '31%', width: '18%', height: '210px', rotate: 6 },
+  { left: '31%', top: '38%', width: '24%', height: '310px', rotate: -7 },
+  { left: '58%', top: '32%', width: '19%', height: '240px', rotate: 5 },
+  { left: '79%', top: '35%', width: '16%', height: '210px', rotate: -5 },
+  { left: '16%', top: '60%', width: '20%', height: '230px', rotate: -3 },
+  { left: '40%', top: '66%', width: '22%', height: '240px', rotate: 8 },
+  { left: '66%', top: '62%', width: '20%', height: '220px', rotate: -6 },
+  { left: '88%', top: '57%', width: '8%', height: '130px', rotate: 4 },
+  { left: '49%', top: '18%', width: '12%', height: '150px', rotate: 5 },
+  { left: '70%', top: '18%', width: '12%', height: '170px', rotate: -8 },
+  { left: '25%', top: '18%', width: '10%', height: '150px', rotate: 4 },
 ] as const;
 
 export const GalleryPage: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<CategoryFilter>('ALL');
-  const [activeStory, setActiveStory] = useState(0);
-  const [momentIndex, setMomentIndex] = useState(0);
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [photoOffsets, setPhotoOffsets] = useState<Record<string, { x: number; y: number }>>({});
+  const [showWall, setShowWall] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [tiltMap, setTiltMap] = useState<Record<string, { x: number; y: number }>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
-  const filmStripRef = useRef<HTMLDivElement | null>(null);
-  const dragStartX = useRef<number | null>(null);
-  const dragStartScrollLeft = useRef<number | null>(null);
 
-  const visibleItems = useMemo(() => {
-    if (activeFilter === 'ALL') return galleryData;
-    return galleryData.filter(item => item.category === activeFilter);
-  }, [activeFilter]);
-
-  useEffect(() => {
-    setMomentIndex(0);
-  }, [activeFilter]);
+  const wallItems = useMemo(
+    () =>
+      [...galleryData, ...galleryData, ...galleryData].map((item, index) => ({
+        ...item,
+        ...wallPattern[index % wallPattern.length],
+        key: `${item.id}-${index}`,
+      })),
+    [galleryData]
+  );
 
   useEffect(() => {
-    if (lightboxIndex !== null && lightboxIndex >= visibleItems.length) {
-      setLightboxIndex(Math.max(0, visibleItems.length - 1));
-    }
-  }, [lightboxIndex, visibleItems.length]);
-
-  useEffect(() => {
-    if (lightboxIndex === null) return;
+    if (selectedIndex === null) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setLightboxIndex(null);
+        setSelectedIndex(null);
         return;
       }
+
       if (event.key === 'ArrowLeft') {
-        setLightboxIndex(prev => prev === null ? 0 : (prev - 1 + visibleItems.length) % visibleItems.length);
+        setSelectedIndex(prev => prev === null ? 0 : (prev - 1 + wallItems.length) % wallItems.length);
       }
+
       if (event.key === 'ArrowRight') {
-        setLightboxIndex(prev => prev === null ? 0 : (prev + 1) % visibleItems.length);
+        setSelectedIndex(prev => prev === null ? 0 : (prev + 1) % wallItems.length);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [lightboxIndex, visibleItems.length]);
+  }, [selectedIndex, wallItems.length]);
 
-  const handleExplore = () => {
-    document.getElementById('memory-wall')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  const wallItems = useMemo(
-    () => visibleItems.map((item, index) => ({ ...item, ...memoryPattern[index % memoryPattern.length] })),
-    [visibleItems]
-  );
-
-  const filmItems = useMemo(() => [...galleryData, ...galleryData], []);
-
-  const updateTilt = (itemId: string, clientX: number, clientY: number, rect: DOMRect) => {
+  const handleTilt = (itemKey: string, clientX: number, clientY: number, rect: DOMRect) => {
     const x = ((clientX - rect.left) / rect.width - 0.5) * 12;
     const y = ((clientY - rect.top) / rect.height - 0.5) * 10;
-    setPhotoOffsets(prev => ({ ...prev, [itemId]: { x, y } }));
+    setTiltMap(prev => ({ ...prev, [itemKey]: { x, y } }));
   };
 
-  const nextMoment = (dir: -1 | 1) => {
-    setMomentIndex(prev => (prev + dir + visibleItems.length) % visibleItems.length);
+  const nextImage = (direction: -1 | 1) => {
+    setSelectedIndex(prev => {
+      if (prev === null) return 0;
+      return (prev + direction + wallItems.length) % wallItems.length;
+    });
   };
-
-  const filmPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    dragStartX.current = event.clientX;
-    dragStartScrollLeft.current = filmStripRef.current?.scrollLeft ?? 0;
-  };
-
-  const filmPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (dragStartX.current === null || dragStartScrollLeft.current === null || !filmStripRef.current) return;
-    const delta = event.clientX - dragStartX.current;
-    filmStripRef.current.scrollLeft = dragStartScrollLeft.current - delta;
-  };
-
-  const filmPointerUp = () => {
-    dragStartX.current = null;
-    dragStartScrollLeft.current = null;
-  };
-
-  const activeMoment = visibleItems[momentIndex] ?? visibleItems[0];
 
   return (
     <>
       <style>{`
-        .gallery-shell {
-          background:
-            radial-gradient(circle at top, rgba(59,130,246,0.18), transparent 35%),
-            linear-gradient(180deg, #06070b 0%, #090b12 36%, #0b0d13 100%);
+        .gallery-page-shell {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          box-sizing: border-box;
+          background: #000000;
+          min-height: 100vh;
           overflow-x: hidden;
+          position: relative;
         }
 
-        .memory-wall-grid {
+        .gallery-page-shell::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+          background-size: 42px 42px;
+          mask-image: radial-gradient(circle at center, black 35%, transparent 100%);
+          pointer-events: none;
+        }
+
+        .gallery-hero {
           position: relative;
-          min-height: 980px;
+          margin: 0;
+          padding: 0;
+          min-height: calc(100vh - 0px);
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background:
+            linear-gradient(90deg, rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.55)),
+            radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.18), transparent 22%),
+            radial-gradient(circle at 80% 15%, rgba(168, 85, 247, 0.14), transparent 24%),
+            url('${galleryData[0]?.imageUrl ?? ''}') center/cover no-repeat;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+
+        .gallery-hero::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.8));
+          pointer-events: none;
+        }
+
+        .gallery-hero__content {
+          position: relative;
+          z-index: 1;
+          width: min(1200px, calc(100% - 40px));
+          margin: 0;
+          padding: 0 0 60px;
+          box-sizing: border-box;
+        }
+
+        .gallery-eyebrow {
+          font-family: 'JetBrains Mono', monospace;
+          letter-spacing: 0.24em;
+          text-transform: uppercase;
+          color: rgba(125, 211, 252, 0.88);
+          font-size: 10px;
+          font-weight: 600;
+          text-shadow: 0 0 18px rgba(34, 211, 238, 0.28);
+        }
+
+        .gallery-title {
+          margin-top: 18px;
+          font-size: clamp(3rem, 6vw, 7rem);
+          line-height: 0.92;
+          letter-spacing: -0.08em;
+          font-weight: 700;
+          color: white;
+          max-width: 940px;
+          text-shadow: 0 18px 36px rgba(0, 0, 0, 0.7);
+        }
+
+        .gallery-title span {
+          color: #67e8f9;
+        }
+
+        .gallery-explore {
+          margin-top: 28px;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          border: 1px solid rgba(148,163,184,0.28);
+          background: rgba(15, 23, 42, 0.78);
+          color: #f8fafc;
+          padding: 14px 20px 14px 22px;
+          font-size: 11px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          font-weight: 700;
+          border-radius: 0;
+          transition: all 0.35s ease;
+          backdrop-filter: blur(8px);
+          box-shadow: 0 0 0 1px rgba(15,23,42,0.8), 0 18px 40px -20px rgba(34,211,238,0.35);
+        }
+
+        .gallery-explore:hover {
+          border-color: rgba(34,211,238,0.5);
+          background: rgba(8,47,73,0.8);
+          transform: translateY(-1px);
+          box-shadow: 0 0 22px -6px rgba(34,211,238,0.2);
+        }
+
+        .gallery-explore__icon {
+          width: 30px;
+          height: 30px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 0;
+          background: rgba(34,211,238,0.12);
+          border: 1px solid rgba(103,232,249,0.4);
+          color: #dbeafe;
+        }
+
+        .gallery-wall-stage {
+          position: relative;
+          min-height: 100vh;
+          width: 100%;
+          overflow: hidden;
+          background:
+            radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.15), transparent 18%),
+            radial-gradient(circle at 85% 15%, rgba(168, 85, 247, 0.12), transparent 22%),
+            linear-gradient(180deg, #020617 0%, #080b12 52%, #04070b 100%);
+        }
+
+        .gallery-wall-stage::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(to right, rgba(148,163,184,0.05) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(148,163,184,0.05) 1px, transparent 1px);
+          background-size: 42px 42px;
+          pointer-events: none;
+        }
+
+        .gallery-wall-bar {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          display: flex;
+          justify-content: flex-end;
+          padding: 14px 22px 0;
+        }
+
+        .gallery-back {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          border-radius: 0;
+          padding: 10px 16px;
+          border: 1px solid rgba(148,163,184,0.2);
+          background: rgba(15,23,42,0.74);
+          color: #e2e8f0;
+          font-size: 10px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          backdrop-filter: blur(8px);
+          box-shadow: 0 14px 30px -20px rgba(15,23,42,0.9);
+        }
+
+        .gallery-wall {
+          position: relative;
+          width: 100vw;
+          height: 100vh;
+          margin: 0;
           overflow: hidden;
         }
 
-        .memory-photo {
+        .gallery-photo {
           position: absolute;
           overflow: hidden;
-          border-radius: 22px;
-          border: 1px solid rgba(255,255,255,0.1);
-          background: rgba(15,17,21,0.9);
-          box-shadow: 0 30px 60px -25px rgba(2,6,23,0.8), 0 0 0 1px rgba(255,255,255,0.04);
-          transform-style: preserve-3d;
+          border-radius: 0;
+          border: 1px solid rgba(148,163,184,0.2);
+          background: rgba(15, 23, 42, 0.82);
+          box-shadow: 0 30px 40px -26px rgba(2,6,23,0.9), 0 0 20px -10px rgba(34,211,238,0.15);
+          transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+          will-change: transform;
         }
 
-        .memory-photo img {
+        .gallery-photo img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
           display: block;
-          transition: transform 0.5s ease;
+          object-fit: cover;
+          transition: transform 0.45s ease, filter 0.45s ease;
         }
 
-        .memory-photo:hover img {
+        .gallery-photo:hover img {
           transform: scale(1.08);
+          filter: brightness(1.08) saturate(1.1);
         }
 
-        @keyframes film-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        .gallery-photo::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(2,6,23,0.4));
+          opacity: 0;
+          transition: opacity 0.35s ease;
         }
 
-        .film-track {
+        .gallery-photo:hover::after {
+          opacity: 1;
+        }
+
+        .gallery-photo__label {
+          position: absolute;
+          left: 10px;
+          right: 10px;
+          bottom: 10px;
           display: flex;
-          gap: 18px;
-          width: max-content;
-          animation: film-scroll 36s linear infinite;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          opacity: 0;
+          transform: translateY(10px);
+          transition: opacity 0.35s ease, transform 0.35s ease;
+          z-index: 2;
+          pointer-events: none;
         }
 
-        .film-track:hover {
-          animation-play-state: paused;
+        .gallery-photo:hover .gallery-photo__label {
+          opacity: 1;
+          transform: translateY(0);
         }
+
+        .gallery-photo__badge {
+          border-radius: 0;
+          padding: 6px 8px;
+          background: rgba(2,6,23,0.78);
+          border: 1px solid rgba(34,211,238,0.18);
+          font-size: 9px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: rgba(191,219,254,0.95);
+        }
+
+        .gallery-photo__view {
+          color: rgba(255,255,255,0.95);
+          font-size: 10px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
+        .gallery-modal {
+          position: fixed;
+          inset: 0;
+          z-index: 30;
+          background: rgba(2,6,23,0.82);
+          backdrop-filter: blur(16px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 28px;
+        }
+
+        .gallery-modal__panel {
+          position: relative;
+          width: min(1200px, 100%);
+          background: rgba(15, 23, 42, 0.92);
+          border: 1px solid rgba(148,163,184,0.2);
+          border-radius: 0;
+          overflow: hidden;
+          box-shadow: 0 40px 90px -40px rgba(2,6,23,0.9), 0 0 30px -12px rgba(34,211,238,0.18);
+        }
+
+        .gallery-modal__image {
+          width: 100%;
+          height: min(72vh, 760px);
+          display: block;
+          object-fit: cover;
+          background: #020617;
+        }
+
+        .gallery-modal__meta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 18px 22px 22px;
+          background: rgba(15,23,42,0.78);
+        }
+
+        .gallery-modal__count {
+          font-size: 11px;
+          letter-spacing: 0.24em;
+          font-family: 'JetBrains Mono', monospace;
+          color: rgba(103,232,249,0.9);
+          text-transform: uppercase;
+        }
+
+        .gallery-modal__title {
+          margin-top: 8px;
+          font-size: clamp(1.2rem, 2vw, 2rem);
+          font-weight: 600;
+          letter-spacing: -0.04em;
+          color: #f8fafc;
+        }
+
+        .gallery-modal__close,
+        .gallery-modal__nav {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 44px;
+          height: 44px;
+          border-radius: 0;
+          border: 1px solid rgba(148,163,184,0.2);
+          background: rgba(15,23,42,0.8);
+          color: #e2e8f0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 3;
+          transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .gallery-modal__close:hover,
+        .gallery-modal__nav:hover {
+          background: rgba(8,47,73,0.7);
+          border-color: rgba(34,211,238,0.4);
+          transform: translateY(-50%) scale(1.02);
+        }
+
+        .gallery-modal__close {
+          top: 18px;
+          right: 18px;
+          transform: none;
+        }
+
+        .gallery-modal__close:hover {
+          transform: scale(1.02);
+        }
+
+        .gallery-modal__nav--prev { left: 18px; }
+        .gallery-modal__nav--next { right: 18px; }
 
         @media (max-width: 768px) {
-          .memory-wall-grid {
-            min-height: auto;
+          .gallery-wall {
+            height: 100vh;
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 18px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            padding: 12px;
           }
 
-          .memory-photo {
-            position: relative;
-            width: 100% !important;
+          .gallery-photo {
+            position: relative !important;
             left: auto !important;
             top: auto !important;
-            height: 260px !important;
+            width: 100% !important;
+            height: 180px !important;
           }
 
-          .story-rail {
-            padding-left: 0;
+          .gallery-photo__label {
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
           }
 
-          .story-rail::before {
-            left: 12px !important;
+          .gallery-modal {
+            padding: 14px;
+          }
+
+          .gallery-modal__meta {
+            display: block;
+            padding: 18px 16px 20px;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .film-track { animation: none; }
           * { scroll-behavior: auto !important; }
+          .gallery-hero,
+          .gallery-explore,
+          .gallery-photo,
+          .gallery-photo img,
+          .gallery-modal__close,
+          .gallery-modal__nav,
+          .gallery-photo__label {
+            transition: none !important;
+          }
         }
       `}</style>
 
-      <div className="gallery-shell min-h-screen text-white">
-        <section className="relative overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: `linear-gradient(90deg, rgba(2,6,23,0.8), rgba(2,6,23,0.4)), url(${galleryData[0].imageUrl})`,
-              transform: 'scale(1.08)',
-            }}
-          />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.4)_55%,rgba(2,6,23,0.78)_100%)]" />
-
-          <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-24 sm:px-8 lg:px-10 lg:pb-20 lg:pt-32">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
+      <div className="gallery-page-shell">
+        <AnimatePresence mode="wait">
+          {!showWall ? (
+            <motion.section
+              key="hero"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: 'easeOut' }}
-              className="max-w-3xl"
+              exit={{ opacity: 0, y: -20, scale: 0.98 }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
+              className="gallery-hero"
             >
-              <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.36em] text-cyan-300/80">HackXpo '26</p>
-              <h1 className="text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl lg:text-8xl">
-                WHERE IDEAS <span className="text-cyan-300">BECAME REAL</span>
-              </h1>
-              <p className="mt-6 max-w-xl text-sm text-slate-300 sm:text-base">
-                A living memory wall of prototypes, people, late nights, and the moments that shaped HACKXPO '26.
-              </p>
+              <div className="gallery-hero__content">
+                <p className="gallery-eyebrow">HackXpo '26</p>
+                <h1 className="gallery-title">
+                  WHERE IDEAS <span>BECAME REAL</span>
+                </h1>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
                 <button
-                  onClick={handleExplore}
-                  className="group inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-xs font-medium uppercase tracking-[0.22em] text-white backdrop-blur-sm transition hover:border-cyan-400/60 hover:bg-cyan-400/10"
+                  type="button"
+                  className="gallery-explore"
+                  onClick={() => setShowWall(true)}
                 >
-                  Explore memories
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-400/15 text-cyan-200 transition group-hover:translate-y-1">
-                    <ArrowDown size={14} />
-                  </span>
+                  Explore Memories
+                  <span className="gallery-explore__icon">↓</span>
                 </button>
               </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="memory-wall" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between"
-          >
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300/80">Memory wall</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">The spirit of HACKXPO</h2>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {categoryOptions.map(option => (
-                <button
-                  key={option}
-                  onClick={() => setActiveFilter(option)}
-                  className={`rounded-full border px-4 py-2 text-[10px] font-medium uppercase tracking-[0.2em] transition ${
-                    activeFilter === option
-                      ? 'border-cyan-400/70 bg-cyan-400/15 text-white'
-                      : 'border-white/10 bg-white/3 text-slate-300 hover:border-white/20 hover:text-white'
-                  }`}
-                >
-                  {option}
+            </motion.section>
+          ) : (
+            <motion.section
+              key="wall"
+              initial={{ opacity: 0, scale: 0.97, y: 22 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -18 }}
+              transition={{ duration: 0.9, ease: 'easeInOut' }}
+              className="gallery-wall-stage"
+            >
+              <div className="gallery-wall-bar">
+                <button type="button" className="gallery-back" onClick={() => setShowWall(false)}>
+                  <ChevronLeft size={14} /> Back to Hero
                 </button>
-              ))}
-            </div>
-          </motion.div>
+              </div>
 
-          <div className="memory-wall-grid">
-            {wallItems.map((item, index) => {
-              const offset = photoOffsets[item.id] ?? { x: 0, y: 0 };
+              <div className="gallery-wall">
+                {wallItems.map((item, index) => {
+                  const offset = tiltMap[item.key] ?? { x: 0, y: 0 };
 
-              return (
-                <motion.button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setLightboxIndex(visibleItems.findIndex(entry => entry.id === item.id))}
-                  onMouseMove={event => updateTilt(item.id, event.clientX, event.clientY, event.currentTarget.getBoundingClientRect())}
-                  onMouseLeave={() => setPhotoOffsets(prev => ({ ...prev, [item.id]: { x: 0, y: 0 } }))}
-                  initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.55, delay: index * 0.05, ease: 'easeOut' }}
-                  animate={{
-                    x: offset.x,
-                    y: offset.y,
-                    rotate: item.rotate + offset.x * 0.4,
-                  }}
-                  whileHover={{ scale: 1.04, y: -8, rotate: 0 }}
-                  style={{
-                    left: item.left,
-                    top: item.top,
-                    width: item.width,
-                    height: item.height,
-                  }}
-                  className="memory-photo group"
-                >
-                  <img src={item.imageUrl} alt={item.title} loading="lazy" referrerPolicy="no-referrer" />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4 opacity-0 transition duration-300 group-hover:opacity-100">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-cyan-300">{item.category}</p>
-                    <div className="mt-3 flex items-center justify-between gap-3 text-left">
-                      <div>
-                        <p className="text-base font-medium text-white">{item.title}</p>
-                        <p className="text-[11px] text-slate-300">{item.description}</p>
+                  return (
+                    <motion.button
+                      key={item.key}
+                      type="button"
+                      initial={{ opacity: 0, y: 20, scale: 0.92 }}
+                      animate={{
+                        opacity: 1,
+                        x: offset.x,
+                        y: offset.y,
+                        rotate: item.rotate + offset.x * 0.6,
+                        scale: 1,
+                      }}
+                      whileHover={{ scale: 1.06, y: -8, rotate: 0 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      onMouseMove={(event) => {
+                        const rect = event.currentTarget.getBoundingClientRect();
+                        handleTilt(item.key, event.clientX, event.clientY, rect);
+                      }}
+                      onMouseLeave={() => setTiltMap(prev => ({ ...prev, [item.key]: { x: 0, y: 0 } }))}
+                      onClick={() => setSelectedIndex(index)}
+                      style={{
+                        left: item.left,
+                        top: item.top,
+                        width: item.width,
+                        height: item.height,
+                      }}
+                      className="gallery-photo"
+                    >
+                      <img src={item.imageUrl} alt={item.title} loading="lazy" referrerPolicy="no-referrer" />
+                      <div className="gallery-photo__label">
+                        <span className="gallery-photo__badge">{item.category}</span>
+                        <span className="gallery-photo__view">View Moment →</span>
                       </div>
-                      <span className="text-sm text-white">VIEW MOMENT →</span>
-                    </div>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="mb-12"
-          >
-            <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-cyan-300/80">The HackXpo story</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">THE HACKXPO STORY</h2>
-          </motion.div>
-
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="story-rail relative pl-6 sm:pl-8">
-              {storyStages.map((stage, index) => (
-                <motion.div
-                  key={stage.id}
-                  data-story-stage
-                  onViewportEnter={() => setActiveStory(index)}
-                  viewport={{ once: false, amount: 0.7 }}
-                  className="relative mb-10 last:mb-0"
-                >
-                  <div className={`absolute left-[-20px] top-1.5 h-3 w-3 rounded-full border ${activeStory === index ? 'border-cyan-200 bg-cyan-300 shadow-[0_0_25px_rgba(103,232,249,0.9)]' : 'border-slate-500 bg-slate-900'} `} />
-                  <div className={`absolute left-[-11px] top-0 h-full w-px ${activeStory >= index ? 'bg-cyan-400/70' : 'bg-slate-700'}`} />
-                  <div className={`rounded-2xl border p-4 transition ${activeStory === index ? 'border-cyan-500/50 bg-cyan-500/5' : 'border-white/5 bg-white/[0.02]'}`}>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-300">{stage.id}</p>
-                    <h3 className="mt-3 text-2xl font-medium text-white">{stage.label}</h3>
-                    <p className="mt-2 text-sm text-slate-300">{stage.caption}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              key={storyStages[activeStory].id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02]"
-            >
-              <div className="relative h-[420px] w-full sm:h-[520px]">
-                <img
-                  src={galleryData[(activeStory * 2 + 1) % galleryData.length]?.imageUrl || galleryData[0].imageUrl}
-                  alt={storyStages[activeStory].label}
-                  className="h-full w-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/30 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-300">{storyStages[activeStory].id} • {storyStages[activeStory].label}</p>
-                  <p className="mt-4 max-w-md text-lg text-slate-100 sm:text-2xl">{storyStages[activeStory].caption}</p>
-                </div>
+                    </motion.button>
+                  );
+                })}
               </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-          <div className="mb-8 flex items-center justify-between gap-3">
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300/80">Photo of the moment</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">ONE MEMORY, SHARPER</h2>
-            </div>
-            <div className="hidden items-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-300 sm:flex">
-              <button
-                onClick={() => nextMoment(-1)}
-                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2 transition hover:border-cyan-400/60 hover:text-white"
-              >
-                <ChevronLeft size={14} /> Previous
-              </button>
-              <span className="font-mono text-cyan-300">{String(momentIndex + 1).padStart(2, '0')} / {String(visibleItems.length).padStart(2, '0')}</span>
-              <button
-                onClick={() => nextMoment(1)}
-                className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2 transition hover:border-cyan-400/60 hover:text-white"
-              >
-                Next <ChevronRight size={14} />
-              </button>
-            </div>
-          </div>
-
-          <div
-            className="overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.02]"
-            onTouchStart={event => {
-              setTouchStartX(event.touches[0]?.clientX ?? null);
-              setTouchStartY(event.touches[0]?.clientY ?? null);
-            }}
-            onTouchEnd={event => {
-              if (touchStartX === null || touchStartY === null) return;
-              const dx = event.changedTouches[0].clientX - touchStartX;
-              const dy = event.changedTouches[0].clientY - touchStartY;
-              if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-                nextMoment(dx < 0 ? 1 : -1);
-              }
-              setTouchStartX(null);
-              setTouchStartY(null);
-            }}
-          >
-            <motion.div
-              key={activeMoment.id}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="relative"
-            >
-              <img
-                src={activeMoment.imageUrl}
-                alt={activeMoment.title}
-                className="h-[420px] w-full object-cover sm:h-[560px]"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#04070d] via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.26em] text-cyan-300">{activeMoment.category}</p>
-                    <h3 className="mt-3 text-2xl font-medium text-white sm:text-4xl">{activeMoment.title}</h3>
-                  </div>
-                  <button
-                    onClick={() => setLightboxIndex(momentIndex)}
-                    className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white transition hover:border-cyan-400/50 hover:bg-cyan-400/10"
-                  >
-                    View fullscreen
-                  </button>
-                </div>
-                <p className="mt-3 max-w-xl text-sm text-slate-200">{activeMoment.description}</p>
-              </div>
-            </motion.div>
-          </div>
-
-          <div className="mt-5 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-300 sm:hidden">
-            <button onClick={() => nextMoment(-1)} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2">
-              <ChevronLeft size={14} /> Prev
-            </button>
-            <span className="font-mono text-cyan-300">{String(momentIndex + 1).padStart(2, '0')} / {String(visibleItems.length).padStart(2, '0')}</span>
-            <button onClick={() => nextMoment(1)} className="flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-2">
-              Next <ChevronRight size={14} />
-            </button>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-          <div className="mb-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-cyan-300/80">Memories in motion</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">A ROLLING WINDOW OF MOMENTS</h2>
-          </div>
-
-          <div
-            ref={filmStripRef}
-            onPointerDown={filmPointerDown}
-            onPointerMove={filmPointerMove}
-            onPointerUp={filmPointerUp}
-            onPointerLeave={filmPointerUp}
-            className="overflow-hidden rounded-[26px] border border-white/10 bg-white/[0.02] p-4"
-          >
-            <div className="film-track py-2">
-              {filmItems.map((item, index) => (
-                <button
-                  key={`${item.id}-${index}`}
-                  type="button"
-                  onClick={() => setLightboxIndex(galleryData.findIndex(entry => entry.id === item.id))}
-                  className="group relative h-52 w-72 flex-shrink-0 overflow-hidden rounded-[18px] border border-white/10 bg-slate-900/80 transition hover:border-cyan-400/50"
-                >
-                  <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-cyan-300">{item.category}</p>
-                    <p className="mt-2 text-sm font-medium text-white">{item.title}</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
+            </motion.section>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
-          {lightboxIndex !== null && visibleItems[lightboxIndex] && (
+          {selectedIndex !== null && wallItems[selectedIndex] && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-50 bg-[#05070d]/95 backdrop-blur-lg"
-              onClick={() => setLightboxIndex(null)}
+              transition={{ duration: 0.35 }}
+              className="gallery-modal"
+              onClick={() => setSelectedIndex(null)}
             >
-              <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-center px-4 py-8 sm:px-8">
-                <button
-                  onClick={() => setLightboxIndex(null)}
-                  className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10"
-                  aria-label="Close gallery item"
-                >
-                  <X size={18} />
-                </button>
+              <button
+                type="button"
+                aria-label="Close gallery image"
+                className="gallery-modal__close"
+                onClick={() => setSelectedIndex(null)}
+              >
+                <X size={18} />
+              </button>
 
-                <button
-                  onClick={() => setLightboxIndex(prev => prev === null ? 0 : (prev - 1 + visibleItems.length) % visibleItems.length)}
-                  className="absolute left-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10 sm:flex"
-                  aria-label="Previous gallery item"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  onClick={() => setLightboxIndex(prev => prev === null ? 0 : (prev + 1) % visibleItems.length)}
-                  className="absolute right-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:border-cyan-400/60 hover:bg-cyan-400/10 sm:flex"
-                  aria-label="Next gallery item"
-                >
-                  <ChevronRight size={18} />
-                </button>
+              <button
+                type="button"
+                aria-label="Previous gallery image"
+                className="gallery-modal__nav gallery-modal__nav--prev"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  nextImage(-1);
+                }}
+              >
+                <ChevronLeft size={18} />
+              </button>
 
-                <motion.div
-                  key={visibleItems[lightboxIndex].id}
-                  initial={{ opacity: 0, scale: 0.96, y: 16 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
-                  onClick={event => event.stopPropagation()}
-                  className="relative mx-auto w-full max-w-5xl"
-                >
-                  <div className="overflow-hidden rounded-[24px] border border-white/10 bg-slate-900/80 shadow-[0_35px_100px_rgba(0,0,0,0.7)]">
-                    <img
-                      src={visibleItems[lightboxIndex].imageUrl}
-                      alt={visibleItems[lightboxIndex].title}
-                      className="max-h-[70vh] w-full object-contain"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
+              <button
+                type="button"
+                aria-label="Next gallery image"
+                className="gallery-modal__nav gallery-modal__nav--next"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  nextImage(1);
+                }}
+              >
+                <ChevronRight size={18} />
+              </button>
 
-                  <div className="mt-5 flex flex-col gap-2 text-center sm:mt-6">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.28em] text-cyan-300">
-                      {String(lightboxIndex + 1).padStart(2, '0')} / {String(visibleItems.length).padStart(2, '0')}
+              <motion.div
+                key={wallItems[selectedIndex].key}
+                initial={{ opacity: 0, scale: 0.96, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
+                onClick={(event) => event.stopPropagation()}
+                className="gallery-modal__panel"
+              >
+                <img
+                  src={wallItems[selectedIndex].imageUrl}
+                  alt={wallItems[selectedIndex].title}
+                  className="gallery-modal__image"
+                  referrerPolicy="no-referrer"
+                />
+
+                <div className="gallery-modal__meta">
+                  <div>
+                    <div className="gallery-modal__count">
+                      {String((selectedIndex % galleryData.length) + 1).padStart(2, '0')} / {String(galleryData.length).padStart(2, '0')}
                     </div>
-                    <h3 className="text-2xl font-medium text-white">{visibleItems[lightboxIndex].title}</h3>
-                    <p className="text-sm text-slate-300">{visibleItems[lightboxIndex].description}</p>
+                    <div className="gallery-modal__title">{wallItems[selectedIndex].title}</div>
                   </div>
-                </motion.div>
-              </div>
+                  <span className="gallery-photo__badge" style={{ background: 'rgba(15,23,42,0.18)', color: '#0f172a', borderColor: 'rgba(15,23,42,0.12)' }}>
+                    {wallItems[selectedIndex].category}
+                  </span>
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
+
+        <div
+          onTouchStart={(event) => {
+            setTouchStartX(event.touches[0]?.clientX ?? null);
+            setTouchStartY(event.touches[0]?.clientY ?? null);
+          }}
+          onTouchEnd={(event) => {
+            if (selectedIndex === null || touchStartX === null || touchStartY === null) return;
+            const deltaX = event.changedTouches[0].clientX - touchStartX;
+            const deltaY = event.changedTouches[0].clientY - touchStartY;
+
+            if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+              nextImage(deltaX < 0 ? 1 : -1);
+            }
+
+            setTouchStartX(null);
+            setTouchStartY(null);
+          }}
+        />
       </div>
     </>
   );

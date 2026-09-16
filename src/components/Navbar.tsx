@@ -341,14 +341,13 @@ export const Navbar: React.FC = () => {
 
           </nav>
 
-          {/* Mobile Hamburger Toggle */}
-          <div className="flex items-center gap-3 lg:hidden">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setIsOpen(!isOpen)}
               id="navbar-mobile-toggle-btn"
               aria-label="Toggle Navigation"
               style={{ borderRadius: '0px' }}
-              className="p-2 rounded-none bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors cursor-pointer"
+              className="p-2 rounded-none bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-400 transition-colors cursor-pointer lg:hidden"
             >
               {isOpen ? <X className="w-5 h-5 text-cyan-400" /> : <Menu className="w-5 h-5" />}
             </button>

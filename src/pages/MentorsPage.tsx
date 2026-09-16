@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { studentMentorsData } from '../data/mentors';
 import { 
   Users, 
-  Linkedin
+  Linkedin,
+  Maximize2,
+  X
 } from 'lucide-react';
 
 export const MentorsPage: React.FC = () => {
+  const [isFullView, setIsFullView] = useState(false);
+
+  useEffect(() => {
+    if (!isFullView) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsFullView(false);
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFullView]);
 
   return (
-    <div className="min-h-screen bg-black text-slate-100 py-12 tech-grid-bg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className={`mentors-page min-h-screen text-slate-100 pt-10 pb-12 tech-grid-bg ${isFullView ? 'mentors-page--fullscreen' : ''}`}>
+      <div className="mentors-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
 
         {/* Page Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="mentors-showcase-header relative text-center max-w-3xl mx-auto space-y-4">
+          <button
+            type="button"
+            className="mentors-full-view-button"
+            onClick={() => setIsFullView((current) => !current)}
+            aria-label={isFullView ? 'Close full view' : 'Open full view'}
+          >
+            {isFullView ? <X className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            <span>{isFullView ? 'Close' : 'Full View'}</span>
+          </button>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 text-xs font-mono">
             <Users className="w-3.5 h-3.5" />
             <span>Student Mentors</span>
@@ -29,7 +57,7 @@ export const MentorsPage: React.FC = () => {
           {studentMentorsData.map((mentor, idx) => (
             <div
               key={idx}
-              className="group relative rounded-none overflow-hidden bg-[#0A0A0A] border border-slate-800/60 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)]"
+              className="mentor-card group relative rounded-none overflow-hidden bg-[#0A0A0A] border border-slate-800/60 hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)]"
             >
               {/* Top Accent Bar */}
               <div className="h-1 w-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-600" />
