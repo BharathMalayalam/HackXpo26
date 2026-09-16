@@ -3,7 +3,7 @@ import { StatItem } from '../../types';
 export const statsData: StatItem[] = [];
 
 export const quickEventHighlights = {
-  edition: "HackXpo '25",
+  edition: "HACKXPO '25",
   department: 'Department of Information Technology',
   institution: 'Government College of Engineering, Erode (IRTT)',
   accreditation: 'Autonomous Institution • Approved by AICTE • Affiliated to Anna University',

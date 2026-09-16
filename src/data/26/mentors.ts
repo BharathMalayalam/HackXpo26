@@ -73,7 +73,7 @@ export const mentorsData: Mentor[] = [
     designation: 'Staff Principal Engineer',
     organization: 'Synopsys Inc. (Alumnus)',
     domain: 'VLSI Systems & Edge AI Acceleration',
-    bio: 'Distinguished alumnus mentoring HackXpo teams on hardware-aware model quantization and low-power silicon deployment.',
+    bio: 'Distinguished alumnus mentoring HACKXPO teams on hardware-aware model quantization and low-power silicon deployment.',
     photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop',
     linkedin: 'https://linkedin.com',
     type: 'Industry'

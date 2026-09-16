@@ -46,7 +46,7 @@ export const statsData: StatItem[] = [
 ];
 
 export const quickEventHighlights = {
-  edition: 'HackXpo ’26',
+  edition: 'HACKXPO ’26',
   department: 'Department of Information Technology',
   institution: 'Government College of Engineering, Erode (IRTT)',
   accreditation: 'Autonomous Institution • Approved by AICTE • Affiliated to Anna University',

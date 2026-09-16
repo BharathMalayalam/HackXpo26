@@ -16,7 +16,7 @@ export const AboutSection: React.FC = () => {
     <section id="about-section" className="relative py-16 sm:py-24 bg-black/90 backdrop-blur-sm text-slate-100 border-t border-slate-800/80 tech-grid-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Two-Column Section Layout: Left = Department of IT HackXpo Title & Description, Right = Poster */}
+        {/* Two-Column Section Layout: Left = Department of IT HACKXPO Title & Description, Right = Poster */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
           
           {/* ================= LEFT SIDE: TITLE & DESCRIPTION ================= */}
@@ -28,9 +28,9 @@ export const AboutSection: React.FC = () => {
               <span>Government College of Engineering, Erode</span>
             </div>
 
-            {/* Main Title as requested: Department of IT HackXpo */}
+            {/* Main Title as requested: Department of IT HACKXPO */}
             <h2 className="text-3xl sm:text-5xl font-heading font-black text-white tracking-tight leading-[1.15]">
-              Department of IT <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-400">HackXpo'{year}</span>
+              Department of IT <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-400">HACKXPO'{year}</span>
             </h2>
 
             {/* Narrative Descriptions */}
@@ -114,7 +114,7 @@ export const AboutSection: React.FC = () => {
               <div className="rounded-none overflow-hidden border border-cyan-500/30 shadow-2xl shadow-cyan-950/40">
                 <img
                   src="/Final_page-0001.jpg"
-                  alt={`HackXpo'${year} Official Event Poster`}
+                  alt={`HACKXPO'${year} Official Event Poster`}
                   className="w-full h-auto object-contain"
                 />
               </div>

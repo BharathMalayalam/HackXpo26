@@ -1,7 +1,7 @@
 export const years = {
   '25': {
-    label: "HackXpo '25",
-    edition: "HackXpo '25",
+    label: "HACKXPO '25",
+    edition: "HACKXPO '25",
     fullYear: 2025,
     shortYear: '25',
     date: 'March 28 – 29, 2025',
@@ -13,8 +13,8 @@ export const years = {
     theme: 'Autonomous Systems, Generative AI & Sustainable Smart Solutions',
   },
   '26': {
-    label: "HackXpo '26",
-    edition: "HackXpo '26",
+    label: "HACKXPO '26",
+    edition: "HACKXPO '26",
     fullYear: 2026,
     shortYear: '26',
     date: 'March 27 – 28, 2026',

@@ -78,7 +78,7 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to={`/${year}/about`} className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 group">
                   <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-cyan-400 transition-colors" />
-                  About HackXpo & GCE
+                  About HACKXPO & GCE
                 </Link>
               </li>
               <li>

@@ -94,6 +94,7 @@ export interface Coordinator {
   name: string;
   role: string;
   category: 'Faculty Coordinator' | 'Student Committee';
+  coordinatorType?: 'expo' | 'ait';
   department: string;
   year?: AcademicYear;
   photo: string;

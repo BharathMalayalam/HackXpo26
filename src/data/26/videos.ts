@@ -3,13 +3,13 @@ import { VideoItem } from '../../types';
 export const videosData: VideoItem[] = [
   {
     id: 'vid-highlight-reel',
-    title: 'HackXpo ’26 Official Aftermovie & Event Highlights',
+    title: 'HACKXPO ’26 Official Aftermovie & Event Highlights',
     category: 'Event Highlights',
     duration: '04:15',
     thumbnail: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=800&auto=format&fit=crop',
     videoUrl: 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ', // Clean embed placeholder
     speakerOrTeam: 'GCE Erode IT Media Cell',
-    description: 'Relive the high-octane 36 hours of HackXpo ’26 — featuring keynote speeches, rapid prototyping, midnight coding blitz, and the final podium awards.'
+    description: 'Relive the high-octane 36 hours of HACKXPO ’26 — featuring keynote speeches, rapid prototyping, midnight coding blitz, and the final podium awards.'
   },
   {
     id: 'vid-agrovision-demo',
