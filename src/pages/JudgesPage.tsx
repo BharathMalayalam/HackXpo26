@@ -32,39 +32,6 @@ export const JudgesPage: React.FC = () => {
             An esteemed panel of industry experts and academic professionals evaluating projects on innovation, technical depth, and real-world impact.
           </p>
         </div>
-
-        {/* Tab Switcher */}
-        <div className="flex items-center justify-center">
-          <div className="inline-flex items-center p-1.5 rounded-none bg-slate-900 border border-slate-800">
-            <button
-              onClick={() => setActiveTab('All')}
-              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all ${
-                activeTab === 'All' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              All Judges ({judgesData.length})
-            </button>
-            <button
-              onClick={() => setActiveTab('Industry')}
-              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                activeTab === 'Industry' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'text-slate-400 hover:text-cyan-300'
-              }`}
-            >
-              <Briefcase className="w-3.5 h-3.5" />
-              <span>Industry ({industryList.length})</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('Academic')}
-              className={`px-4 py-2 rounded-none text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                activeTab === 'Academic' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'text-slate-400 hover:text-purple-300'
-              }`}
-            >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>Academic ({academicList.length})</span>
-            </button>
-          </div>
-        </div>
-
         {/* INDUSTRY SECTION */}
         {(activeTab === 'All' || activeTab === 'Industry') && (
           <div className="space-y-6">
@@ -73,7 +40,7 @@ export const JudgesPage: React.FC = () => {
                 <Briefcase className="w-5 h-5" />
               </span>
               <div>
-                <h2 className="text-xl font-heading font-bold text-white">Industry Jury Panel</h2>
+                <h2 className="text-xl font-heading font-bold text-white">Alumini Jury Panel</h2>
                 <p className="text-xs text-slate-400">Technology leaders and domain experts from leading companies</p>
               </div>
             </div>
@@ -131,74 +98,6 @@ export const JudgesPage: React.FC = () => {
             </div>
           </div>
         )}
-
-        {/* ACADEMIC SECTION */}
-        {(activeTab === 'All' || activeTab === 'Academic') && (
-          <div className="space-y-6 pt-4">
-            <div className="flex items-center gap-3 border-b border-slate-800 pb-3">
-              <span className="p-1.5 rounded-none bg-purple-500/10 text-purple-400">
-                <GraduationCap className="w-5 h-5" />
-              </span>
-              <div>
-                <h2 className="text-xl font-heading font-bold text-white">Academic Jury Panel</h2>
-                <p className="text-xs text-slate-400">Professors and researchers from premier institutions</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {academicList.map((judge) => (
-                <div
-                  key={judge.id}
-                  className="rounded-none bg-gradient-to-b from-[#0C0C0C] to-[#050505] border border-slate-800 p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all shadow-lg"
-                >
-                  <div className="text-center space-y-3">
-                    <img
-                      src={judge.photo}
-                      alt={judge.name}
-                      referrerPolicy="no-referrer"
-                      className="w-20 h-20 rounded-none mx-auto object-cover border-2 border-slate-700 shadow-md"
-                    />
-                    <div>
-                      <h3 className="text-base font-heading font-bold text-white">{judge.name}</h3>
-                      <p className="text-xs font-semibold text-purple-400 mt-1">{judge.role}</p>
-                      <p className="text-[11px] text-slate-400 mt-1">{judge.organization}</p>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 mt-4 border-t border-slate-800 space-y-2">
-                    <div className="flex items-center gap-1.5 text-[10px] font-mono text-amber-400">
-                      <Sparkles className="w-3 h-3" />
-                      <span>{judge.domain}</span>
-                    </div>
-                    <div className="flex items-center justify-center gap-2">
-                      {judge.contactEmail && (
-                        <a
-                          href={`mailto:${judge.contactEmail}`}
-                          className="p-2 rounded-none bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-purple-300 transition-colors"
-                          title={judge.contactEmail}
-                        >
-                          <Mail className="w-4 h-4" />
-                        </a>
-                      )}
-                      {judge.linkedin && (
-                        <a
-                          href={judge.linkedin}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="p-2 rounded-none bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-purple-400 transition-colors"
-                          aria-label="LinkedIn"
-                        >
-                          <Linkedin className="w-4 h-4" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
       </div>
     </div>
   );
