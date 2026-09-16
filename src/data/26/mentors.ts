@@ -3,7 +3,7 @@ import { Mentor, StudentMentor } from '../../types';
 export const mentorsData: Mentor[] = [
   {
     id: 'mentor-1',
-    name: 'Dr. M. Senthil Murugan',
+    name: 'Dr. S. Ramesh Kumar',
     designation: 'Professor & Head of Department',
     organization: 'Department of Information Technology, GCE Erode',
     domain: 'Distributed Systems & Cloud Architecture',

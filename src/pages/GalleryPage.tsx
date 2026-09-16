@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
@@ -509,16 +507,9 @@ export const GalleryPage: React.FC = () => {
               transition={{ duration: 0.9, ease: 'easeInOut' }}
               className="gallery-wall-stage"
             >
-              <div className="gallery-wall-bar">
-                <button type="button" className="gallery-back" onClick={() => setShowWall(false)}>
-                  <ChevronLeft size={14} /> Back to Hero
-                </button>
-              </div>
-
               <div className="gallery-wall">
                 {wallItems.map((item, index) => {
                   const offset = tiltMap[item.key] ?? { x: 0, y: 0 };
-
                   return (
                     <motion.button
                       key={item.key}

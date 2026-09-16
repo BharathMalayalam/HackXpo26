@@ -62,13 +62,12 @@ export const WinnersPage: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-none bg-slate-900 border border-slate-700 text-xs font-semibold text-amber-300 hover:bg-slate-800 transition-colors shadow-md"
           >
             <PartyPopper className="w-4 h-4 text-amber-400" />
-            <span>Celebrate Champions (Confetti)</span>
+            <span>Celebrate Champions</span>
           </button>
         </div>
 
         {/* PODIUM SECTION (2nd, 1st, 3rd) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-end pt-4">
-          
           {/* 2nd Place Podium Card */}
           {podium2 && (
             <div className="order-2 md:order-1 rounded-none p-6 bg-gradient-to-b from-[#0E0E0E] to-[#050505] border border-cyan-500/40 shadow-xl flex flex-col justify-between relative">
