@@ -18,6 +18,10 @@ import { VideosPage } from './pages/VideosPage';
 import { WinnersPage } from './pages/WinnersPage';
 import { CoordinatorsPage } from './pages/CoordinatorsPage';
 import { JudgesPage } from './pages/JudgesPage';
+<<<<<<< HEAD
+=======
+
+>>>>>>> ec1783f (remove the contact pages)
 
 function AppContent() {
   const location = useLocation();
