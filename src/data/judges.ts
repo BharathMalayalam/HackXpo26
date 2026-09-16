@@ -47,49 +47,4 @@ export const judgesData: Judge[] = [
     category: 'Industry'
   },
 
-  // Academic Judges
-  {
-    id: 'judge-5',
-    name: 'Dr. S. Venkatesh',
-    role: 'Professor & Head – Department of CSE',
-    organization: 'PSG College of Technology, Coimbatore',
-    domain: 'Artificial Intelligence & Deep Learning',
-    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop',
-    contactEmail: 'venkatesh.s@psgtech.ac.in',
-    linkedin: 'https://linkedin.com',
-    category: 'Academic'
-  },
-  {
-    id: 'judge-6',
-    name: 'Dr. Kavitha Rajendran',
-    role: 'Associate Professor – IT Department',
-    organization: 'Government College of Engineering, Erode',
-    domain: 'Data Science & Web Technologies',
-    photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop',
-    contactEmail: 'kavitha.it@gceerode.ac.in',
-    linkedin: 'https://linkedin.com',
-    category: 'Academic'
-  },
-  {
-    id: 'judge-7',
-    name: 'Dr. Mohan Prakash',
-    role: 'Dean – School of Computing',
-    organization: 'Amrita Vishwa Vidyapeetham, Coimbatore',
-    domain: 'Cybersecurity & Blockchain',
-    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop',
-    contactEmail: 'mohan.prakash@amrita.edu',
-    linkedin: 'https://linkedin.com',
-    category: 'Academic'
-  },
-  {
-    id: 'judge-8',
-    name: 'Ms. Lakshmi Devi R',
-    role: 'Assistant Professor – Dept. of ECE',
-    organization: 'NIT Trichy',
-    domain: 'VLSI Design & Embedded Systems',
-    photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop',
-    contactEmail: 'lakshmi.devi@nitt.edu',
-    linkedin: 'https://linkedin.com',
-    category: 'Academic'
-  }
 ];
