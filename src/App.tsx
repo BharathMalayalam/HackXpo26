@@ -27,7 +27,7 @@ function AppContent() {
   return (
     <div className="min-h-screen flex flex-col bg-black text-slate-100 font-sans selection:bg-cyan-500 selection:text-black">
       <Navbar />
-      <main className={`flex-1`}>
+      <main className={`flex-1 ${isHome || isGallery ? '' : 'pt-28 sm:pt-32'}`}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
